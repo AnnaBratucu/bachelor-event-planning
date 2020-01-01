@@ -3,35 +3,62 @@
 <html>
 
 <?php include '../head.php'; 
-
+require("../PHPMailer/src/PHPMailer.php");
+require("../PHPMailer/src/SMTP.php");
 require_once "../config.php";
 
 session_start();
 
-$date_err = "";
 if($_SERVER["REQUEST_METHOD"] == "POST"){
-    // Validate username
-    $input_date_min = $_POST["date_min"];
-    $input_date_max = $_POST["date_max"];
-    $input_date_min_time = strtotime($_POST["date_min"]);
-    $input_date_max_time = strtotime($_POST["date_max"]);
-    $today_time = strtotime( date("m/d/Y") );
-    if($input_date_min_time > $input_date_max_time){
-		$date_err = "Date Min can't be bigger than Date Max";
-    } else if( $input_date_min_time < $today_time || $input_date_max_time < $today_time ){
-        $date_err = "Date Min or Date Max can't be in the past" ;
-    }else{
-        $_SESSION[ 'date_min' ] = $input_date_min;
-        $_SESSION[ 'date_max' ] = $input_date_max;
-        if(isset($_GET[ 'event_id' ])){
-            $id = $_GET[ 'event_id' ];
-            header("location: wizard_step1.php?event_id=$id");
-            exit();
-        }else{
-            header("location: wizard_step1.php");
-            exit();
+
+  $sql = "SELECT guests.*,events.*,users.* FROM guests LEFT JOIN events on guests.event_id = events.event_id LEFT JOIN users on events.user_id = users.user_id WHERE guests.event_id = :event_id";
+        
+  if($stmt = $pdo->prepare($sql)){
+    $event_id = $_GET[ 'event_id' ];
+      // Bind variables to the prepared statement as parameters
+      $stmt->execute(['event_id' => $event_id]); 
+      while ($user = $stmt->fetch()) { 
+      
+      // Attempt to execute the prepared statement
+      
+        $mail = new PHPMailer\PHPMailer\PHPMailer();
+        $mail->IsSMTP(); // enable SMTP
+      
+        //$mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
+        $mail->SMTPAuth = true; // authentication enabled
+        $mail->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for Gmail
+        $mail->Host = "smtp.gmail.com";
+        $mail->Port = 465; // or 587
+        $mail->IsHTML(true);
+        $mail->Username = "ana.bratucu@gmail.com";
+        $mail->Password = "gotony1997";
+        $mail->SetFrom("ana.bratucu@gmail.com");
+        $mail->Subject = "Event Survey";
+        $mail->Body = "Hello, <br><br> You are on " . $user[ 'user_name' ] . "'s guest list for her upcoming " . $user[ 'event_type' ] . " event. Would you like to give her your opinion regarding what you expect from it?<br>Click on the link below to answer a few questions: <br> <a href=\"http://localhost/git/bachelor/start/survey_for_guests.php?eventid=". $user[ 'event_id' ] . "\">Take Survey</a> ";
+        $mail->AddAddress($user[ 'guest_email' ]);
+          
+        if(!$mail->Send()) {
+           echo "Mailer Error: " . $mail->ErrorInfo;
+        } else {
+          $sql1 = "UPDATE events SET event_stage = :event_stage WHERE event_id = :event_id";
+          if( $stmt1 = $pdo->prepare($sql1)  ){
+              // Bind variables to the prepared statement as parameters
+              $stmt1->bindParam(":event_stage", $param_event_stage);
+              $stmt1->bindParam(":event_id", $param_event_id);
+              // Set parameters
+              $param_event_id = $event_id;
+              $param_event_stage = 'venue';
+              
+              // Attempt to execute the prepared statement
+              if(!$stmt1->execute()){
+                echo "Something went wrong. Please try again later.";
+              } 
+          }
         }
-    }
+          } 
+          header("location: pages.php?event_id=$event_id");
+                exit();
+      }
 }
 
 
@@ -121,21 +148,6 @@ margin-left: 56px;top:3px;">
   
   
 </li>
-
-<li class="darkerli">
-<a href="budget.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
-<i class="fas fa-money-bill-wave"></i>
-<span class="nav-text">Budget</span>
-</a>
-</li>
-
-<li class="darkerli">
-<a href="guests.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
-<i class="fas fa-users"></i>
-<span class="nav-text">Guests</span>
-</a>
-</li>
-
 <li class="darkerlishadow" style="background-color:#ffcccc;">
 <a href="wizard.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
 <i class="fas fa-hotel"></i>
@@ -244,26 +256,16 @@ margin-left: 56px;top:3px;">
 
         <div class="wiz">
         
-        <form id="regForm" autocomplete="off" action="<?php if(isset($_GET[ 'event_id' ])){ echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?event_id=' . $_GET[ 'event_id' ]; } else{ echo htmlspecialchars($_SERVER["PHP_SELF"]); } ?>" method="POST">
+        <form id="regForm" action="<?php if(isset($_GET[ 'event_id' ])){ echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?event_id=' . $_GET[ 'event_id' ]; } else{ echo htmlspecialchars($_SERVER["PHP_SELF"]); } ?>" method="POST">
             <div style="background-image:url('../images/5631.jpg');background-size:cover;margin-top:-62px;margin-left:-40px;margin-right:-40px;height:250px;">
             <div style="height:70px;"></div>
-        <h1 style="color:#1f1f2e;">Choose the date interval in which you want your event to take place</h1><br><br>
+        <h1 style="color:#1f1f2e;">Do you want to send surveys to your guests to find out what they expect from the event?</h1><br><br>
 </div>
-<div class="row" style="margin-left:80px;">
-  <div class="column">
-    <p style="color:black;">Date Min: <input type="text" name="date_min" id="datepicker" required placeholder="mm/dd/yyyy" value="<?php if( isset($_SESSION[ 'date_max' ]) && $date_err == '' ) echo $_SESSION[ 'date_min' ] ?>"><i class="fas fa-calendar-day" style="color:black;top:0px;left:-50px;"></i></p>
-  </div>
-  <div class="column">
-    <p style="color:black;">Date Max: <input type="text" name="date_max" id="datepicker1" required placeholder="mm/dd/yyyy" value="<?php if(isset($_SESSION[ 'date_max' ]) && $date_err == '' ) echo $_SESSION[ 'date_max' ] ?>"><i class="fas fa-calendar-day" style="color:black;top:0px;left:-50px;"></i></p>
-  </div>
-</div>
-<div style="color:red;"><?php echo $date_err; ?></div>
-
-
+<div style="height:50px;"></div>
   <div style="overflow:auto;">
     <div >
       <!--<button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>-->
-      <input type="submit" value="Next" class="nextBtn" id="nextBtn" style="color:white;width:200px;margin-left:390px;cursor:pointer;">
+      <input type="submit" value="Send" class="nextBtn" id="nextBtn" style="color:white;width:200px;margin-left:390px;cursor:pointer;">
     </div>
   </div>
   

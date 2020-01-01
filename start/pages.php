@@ -23,7 +23,7 @@ session_start();
 				header("location: surveys.php?event_id=$event_id");
 				exit();
 			} else if( $user[ 'event_stage' ] == 'venue' ){
-				header("location: venue.php?event_id=$event_id");
+				header("location: wizard.php?event_id=$event_id");
 				exit();
 			} else if( $user[ 'event_stage' ] == 'table_arrangement' ){
 				header("location: table_arrangement.php?event_id=$event_id");

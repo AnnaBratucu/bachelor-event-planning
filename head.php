@@ -27,7 +27,7 @@ echo
 			<link rel = "icon" href ="../log/images/hi.png" type = "image/x-icon"> 
 			<link href="https://fonts.googleapis.com/css?family=Fira Sans" rel="stylesheet">';
 		}
-		else if( basename($_SERVER['PHP_SELF']) == 'wizard.php' || basename($_SERVER['PHP_SELF']) == 'wizard_step1.php' || basename($_SERVER['PHP_SELF']) == 'food.php' || basename($_SERVER['PHP_SELF']) == 'wizard_novenue.php'|| basename($_SERVER['PHP_SELF']) == 'budget.php' ){ echo '
+		else if( basename($_SERVER['PHP_SELF']) == 'wizard.php' || basename($_SERVER['PHP_SELF']) == 'wizard_step1.php' || basename($_SERVER['PHP_SELF']) == 'food.php' || basename($_SERVER['PHP_SELF']) == 'wizard_novenue.php'|| basename($_SERVER['PHP_SELF']) == 'budget.php' || basename($_SERVER['PHP_SELF']) == 'surveys.php' ){ echo '
 			<meta charset="utf-8"/>
 			<meta http-equiv="X-UA-Compatible" content=="IE=edge"/>
 			<meta name="google" value="notranslate"/>

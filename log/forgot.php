@@ -55,7 +55,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $mail->Password = "gotony1997";
         $mail->SetFrom("ana.bratucu@gmail.com");
         $mail->Subject = "Password reset";
-        $mail->Body = "Hello, <br><br> Click on the link below to reset your password: <br> <a href=\"http://localhost/log/reset.php\">Reset password</a> ";
+        $mail->Body = "Hello, <br><br> Click on the link below to reset your password: <br> <a href=\"http://localhost/git/bachelor/log/reset.php\">Reset password</a> ";
         $mail->AddAddress($input_email);
 
         if(!$mail->Send()) {
@@ -63,7 +63,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         } else {
             if(empty($_SESSION)) // if the session not yet started
             session_start();
-            $_SESSION["username"] = $input_email;
+            $_SESSION["email_recover"] = $input_email;
             header("location: message.php");
             exit();
         }

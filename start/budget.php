@@ -234,7 +234,22 @@ margin-left: 56px;top:3px;">
   
   
 </li>
+
 <li class="darkerlishadow" style="background-color:#ffcccc;">
+<a href="budget.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
+<i class="fas fa-money-bill-wave"></i>
+<span class="nav-text">Budget</span>
+</a>
+</li>
+
+<li class="darkerli">
+<a href="guests.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
+<i class="fas fa-users"></i>
+<span class="nav-text">Guests</span>
+</a>
+</li>
+
+<li class="darkerli">
 <a href="wizard.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
 <i class="fas fa-hotel"></i>
 <span class="nav-text">Venue</span>

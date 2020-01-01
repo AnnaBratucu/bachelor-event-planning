@@ -52,7 +52,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 				'cost' => 12,
 			];
 			$param_password = password_hash( $password, PASSWORD_DEFAULT, $options);
-			$param_email = $_SESSION[ 'username' ];
+			$param_email = $_SESSION[ 'email_recover' ];
             
             // Attempt to execute the prepared statement
             if($stmt->execute()){

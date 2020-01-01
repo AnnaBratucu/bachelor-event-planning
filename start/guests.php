@@ -16,7 +16,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $input_guest_email = $_POST["guest_email"];
 
 	
-	if(!filter_var($input_guest_email, FILTER_VALIDATE_EMAIL)){
+	if(!filter_var($input_guest_email, FILTER_VALIDATE_EMAIL) && $input_guest_email != ''){
 		$guest_email_err = "Please enter a valid Email.";
 	} else{
 		$email = $input_guest_email;
@@ -38,10 +38,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             
             // Attempt to execute the prepared statement
             if(!$stmt->execute()){
-				
                 echo "Something went wrong. Please try again later.";
-            }else{
-                
             }
         }
          
@@ -51,13 +48,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     } 
     
 }
-
-
-function translate( $data ){
-    
-}
-
-
 ?>
 
 <body>
@@ -259,7 +249,7 @@ margin-left: 56px;top:3px;">
     <div style="color:red;"><?php echo $guest_name_err; ?></div>
   </div>
   <div class="column1bis">
-    <input type="text" name="guest_email" id="guest_email" required placeholder="Guest Email" ><i class="fas fa-envelope" style="color:black;top:-30px;right:-180px;"></i>
+    <input type="text" name="guest_email" id="guest_email" placeholder="Guest Email" ><i class="fas fa-envelope" style="color:black;top:-30px;right:-180px;"></i>
     <div style="color:red;"><?php echo $guest_email_err; ?></div>
   </div>
   <div class="column1bis">
@@ -299,6 +289,24 @@ $sql = "SELECT * FROM guests WHERE event_id = :event_id AND guest_status = 'pend
         // Bind variables to the prepared statement as parameters
         $stmt->execute(['event_id' => $_GET[ 'event_id' ]]); 
         if($stmt->rowCount() > 0){
+
+          $sql1 = "UPDATE events SET event_stage = :event_stage WHERE event_id = :event_id";
+          if( $stmt1 = $pdo->prepare($sql1)  ){
+              // Bind variables to the prepared statement as parameters
+              $stmt1->bindParam(":event_stage", $param_event_stage);
+              $stmt1->bindParam(":event_id", $param_event_id);
+              $event_id = $_GET[ 'event_id' ];
+              // Set parameters
+              $param_event_id = $event_id;
+              $param_event_stage = 'surveys';
+              
+              // Attempt to execute the prepared statement
+              if(!$stmt1->execute()){
+                  echo "Something went wrong. Please try again later.";
+              }
+          }
+      
+
         while ($row = $stmt->fetch()) { 
 
             ?>
@@ -324,8 +332,8 @@ $sql = "SELECT * FROM guests WHERE event_id = :event_id AND guest_status = 'pend
     </div>
     <div style="overflow:auto;">
     <div >
-      <button type="button" id="prevBtn">Previous</button>
-      <a href="pages.php?event_id=<?php echo $_GET[ 'event_id' ] ?>"><button class="nextBtn" id="nextBtn" style="color:white;width:200px;margin-left:1160px;cursor:pointer;">Next</button></a>
+      <a href="budget.php?event_id=<?php echo $_GET[ 'event_id' ] ?>"><button class="nextBtn" type="button" id="prevBtn" style="color:white;width:200px;margin-right:-500px;margin-left:550px;cursor:pointer;background-color:#4d4d4d;">Previous</button></a>
+      <a href="pages.php?event_id=<?php echo $_GET[ 'event_id' ] ?>"><button class="nextBtn" id="nextBtn" style="color:white;width:200px;margin-left:590px;cursor:pointer;">Next</button></a>
     </div>
   </div>
 
