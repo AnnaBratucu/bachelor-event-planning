@@ -1,18 +1,7 @@
 <!DOCTYPE html>
 <!--<html class="menu">-->
 <html>
-<head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="../styles/bootstrap-4.1.2/bootstrap.min.css">
-<link href="../plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="../plugins/OwlCarousel2-2.2.1/owl.carousel.css">
-<link rel="stylesheet" type="text/css" href="../plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
-<link rel="stylesheet" type="text/css" href="../plugins/OwlCarousel2-2.2.1/animate.css">
-<link rel="stylesheet" type="text/css" href="../styles/category.css">
-<link rel="stylesheet" type="text/css" href="../styles/category_responsive.css">
-</head>
+
 <?php include '../head.php'; 
 
 require_once "../config.php";
@@ -324,10 +313,10 @@ margin-left: 56px;top:3px;">
 								<div class="product_buttons">
 									<div class="text-right d-flex flex-row align-items-start justify-content-start">
 										<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
-											<div><div><img src="images/heart_2.svg" class="svg" alt=""><div>+</div></div></div>
+											<div class="plus"><div class="plus"><img src="images/heart_2.svg" class="svg" alt=""><div class="plus">+</div></div></div>
 										</div>
 										<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-											<div><div><img src="images/cart.svg" class="svg" alt=""><div>+</div></div></div>
+											<div class="plus"><div class="plus"><img src="images/cart.svg" class="svg" alt=""><div class="plus">+</div></div></div>
 										</div>
 									</div>
 								</div>
@@ -355,10 +344,10 @@ margin-left: 56px;top:3px;">
 								<div class="product_buttons">
 									<div class="text-right d-flex flex-row align-items-start justify-content-start">
 										<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
-											<div><div><img src="images/heart_2.svg" class="svg" alt=""><div>+</div></div></div>
+											<div class="plus"><div class="plus"><img src="images/heart_2.svg" class="svg" alt=""><div class="plus">+</div></div></div>
 										</div>
 										<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-											<div><div><img src="images/cart.svg" class="svg" alt=""><div>+</div></div></div>
+											<div class="plus"><div class="plus"><img src="images/cart.svg" class="svg" alt=""><div class="plus">+</div></div></div>
 										</div>
 									</div>
 								</div>
@@ -386,10 +375,10 @@ margin-left: 56px;top:3px;">
 								<div class="product_buttons">
 									<div class="text-right d-flex flex-row align-items-start justify-content-start">
 										<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
-											<div><div><img src="images/heart_2.svg" class="svg" alt=""><div>+</div></div></div>
+											<div class="plus"><div class="plus"><img src="images/heart_2.svg" class="svg" alt=""><div class="plus">+</div></div></div>
 										</div>
 										<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-											<div><div><img src="images/cart.svg" class="svg" alt=""><div>+</div></div></div>
+											<div class="plus"><div class="plus"><img src="images/cart.svg" class="svg" alt=""><div class="plus">+</div></div></div>
 										</div>
 									</div>
 								</div>
@@ -417,10 +406,10 @@ margin-left: 56px;top:3px;">
 								<div class="product_buttons">
 									<div class="text-right d-flex flex-row align-items-start justify-content-start">
 										<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
-											<div><div><img src="images/heart_2.svg" class="svg" alt=""><div>+</div></div></div>
+											<div class="plus"><div class="plus"><img src="images/heart_2.svg" class="svg" alt=""><div class="plus">+</div></div></div>
 										</div>
 										<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-											<div><div><img src="images/cart.svg" class="svg" alt=""><div>+</div></div></div>
+											<div class="plus"><div class="plus"><img src="images/cart.svg" class="svg" alt=""><div class="plus">+</div></div></div>
 										</div>
 									</div>
 								</div>
@@ -448,10 +437,10 @@ margin-left: 56px;top:3px;">
 								<div class="product_buttons">
 									<div class="text-right d-flex flex-row align-items-start justify-content-start">
 										<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
-											<div><div><img src="images/heart_2.svg" class="svg" alt=""><div>+</div></div></div>
+											<div class="plus"><div class="plus"><img src="images/heart_2.svg" class="svg" alt=""><div class="plus">+</div></div></div>
 										</div>
 										<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-											<div><div><img src="images/cart.svg" class="svg" alt=""><div>+</div></div></div>
+											<div class="plus"><div class="plus"><img src="images/cart.svg" class="svg" alt=""><div class="plus">+</div></div></div>
 										</div>
 									</div>
 								</div>
@@ -479,10 +468,10 @@ margin-left: 56px;top:3px;">
 								<div class="product_buttons">
 									<div class="text-right d-flex flex-row align-items-start justify-content-start">
 										<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
-											<div><div><img src="images/heart_2.svg" class="svg" alt=""><div>+</div></div></div>
+											<div class="plus"><div class="plus"><img src="images/heart_2.svg" class="svg" alt=""><div class="plus">+</div></div></div>
 										</div>
 										<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-											<div><div><img src="images/cart.svg" class="svg" alt=""><div>+</div></div></div>
+											<div class="plus"><div class="plus"><img src="images/cart.svg" class="svg" alt=""><div class="plus">+</div></div></div>
 										</div>
 									</div>
 								</div>
@@ -510,10 +499,10 @@ margin-left: 56px;top:3px;">
 								<div class="product_buttons">
 									<div class="text-right d-flex flex-row align-items-start justify-content-start">
 										<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
-											<div><div><img src="images/heart_2.svg" class="svg" alt=""><div>+</div></div></div>
+											<div class="plus"><div class="plus"><img src="images/heart_2.svg" class="svg" alt=""><div class="plus">+</div></div></div>
 										</div>
 										<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-											<div><div><img src="images/cart.svg" class="svg" alt=""><div>+</div></div></div>
+											<div class="plus"><div class="plus"><img src="images/cart.svg" class="svg" alt=""><div class="plus">+</div></div></div>
 										</div>
 									</div>
 								</div>
@@ -541,10 +530,10 @@ margin-left: 56px;top:3px;">
 								<div class="product_buttons">
 									<div class="text-right d-flex flex-row align-items-start justify-content-start">
 										<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
-											<div><div><img src="images/heart_2.svg" class="svg" alt=""><div>+</div></div></div>
+											<div class="plus"><div class="plus"><img src="images/heart_2.svg" class="svg" alt=""><div class="plus">+</div></div></div>
 										</div>
 										<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-											<div><div><img src="images/cart.svg" class="svg" alt=""><div>+</div></div></div>
+											<div class="plus"><div class="plus"><img src="images/cart.svg" class="svg" alt=""><div class="plus">+</div></div></div>
 										</div>
 									</div>
 								</div>
@@ -572,10 +561,10 @@ margin-left: 56px;top:3px;">
 								<div class="product_buttons">
 									<div class="text-right d-flex flex-row align-items-start justify-content-start">
 										<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
-											<div><div><img src="images/heart_2.svg" class="svg" alt=""><div>+</div></div></div>
+											<div class="plus"><div class="plus"><img src="images/heart_2.svg" class="svg" alt=""><div class="plus">+</div></div></div>
 										</div>
 										<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-											<div><div><img src="images/cart.svg" class="svg" alt=""><div>+</div></div></div>
+											<div class="plus"><div class="plus"><img src="images/cart.svg" class="svg" alt=""><div class="plus">+</div></div></div>
 										</div>
 									</div>
 								</div>

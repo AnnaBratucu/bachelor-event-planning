@@ -27,7 +27,34 @@ echo
 			<link rel = "icon" href ="../log/images/hi.png" type = "image/x-icon"> 
 			<link href="https://fonts.googleapis.com/css?family=Fira Sans" rel="stylesheet">';
 		}
-		else if( basename($_SERVER['PHP_SELF']) == 'wizard.php' || basename($_SERVER['PHP_SELF']) == 'wizard_step1.php' || basename($_SERVER['PHP_SELF']) == 'food.php' || basename($_SERVER['PHP_SELF']) == 'wizard_novenue.php'|| basename($_SERVER['PHP_SELF']) == 'budget.php' || basename($_SERVER['PHP_SELF']) == 'surveys.php' ){ echo '
+		else if( basename($_SERVER['PHP_SELF']) == 'wizard.php' || basename($_SERVER['PHP_SELF']) == 'food.php' || basename($_SERVER['PHP_SELF']) == 'wizard_novenue.php'|| basename($_SERVER['PHP_SELF']) == 'budget.php' || basename($_SERVER['PHP_SELF']) == 'surveys.php' ){ echo '
+			<meta charset="utf-8"/>
+			<meta http-equiv="X-UA-Compatible" content=="IE=edge"/>
+			<meta name="google" value="notranslate"/>
+			<title>Start your profile</title>
+			<link rel = "icon" href ="../log/images/hi.png" type = "image/x-icon"> 
+
+			<meta charset="utf-8">
+			<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+			<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+			<link rel="stylesheet" href="/resources/demos/style.css">
+
+			<link rel="stylesheet" type="text/css" href="../styles/wizard.css">
+			<link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">';
+		}
+		else if( basename($_SERVER['PHP_SELF']) == 'wizard_step1.php' ){ echo '
+			
+			
+			<link rel="stylesheet" type="text/css" href="../styles/bootstrap-4.1.2/bootstrap.min.css">
+			<link href="../plugins/font-awesome-4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+			<link rel="stylesheet" type="text/css" href="../plugins/OwlCarousel2-2.2.1/owl.carousel.css">
+			<link rel="stylesheet" type="text/css" href="../plugins/OwlCarousel2-2.2.1/owl.theme.default.css">
+			<link rel="stylesheet" type="text/css" href="../plugins/OwlCarousel2-2.2.1/animate.css">
+			<link rel="stylesheet" type="text/css" href="../styles/category.css">
+			<link rel="stylesheet" type="text/css" href="../styles/category_responsive.css">
+
+
 			<meta charset="utf-8"/>
 			<meta http-equiv="X-UA-Compatible" content=="IE=edge"/>
 			<meta name="google" value="notranslate"/>
