@@ -43,7 +43,7 @@ echo
 			<link rel="stylesheet" type="text/css" href="../styles/wizard.css">
 			<link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">';
 		}
-		else if( basename($_SERVER['PHP_SELF']) == 'wizard_step1.php' ){ echo '
+		else if( basename($_SERVER['PHP_SELF']) == 'wizard_step1.php' || basename($_SERVER['PHP_SELF']) == 'wizard_admin.php' ){ echo '
 			
 			
 			<link rel="stylesheet" type="text/css" href="../styles/bootstrap-4.1.2/bootstrap.min.css">
@@ -67,8 +67,11 @@ echo
 			<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 			<link rel="stylesheet" href="/resources/demos/style.css">
 
+			
+			<link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 			<link rel="stylesheet" type="text/css" href="../styles/wizard.css">
-			<link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">';
+
+			';
 		}
 		else if( basename($_SERVER['PHP_SELF']) == 'guests.php' ){ echo '
 			<meta charset="utf-8"/>

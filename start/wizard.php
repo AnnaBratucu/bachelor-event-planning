@@ -137,12 +137,12 @@ margin-left: 56px;top:3px;">
 </li>
 
 <li class="darkerlishadow" style="background-color:#ffcccc;">
-<a href="wizard.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
+<a href="wizard.php?event_id=<?php echo $_GET[ 'event_id' ]  ?>">
 <i class="fas fa-hotel"></i>
 <span class="nav-text">Venue</span>
 </a>
 </li>
-  
+
 <li class="darkerli">
 <a href="food.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
 <i class="fas fa-utensils"></i>

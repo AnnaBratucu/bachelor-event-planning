@@ -39,6 +39,7 @@
 			header("Location: log/login.php");// send to login page
 			exit;
 			}
+			if( $_SESSION['username'] != 'plan.saver@gmail.com' ){
 		?>
 
 		<div class="header">
@@ -50,13 +51,27 @@
 				<p>Because in your dreams,</p>
 				<p>every detail matters.</p>
 				<div class="space"></div>
+				<?php if( $_SESSION["username"] == 'admin@yahoo.com' ) { ?>
+				<a href="start_admin/wizard_admin.php" class="start"><span>START!</span></a>
+				<?php } else { ?>
 				<a href="start/start.php" class="start"><span>START!</span></a>
+				<?php } ?>
 			</div>
 
 		</div>
 		
 		
-		
+		<?php } else{ ?>
+			<div class="header">
+			<?php include 'header.php'; ?>
+
+			<div class="header_side">
+				<h1>New collaborations?</h1>
+				<div class="space"></div>
+				<a href="start_admin/wizard_admin.php" class="start"><span>ADD!</span></a>
+			</div>
+			</div>
+		<?php } ?>
 	</body>
 </html> 
 
