@@ -73,6 +73,10 @@ input[type=number] {
 .try {display:inline-block;margin-right:3px;} 
 .clear {display:inline-block;} 
 
+a.disabled {
+  cursor: no-drop;
+}
+
 </style>​ 
 <?php include '../head.php'; 
 
@@ -80,6 +84,11 @@ input[type=number] {
 require_once "../config.php";
 
 session_start();
+
+if( !isset($_SESSION['username']) ){
+	header("location: ../log/login.php"); // send to home page
+	exit; 
+ }
  
 
 // Processing form data when form is submitted
@@ -97,7 +106,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 
     // Check input errors before inserting in database
-	
+	if( empty($_POST["id"]) ){
 	$sql = "INSERT INTO venues (venue_name, venue_capacity, venue_rent_price, venue_rate, venue_address, venue_phone, venue_observations, venue_type, venue_gmaps, venue_status) VALUES (:venue_name, :venue_capacity, :venue_rent_price, :venue_rate, :venue_address, :venue_phone, :venue_observations, :venue_type, :venue_gmaps, :venue_status)";
 	if( $stmt = $pdo->prepare($sql)  ){
 		// Bind variables to the prepared statement as parameters
@@ -187,6 +196,110 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	
 	}
 	 }
+	}
+	else{
+		$sql = "UPDATE venues SET venue_name = :venue_name, venue_capacity = :venue_capacity, venue_rent_price = :venue_rent_price, venue_address = :venue_address, venue_phone = :venue_phone, venue_observations = :venue_observations, venue_type = :venue_type, venue_gmaps = :venue_gmaps WHERE venue_id = :venue_id";
+	if( $stmt = $pdo->prepare($sql)  ){
+		// Bind variables to the prepared statement as parameters
+		$stmt->bindParam(":venue_name", $param_name);
+		$stmt->bindParam(":venue_capacity", $venue_capacity);
+		$stmt->bindParam(":venue_rent_price", $venue_rent_price);
+		$stmt->bindParam(":venue_address", $venue_address);
+		$stmt->bindParam(":venue_phone", $venue_phone);
+		$stmt->bindParam(":venue_observations", $venue_observations);
+		$stmt->bindParam(":venue_gmaps", $venue_gmaps);
+		$stmt->bindParam(":venue_type", $venue_type);
+		$stmt->bindParam(":venue_id", $venue_id);
+		
+		// Set parameters
+		$param_name = $input_name;
+		$venue_capacity = $input_capacity;
+		$venue_rent_price = $input_price;
+		$venue_address = $input_address;
+		$venue_phone = $input_phone;
+		$venue_observations = $input_observations;
+		$venue_type = $input_type;
+		if( !empty($input_gmaps) ){
+			$venue_gmaps = $input_gmaps;
+		}
+		else{
+			$venue_gmaps = '';
+		}
+		$venue_id = $_POST[ 'id' ];
+		
+		// Attempt to execute the prepared statement
+		if($stmt->execute()){
+			// Records created successfully. Redirect to landing page
+			//$_SESSION["username"] = $param_email;
+			//header("location: ../plan.php");
+			//exit();
+
+		} else{
+			echo "Something went wrong. Please try again later.";
+		}
+	}
+	 
+	// Close statement
+	
+	unset($stmt);
+
+	$sql = "DELETE FROM venue_files WHERE venue_id= :venue_id";
+
+	if( $stmt = $pdo->prepare($sql)  ){
+		$stmt->bindParam(":venue_id", $param_id);
+			
+			// Set parameters
+			$param_id = $_POST["id"];
+
+			$stmt->execute();
+	} else {
+		echo "Error deleting record";
+	}
+
+	unset($stmt);
+
+	$allowed = array("jpeg", "gif", "png", "jpg");
+	// Count total files
+	$countfiles = count($_FILES['file']['name']);
+	
+	// Looping all files
+	for($i=0;$i<$countfiles;$i++){
+	 $filename = $_FILES['file']['name'][$i];
+	 $info = pathinfo($filename);
+	 if(in_array($info["extension"], $allowed)) {
+		
+	
+		// Upload file
+		move_uploaded_file($_FILES['file']['tmp_name'][$i],'images/'.$filename);
+	
+		$sql = "INSERT INTO venue_files (venue_id, file_name) VALUES (:venue_id, :file_name)";
+		if( $stmt = $pdo->prepare($sql)  ){
+			// Bind variables to the prepared statement as parameters
+			$stmt->bindParam(":venue_id", $param_id);
+			$stmt->bindParam(":file_name", $file_name);
+			
+			// Set parameters
+			$param_id = $_POST["id"];
+			$file_name = $filename;
+			
+			// Attempt to execute the prepared statement
+			if($stmt->execute()){
+				// Records created successfully. Redirect to landing page
+				//$_SESSION["username"] = $param_email;
+				//header("location: ../plan.php");
+				//exit();
+			} else{
+				echo "Something went wrong. Please try again later.";
+			}
+		}
+		 
+		// Close statement
+		
+		unset($stmt);
+	
+	}
+	 }
+	}
 
 }
 
@@ -377,6 +490,7 @@ margin-left: 56px;top:3px;">
 
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
+  
     <div class="modal-dialog">
     
       <!-- Modal content-->
@@ -387,6 +501,7 @@ margin-left: 56px;top:3px;">
         </div>
         <div class="modal-body" style="width:900px;">
 			<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="form-container" enctype='multipart/form-data'>
+			<!-- <div class="fetched-data" style="color:black;"></div>  -->
 				<h1 style = "color:black;">Add venue</h1>
 				
 				<div class="container">
@@ -394,40 +509,40 @@ margin-left: 56px;top:3px;">
     <div class="col border-right" style="color:black;">
 	  
 	
-
+				<input type="text" hidden name="id" id="id">
 				<div class='div'>
 					<span class='blocking-span'>
-						<input type="text" class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;height:55px;margin: 5px 0 18px 0;border: none;" class="inputText" name="name" required>
+						<input type="text" class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;height:55px;margin: 5px 0 18px 0;border: none;" class="inputText" name="name" id="name" required>
 						<span class="floating-label" style = "color:grey;padding-top: 12px;">Venue Name <span style="color:red"> *</span></span>
 					</span>
 				</div>
 				<div class='div'>
 					<span class='blocking-span'>
-						<input class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;padding: 12px;height:55px;margin: 5px 0 18px 0;border: none;" type="number" name="capacity" required>
+						<input class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;padding: 12px;height:55px;margin: 5px 0 18px 0;border: none;" type="number" name="capacity" id="capacity" required>
 						<span class="floating-label" style = "color:grey;padding-top: 12px;">Capacity <span style="color:red"> *</span></span>
 					</span>
 				</div>
 				<div class='div'>
 					<span class='blocking-span'>
-						<input class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;" type="number" name="price" step="0.1" required>
+						<input class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;" type="number" name="price" step="0.1" id="price" required>
 						<span class="floating-label" style = "color:grey;padding-top: 12px;">Venue Price <span style="color:red"> *</span></span>
 					</span>
 				</div>
 				<div class='div'>
 					<span class='blocking-span'>
-						<input class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;" type="text" name="address" required>
+						<input class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;" type="text" name="address" id="address" required>
 						<span class="floating-label" style = "color:grey;padding-top: 12px;">Address <span style="color:red"> *</span> <span style="color:#b8b894;">(street, number, building)</span></span>
 					</span>
 				</div>
 				<div class='div'>
 					<span class='blocking-span'>
-						<input class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;" type="text" name="phone" required>
+						<input class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;" type="text" name="phone" id="phone" required>
 						<span class="floating-label" style = "color:grey;padding-top: 12px;">Phone <span style="color:red"> *</span></span>
 					</span>
 				</div>
 				<div class='div'>
 					<span class='blocking-span'>
-						<select class="input js-example-placeholder-single js-example-responsive" name="type" style="background-color:#f1f1f1;border-radius:4px;height:50px;margin: 5px 0 22px 0;border: none;width:100%;" required>
+						<select class="input js-example-placeholder-single js-example-responsive" name="type" style="background-color:#f1f1f1;border-radius:4px;height:50px;margin: 5px 0 22px 0;border: none;width:100%;" id="type" required>
 							<option disabled="disabled" selected="selected" value="" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;"></option>
 							<option value="outdoor" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;">Outdoor</option>
 							<option value="indoor" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;">Indoor</option>
@@ -438,7 +553,7 @@ margin-left: 56px;top:3px;">
 				</div>
 				<div class='div'>
 					<span class='blocking-span'>
-						<textarea class="input js-example-placeholder-single js-example-responsive" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;border-radius:4px;" rows="4" cols="57" name="observations" required></textarea>
+						<textarea class="input js-example-placeholder-single js-example-responsive" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;border-radius:4px;" rows="4" cols="57" name="observations" id="observations" required></textarea>
 						<span class="floating-label" style = "color:grey;padding-top: 12px;">Observations <span style="color:red"> *</span></span>
 					</span>
 				</div>
@@ -476,7 +591,7 @@ margin-left: 56px;top:3px;">
    			<tr>
 				<td>
 					<div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
-						<input id="upload" type="file" name="file[]" onchange="readURL(this);" class="form-control border-0" multiple="multiple">
+						<input id="upload" type="file" name="file[]" onchange="readURL(this);" class="form-control border-0" multiple="multiple" required>
 						<i class="fa fa-cloud-upload mr-2 text-muted" id="iclass"></i><label id="upload-label" for="upload" class="font-weight-light text-muted">Choose files</label>
 					</div>
 				</td>
@@ -496,7 +611,7 @@ margin-left: 56px;top:3px;">
     </div>
   </div>
 </div>
-
+				<?php echo $_GET[ 'name' ]; ?>
 				<button type="submit" class="btn">Add</button>
 			</form>
         </div>
@@ -508,7 +623,9 @@ margin-left: 56px;top:3px;">
     </div>
   </div>
 
-<button type="button" class="open-button btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"><div data-toggle="tooltip" title="Add Venue!" data-placement="top" style="font-size:42px;color:black;"><b>+</b></div></button>
+<?php if( $_SESSION[ 'username' ] == 'admin@yahoo.com' ){ ?>
+<button type="button" class="open-button btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" data-id="<?php echo 0; ?>"><div data-toggle="tooltip" title="Add Venue!" data-placement="top" style="font-size:42px;color:black;"><b>+</b></div></button>
+<?php } ?>
         <form id="regForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
             <div style="background-color:#9999e6;background-size:cover;margin-top:-62px;margin-left:-40px;margin-right:-40px;height:250px;">
             <div style="height:70px;"></div>
@@ -521,12 +638,30 @@ margin-left: 56px;top:3px;">
 				<div class="row products_row products_container grid">
 
 				<?php
+
+
+$showRecordPerPage = 9;
+if(isset($_GET['page']) && !empty($_GET['page'])){
+	$currentPage = $_GET['page'];
+	}else{
+	$currentPage = 1;
+	}
+	$startFrom = ($currentPage * $showRecordPerPage) - $showRecordPerPage;
 					
-					$sql = "SELECT * FROM venues";
+					$sql = "SELECT * FROM venues WHERE venue_status != 'deleted'";
 					if($stmt = $pdo->query($sql)){
 						// Bind variables to the prepared statement as parameters
-					
-						while($venue = $stmt->fetch()) {
+						
+						$total = $stmt->rowCount();
+						$lastPage = ceil($total/$showRecordPerPage);
+						$firstPage = 1;
+						$nextPage = $currentPage + 1;
+						$previousPage = $currentPage - 1;
+
+						$sql2 = "SELECT * FROM venues WHERE venue_status != 'deleted' LIMIT $startFrom, $showRecordPerPage";
+						if($stmt2 = $pdo->query($sql2)){
+
+						while($venue = $stmt2->fetch()) {
 							
 							$sql1 = "SELECT * FROM venue_files WHERE venue_id = :venue_id LIMIT 1";
         
@@ -567,13 +702,37 @@ margin-left: 56px;top:3px;">
 									<div class="product_buttons">
 										<div class="text-right d-flex flex-row align-items-start justify-content-start">
 											<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
-												<div class="plus" data-toggle="tooltip" title="See details!" data-placement="top"><div class="plus"><img src="images/eye_2.png" class="svg" alt="" data-toggle="tooltip" title="See details!" data-placement="top"><div class="plus">+</div></div></div>
+												<?php if( $_SESSION[ 'username' ] == 'admin@yahoo.com' ){ ?>
+													<a href="see_venue.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>" data-toggle="modal" data-target="#myModal" data-id="<?php echo $venue[ 'venue_id' ] ?>"><div class="plus" data-toggle="tooltip" title="Edit venue!" data-placement="top"><div class="plus"><img src="images/eye_2.png" class="svg" alt="" data-toggle="tooltip" title="Edit venue!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
+												<?php } else { ?>
+													<a href="see_venue.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>"><div class="plus" data-toggle="tooltip" title="See details!" data-placement="top"><div class="plus"><img src="images/eye_2.png" class="svg" alt="" data-toggle="tooltip" title="See details!" data-placement="top" height="40"><div class="plus">+<</a>/div></div></div>
+												<?php } ?>
 											</div>
 											<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-											<div class="plus" data-toggle="tooltip" title="Choose this venue!" data-placement="top"><div class="plus"><img src="images/cart.png" class="svg" alt="" data-toggle="tooltip" title="Choose this venue!" data-placement="top"><div class="plus">+</div></div></div>
+												<?php if( $_SESSION[ 'username' ] == 'admin@yahoo.com' ){ ?>
+													<a href="choose_venue.php" class="disabled" onclick="return false;"><div class="plus" data-toggle="tooltip" title="Choose this venue!" data-placement="top"><div class="plus"><img src="images/cart.png" class="svg" alt="" data-toggle="tooltip" title="Choose this venue!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
+												<?php } else { ?>
+													<a href="choose_venue.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>"><div class="plus" data-toggle="tooltip" title="Choose this venue!" data-placement="top"><div class="plus"><img src="images/cart.png" class="svg" alt="" data-toggle="tooltip" title="Choose this venue!" data-placement="top" height="40"><div class="plus">+</div></div></div></a>
+												<?php }?>
 											</div>
 										</div>
 									</div>
+									<?php if( $_SESSION[ 'username' ] == 'admin@yahoo.com' ){ ?>
+									<div class="product_buttons">
+										<div class="text-right d-flex flex-row align-items-start justify-content-start">
+											<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
+												
+												<a href="delete_venue.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>"><div class="plus" data-toggle="tooltip" title="Delete venue!" data-placement="top"><div class="plus"><img src="images/trash.png" class="svg" alt="" data-toggle="tooltip" title="Delete venue!" data-placement="top" height="40"><div class="plus">-</a></div></div></div>
+												
+											</div>
+											<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
+												
+												<a href="add_dates.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>"><div class="plus" data-toggle="tooltip" title="Add booked dates!" data-placement="top"><div class="plus"><img src="images/calendar.png" class="svg" alt="" data-toggle="tooltip" title="Add booked dates!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
+												
+											</div>
+										</div>
+									</div>
+									<?php } ?>
 								</div>
 							</div>
 						</div>
@@ -582,7 +741,7 @@ margin-left: 56px;top:3px;">
 						<?php
 						
 						
-						}}
+						}}}
 
 					?>
 
@@ -591,10 +750,31 @@ margin-left: 56px;top:3px;">
 					<div class="col">
 						<div class="page_nav">
 							<ul class="d-flex flex-row align-items-start justify-content-center">
-								<li class="active"><a href="#">01</a></li>
+								<!-- <li class="active"><a href="#">01</a></li>
 								<li><a href="#">02</a></li>
 								<li><a href="#">03</a></li>
-								<li><a href="#">04</a></li>
+								<li><a href="#">04</a></li> -->
+
+
+							<?php if($currentPage != $firstPage) { ?>
+								<li>
+								<a href="?page=<?php echo $firstPage ?>" tabindex="-1" aria-label="Previous">
+								<span aria-hidden="true">First</span>
+								</a>
+								</li>
+								<?php } ?>
+								<?php if($currentPage >= 2) { ?>
+								<li><a href="?page=<?php echo $previousPage ?>"><?php echo $previousPage ?></a></li>
+								<?php } ?>
+								<li class="active"><a href="?page=<?php echo $currentPage ?>"><?php echo $currentPage ?></a></li>
+								<?php if($currentPage != $lastPage) { ?>
+								<li><a href="?page=<?php echo $nextPage ?>"><?php echo $nextPage ?></a></li>
+								<li>
+								<a href="?page=<?php echo $lastPage ?>" aria-label="Next">
+								<span aria-hidden="true">Last</span>
+								</a>
+								</li>
+							<?php } ?>
 							</ul>
 						</div>
 					</div>
@@ -700,6 +880,54 @@ control.on({
     change: function(){ console.log( "Changed" ) },
      focus: function(){ console.log(  "Focus"  ) }
 });
+
+
+$(document).ready(function(){
+    $('#myModal').on('show.bs.modal', function (e) {
+        var rowid = $(e.relatedTarget).data('id');
+        $.ajax({
+            type : 'post',
+            url : 'fetch_record.php', //Here you will fetch records 
+            data :  'rowid='+ rowid, //Pass $id
+            success : function(data){
+            //$('.fetched-data').html(data);//Show fetched data from database
+			//testValue.toString().replaceAll("\"", "");
+			//x={age:"clar"};
+			//alert(data);
+			//alert(x);
+			var myObj = JSON.parse(data);
+			$('#id').val(myObj.id);
+			$('#name').val(myObj.name);
+			$('#capacity').val(myObj.capacity);
+			$('#price').val(myObj.price);
+			$('#address').val(myObj.address);
+			$('#phone').val(myObj.phone);
+			$('#type').val(myObj.type);
+			$('#observations').val(myObj.observations);
+			$('#dropdown').val(myObj.gmaps_choose);
+			$('#textInput').val(myObj.gmaps);
+			if( $('#dropdown').val() == 'no') {
+				$('#textInput').prop( "disabled", true );
+			} else {
+				$('#textInput').prop( "disabled", false );
+			}
+			$('#dropdown').change(function() {
+			if( $(this).val() == 'yes') {
+					$('#textInput').prop( "disabled", false );
+			} else {       
+				$('#textInput').val( '' );
+			$('#textInput').prop( "disabled", true );
+			}
+			});
+			
+            }
+        });
+     });
+});
+$('#myModal').on('hidden.bs.modal', function () {
+    $(this).find('form').trigger('reset');
+})
+
 
 </script>
         
