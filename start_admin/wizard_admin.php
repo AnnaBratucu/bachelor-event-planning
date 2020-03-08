@@ -77,6 +77,26 @@ a.disabled {
   cursor: no-drop;
 }
 
+
+/* calendar */
+#calendar {
+    width: 700px;
+    margin: 0 auto;
+	color:black;
+}
+
+.response {
+    height: 60px;
+}
+
+.success {
+    background: #cdf3cd;
+    padding: 10px 60px;
+    border: #c3e6c3 1px solid;
+    display: inline-block;
+	margin-left:250px;
+}
+
 </style>​ 
 <?php include '../head.php'; 
 
@@ -86,7 +106,7 @@ require_once "../config.php";
 session_start();
 
 if( !isset($_SESSION['username']) ){
-	header("location: ../log/login.php"); // send to home page
+	header("location: ../log/login.php"); // send to login page
 	exit; 
  }
  
@@ -622,6 +642,28 @@ margin-left: 56px;top:3px;">
       
     </div>
   </div>
+  
+  
+  <div class="modal hide fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+      <div class="modal-dialog" style="width: 800px;margin-left: 180px;height:900px;">
+        <div class="modal-content" style="width: 800px;margin-left: 180px;">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="myModalLabel"></h4>
+          </div>
+          <div class="modal-body">
+
+			<div class="response"></div>
+			<div id='calendar'></div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  
 
 <?php if( $_SESSION[ 'username' ] == 'admin@yahoo.com' ){ ?>
 <button type="button" class="open-button btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" data-id="<?php echo 0; ?>"><div data-toggle="tooltip" title="Add Venue!" data-placement="top" style="font-size:42px;color:black;"><b>+</b></div></button>
@@ -722,12 +764,12 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 										<div class="text-right d-flex flex-row align-items-start justify-content-start">
 											<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
 												
-												<a href="delete_venue.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>"><div class="plus" data-toggle="tooltip" title="Delete venue!" data-placement="top"><div class="plus"><img src="images/trash.png" class="svg" alt="" data-toggle="tooltip" title="Delete venue!" data-placement="top" height="40"><div class="plus">-</a></div></div></div>
+												<a href="delete_venue.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>" onclick="if (!confirm('Are you sure you want to delete?')) { return false; }"><div class="plus" data-toggle="tooltip" title="Delete venue!" data-placement="top"><div class="plus"><img src="images/trash.png" class="svg" alt="" data-toggle="tooltip" title="Delete venue!" data-placement="top" height="40"><div class="plus">-</a></div></div></div>
 												
 											</div>
 											<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
 												
-												<a href="add_dates.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>"><div class="plus" data-toggle="tooltip" title="Add booked dates!" data-placement="top"><div class="plus"><img src="images/calendar.png" class="svg" alt="" data-toggle="tooltip" title="Add booked dates!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
+												<a href="add_dates.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>" data-toggle="modal" data-target="#modal1" data-id="<?php echo $venue[ 'venue_id' ] ?>"><div class="plus" data-toggle="tooltip" title="Add booked dates!" data-placement="top"><div class="plus"><img src="images/calendar.png" class="svg" alt="" data-toggle="tooltip" title="Add booked dates!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
 												
 											</div>
 										</div>
@@ -805,6 +847,10 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 <script src="../plugins/Isotope/isotope.pkgd.min.js"></script>
 <script src="../plugins/Isotope/fitcolumns.js"></script>
 <script src="../js/category.js"></script>
+
+
+			<script src="fullcalendar/lib/moment.min.js"></script>
+			<script src="fullcalendar/fullcalendar.min.js"></script>
 
 <script>
 
@@ -926,6 +972,97 @@ $(document).ready(function(){
 });
 $('#myModal').on('hidden.bs.modal', function () {
     $(this).find('form').trigger('reset');
+})
+
+//caledarr
+
+$('#modal1').on('show.bs.modal', function (e) {
+	var rowid = $(e.relatedTarget).data('id');
+	//alert("fetch-event.php?venue_id="+rowid);
+    calendar = $('#calendar').fullCalendar({
+		contentHeight: 400,
+        editable: true,
+        events: "fetch-event.php?venue_id="+rowid,
+	// 	var events = {
+    //     url: "fetch-event.php",
+    //     type: 'POST',
+    //     data: {
+    //         venue_id: $(e.relatedTarget).data('id')
+    //     }
+    // },
+        displayEventTime: false,
+        eventRender: function (event, element, view) {
+            if (event.allDay === 'true') {
+                event.allDay = true;
+            } else {
+                event.allDay = false;
+            }
+        },
+        selectable: true,
+        selectHelper: true,
+        select: function (start, end, allDay) {
+            var title = prompt('Event Title:');
+            if (title) {
+                var start = $.fullCalendar.formatDate(start, "Y-MM-DD HH:mm:ss");
+                var end = $.fullCalendar.formatDate(end, "Y-MM-DD HH:mm:ss");
+
+                $.ajax({
+                    url: 'add-event.php',
+                    data: 'title=' + title + '&start=' + start + '&end=' + end + '&venue_id=' + rowid,
+                    type: "POST",
+                    success: function (data) {
+						$('#calendar').fullCalendar('option', 'height', 800);
+                        displayMessage("Added Successfully");
+                    }
+                });
+                calendar.fullCalendar('renderEvent',
+                        {
+                            title: title,
+                            start: start,
+                            end: end,
+                            allDay: allDay
+                        },
+                true
+                        );
+            }
+            calendar.fullCalendar('unselect');
+        },
+        editable: true,
+				eventDrop: function (event, delta) {
+                    var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
+                    var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
+                    $.ajax({
+                        url: 'edit-event.php',
+                        data: 'title=' + event.title + '&start=' + start + '&end=' + end + '&id=' + event.id + '&venue_id=' + rowid,
+                        type: "POST",
+                        success: function (response) {
+							$('#calendar').fullCalendar('option', 'height', 800);
+                            displayMessage("Updated Successfully");
+                        }
+                    });
+                },
+        eventClick: function (event) {
+            var deleteMsg = confirm("Do you really want to delete?");
+            if (deleteMsg) {
+                $.ajax({
+                    type: "POST",
+                    url: "delete-event.php",
+                    data: "&id=" + event.id,
+                    success: function (response) {
+                        if(parseInt(response) > 0) {
+                            $('#calendar').fullCalendar('removeEvents', event.id);
+							$('#calendar').fullCalendar('option', 'height', 800);
+                            displayMessage("Deleted Successfully");
+                        }
+                    }
+                });
+            }
+        }
+
+    });
+});
+$('#modal1').on('hidden.bs.modal', function () {
+	$('#calendar').fullCalendar('destroy');  
 })
 
 

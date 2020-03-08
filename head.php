@@ -71,6 +71,10 @@ echo
 			<link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 			<link rel="stylesheet" type="text/css" href="../styles/wizard.css">
 
+
+			<link rel="stylesheet" href="fullcalendar/fullcalendar.min.css" />
+			
+
 			';
 		}
 		else if( basename($_SERVER['PHP_SELF']) == 'guests.php' ){ echo '
