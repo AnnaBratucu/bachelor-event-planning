@@ -13,7 +13,7 @@ body {
 }
 
 .header{
-	height: 280px;
+	height: 480px;
 	margin-top:50px;
 	background-image:url("../images/good.jpg");
 	background-size: cover;
@@ -30,7 +30,7 @@ body {
 .header_side{
 	float:left;
 	width:500px;
-	height:280px;
+	height:480px;
 	background: rgba(172, 115, 57,.5);
 	padding-top:250px;
 	margin-top:-250px;
@@ -107,7 +107,7 @@ body {
 
 div.header_up{
 	margin-top:-315px;
-	height:50px;
+	height:75px;
 	overflow: hidden;
     background-color: #f1f1f1;
 	padding: 10px 10px;

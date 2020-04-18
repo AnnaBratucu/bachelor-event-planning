@@ -1,7 +1,73 @@
 <!DOCTYPE html>
 <!--<html class="menu">-->
 <html>
+<style type="text/css">
+body::before {
+  /* content: "";
+  display: block; */
+  /* position: absolute; */
+  /* z-index: -1; */
+  width: 100%;
+  
+  left: 0; 
+  background: white;
+  /* background: rgba(93,84,240,0.5);
+  background: -webkit-linear-gradient(left, rgba(0,168,255,0.5), rgba(185,0,255,0.5));
+  background: -o-linear-gradient(left, rgba(0,168,255,0.5), rgba(185,0,255,0.5));
+  background: -moz-linear-gradient(left, rgba(0,168,255,0.5), rgba(185,0,255,0.5));
+  background: linear-gradient(left, rgba(0,168,255,0.5), rgba(185,0,255,0.5));  */
+  pointer-events: none;
+}
 
+
+.wiz{
+  margin-top:-100px;
+}
+
+
+.products{
+	background: white;
+	
+	
+}
+.container{
+	background: white;
+	
+}
+
+.div {
+  position: relative; 
+  padding-top: 10px;  
+}
+.inputText {
+  font-size: 14px;
+  width: 200px;
+  height: 25px;
+}
+.floating-label {
+  position: absolute;
+  pointer-events: none;
+  left: 15px;
+  top: 18px;
+  transition: 0.2s ease all;
+}
+input:focus ~ .floating-label,
+input:not(:focus):valid ~ .floating-label {
+  top: -18px;
+}
+.input:focus ~ .floating-label,
+.input:not(:focus):valid ~ .floating-label {
+  top: -20px;
+}
+input[type=text] {
+	color:black;
+  background-color:pink;
+}
+input[type=number] {
+	color:black;
+}
+
+</style>​ 
 <?php include '../head.php'; 
 
 require_once "../config.php";
@@ -32,213 +98,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 <body>
 
+<div class="wiz">
 
-
-<nav class="main-menu">
-
-
-  
-<div class="settings"></div>
-<div class="scrollbar" id="style-1">
-      
-<ul>
-  
-<li>                                   
-<a href="../plan.php">
-<i class="fa fa-home fa-lg"></i>
-<span class="nav-text">Home</span>
-</a>
-</li>   
-   
-<li>                                 
-<a href="../profile.php">
-<i class="fa fa-user fa-lg"></i>
-<span class="nav-text">Your profile</span>
-</a>
-</li>   
-
-    
-<li>                                 
-<a href="../contact.php">
-<i class="fa fa-envelope-o fa-lg"></i>
-<span class="nav-text">Contact</span>
-</a>
-</li>   
-  
-
-
- 
-<li>
-<a href="http://startific.com">
-<i class="fa fa-heart-o fa-lg"></i>
-                        
-<span class="share"> 
-
-
-<div class="addthis_default_style addthis_32x32_style">
-  
-<div style="position:absolute;
-margin-left: 56px;top:3px;"> 
-   
-  
-
-  
- <a href="https://www.facebook.com/sharer/sharer.php?u=" target="_blank" class="share-popup"><img src="http://icons.iconarchive.com/icons/danleech/simple/512/facebook-icon.png" width="30px" height="30px"></a>
-
-   <a href="https://twitter.com/share" target="_blank" class="share-popup"><img src="https://cdn1.iconfinder.com/data/icons/metro-ui-dock-icon-set--icons-by-dakirby/512/Twitter_alt.png" width="30px" height="30px"></a>
-
-  
-  
-</div>
-<script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
-<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4ff17589278d8b3a"></script>
-                       
-                            
-                              
-                            
-                          
-                        </span>
-                        <span class="twitter"></span>
-                        <span class="fb-like">  
-<iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Ffacebook.com%2Fstartific&amp;width&amp;layout=button&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=35" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:35px;" allowTransparency="true"></iframe>
-                       
-                        </span>
-                        <span class="nav-text">
-                        </span>
-                        
-                    </a>
-
-</li>
-                            
-
-  
-  
-</li>
-
-<li class="darkerli">
-<a href="budget.php">
-<i class="fas fa-money-bill-wave"></i>
-<span class="nav-text">Budget</span>
-</a>
-</li>
-
-<li class="darkerli">
-<a href="guests.php">
-<i class="fas fa-users"></i>
-<span class="nav-text">Guests</span>
-</a>
-</li>
-
-<li class="darkerlishadow" style="background-color:#ffcccc;">
-<a href="wizard.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
-<i class="fas fa-hotel"></i>
-<span class="nav-text">Venue</span>
-</a>
-</li>
-  
-<li class="darkerli">
-<a href="http://startific.com">
-<i class="fa fa-desktop fa-lg"></i>
-<span class="nav-text">Technology</span>
-</a>
-</li>
-  
-<li class="darkerli">
-<a href="http://startific.com">
-<i class="fa fa-plane fa-lg"></i>
-<span class="nav-text">Travel</span>
-</a>
-</li>
-  
-<li class="darkerli">
-<a href="http://startific.com">
-<i class="fa fa-shopping-cart"></i>
- <span class="nav-text">Shopping</span>
-</a>
-</li>
-  
-<li class="darkerli">
-<a href="http://startific.com">
-<i class="fa fa-microphone fa-lg"></i>
-<span class="nav-text">Film & Music</span>
-</a>
-</li>
-
-<li class="darkerli">
-<a href="http://startific.com">
-<i class="fa fa-flask fa-lg"></i>
-<span class="nav-text">Web Tools</span>
-</a>
-</li>
-  
-<li class="darkerli">
-<a href="http://startific.com">
-<i class="fa fa-picture-o fa-lg"></i>
-<span class="nav-text">Art & Design</span>
-</a>
-</li>
-
-<li class="darkerli">
-<a href="http://startific.com">
-<i class="fa fa-align-left fa-lg"></i>
-<span class="nav-text">Magazines
-</span>
-</a>
-</li>
-  
-<li class="darkerli">
-<a href="http://startific.com">
-<i class="fa fa-gamepad fa-lg"></i>
-<span class="nav-text">Games</span>
-</a>
-</li>
-  
-<li class="darkerli">
-<a href="http://startific.com">
-<i class="fa fa-glass fa-lg"></i>
-<span class="nav-text">Life & Style
-</span>
-</a>
-</li>
-  
-<li class="darkerlishadowdown">
-<a href="http://startific.com">
-<i class="fa fa-rocket fa-lg"></i>
-<span class="nav-text">Fun</span>
-</a>
-</li>
- 
-  
-</ul>
-
-  
-<li>
-                                   
-<a href="http://startific.com">
-<i class="fa fa-question-circle fa-lg"></i>
-<span class="nav-text">Help</span>
-</a>
-</li>   
-    
-  
-<ul class="logout">
-<li>
-                   <a href="../log/logout.php">
-                         <i class="fa fa-sign-out fa-lg"></i>
-                        <span class="nav-text">
-                            LOGOUT 
-                        </span>
-                        
-                    </a>
-</li>  
-</ul>
-        </nav>
+<?php 
+require_once '../menu.php'; 
+?>
        
 
         <div class="wiz">
         
         <form id="regForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-            <div style="background-image:url('../images/5631.jpg');background-size:cover;margin-top:-62px;margin-left:-40px;margin-right:-40px;height:250px;">
+            <div style="background-image:url('../images/5631.jpg');background-size:cover;margin-top:-162px;margin-left:-40px;margin-right:-40px;height:250px;">
             <div style="height:70px;"></div>
         <h1 style="color:#1f1f2e;">Choose venue</h1><br><br>
 </div>
@@ -253,132 +123,76 @@ margin-left: 56px;top:3px;">
 
 <div class="products">
 			<div class="container">
-				<div class="row products_bar_row">
-					<div class="col">
-						<div class="products_bar d-flex flex-lg-row flex-column align-items-lg-center align-items-start justify-content-lg-start justify-content-center">
-							<div class="products_bar_links">
-								<ul class="d-flex flex-row align-items-start justify-content-start">
-									<li><a href="#">All</a></li>
-									<li><a href="#">Hot Products</a></li>
-									<li class="active"><a href="#">New Products</a></li>
-									<li><a href="#">Sale Products</a></li>
-								</ul>
-							</div>
-							<div class="products_bar_side d-flex flex-row align-items-center justify-content-start ml-lg-auto">
-								<div class="products_dropdown product_dropdown_sorting">
-									<div class="isotope_sorting_text"><span>Default Sorting</span><i class="fa fa-caret-down" aria-hidden="true"></i></div>
-									<ul>
-										<li class="item_sorting_btn" data-isotope-option='{ "sortBy": "original-order" }'>Default</li>
-										<li class="item_sorting_btn" data-isotope-option='{ "sortBy": "price" }'>Price</li>
-										<li class="item_sorting_btn" data-isotope-option='{ "sortBy": "name" }'>Name</li>
-									</ul>
-								</div>
-								<div class="product_view d-flex flex-row align-items-center justify-content-start">
-									<div class="view_item active"><img src="images/view_1.png" alt=""></div>
-									<div class="view_item"><img src="images/view_2.png" alt=""></div>
-									<div class="view_item"><img src="images/view_3.png" alt=""></div>
-								</div>
-								<div class="products_dropdown text-right product_dropdown_filter">
-									<div class="isotope_filter_text"><span>Filter</span><i class="fa fa-caret-down" aria-hidden="true"></i></div>
-									<ul>
-										<li class="item_filter_btn" data-filter="*">All</li>
-										<li class="item_filter_btn" data-filter=".hot">Hot</li>
-										<li class="item_filter_btn" data-filter=".new">New</li>
-										<li class="item_filter_btn" data-filter=".sale">Sale</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
+				
 				<div class="row products_row products_container grid">
+
+
+
+				<?php
+
+
+$showRecordPerPage = 9;
+if(isset($_GET['page']) && !empty($_GET['page'])){
+	$currentPage = $_GET['page'];
+	}else{
+	$currentPage = 1;
+	}
+	$startFrom = ($currentPage * $showRecordPerPage) - $showRecordPerPage;
 					
-					<!-- Product -->
-					<div class="col-xl-4 col-md-6 grid-item new">
-						<div class="product">
-							<div class="product_image"><img src="images/product_1.jpg" alt=""></div>
-							<div class="product_content">
-								<div class="product_info d-flex flex-row align-items-start justify-content-start">
-									<div>
-										<div>
-											<div class="product_name"><a href="product.html">Cool Clothing with Brown Stripes</a></div>
-											<div class="product_category">In <a href="category.html">Category</a></div>
-										</div>
-									</div>
-									<div class="ml-auto text-right">
-										<div class="rating_r rating_r_4 home_item_rating"><i></i><i></i><i></i><i></i><i></i></div>
-										<div class="product_price text-right">$3<span>.99</span></div>
-									</div>
-								</div>
-								<div class="product_buttons">
-									<div class="text-right d-flex flex-row align-items-start justify-content-start">
-										<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
-											<div class="plus"><div class="plus"><img src="images/heart_2.svg" class="svg" alt=""><div class="plus">+</div></div></div>
-										</div>
-										<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-											<div class="plus"><div class="plus"><img src="images/cart.svg" class="svg" alt=""><div class="plus">+</div></div></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+					$sql = "SELECT * FROM venues WHERE venue_status != 'deleted'";
+					if($stmt = $pdo->query($sql)){
+						// Bind variables to the prepared statement as parameters
+						
+						$total = $stmt->rowCount();
+						$lastPage = ceil($total/$showRecordPerPage);
+						$firstPage = 1;
+						$nextPage = $currentPage + 1;
+						$previousPage = $currentPage - 1;
 
-					<!-- Product -->
-					<div class="col-xl-4 col-md-6 grid-item hot">
-						<div class="product">
-							<div class="product_image"><img src="images/product_2.jpg" alt=""></div>
-							<div class="product_content">
-								<div class="product_info d-flex flex-row align-items-start justify-content-start">
-									<div>
-										<div>
-											<div class="product_name"><a href="product.html">Hype Grey Shirt</a></div>
-											<div class="product_category">In <a href="category.html">Category</a></div>
-										</div>
-									</div>
-									<div class="ml-auto text-right">
-										<div class="rating_r rating_r_4 home_item_rating"><i></i><i></i><i></i><i></i><i></i></div>
-										<div class="product_price text-right">$4<span>.99</span></div>
-									</div>
-								</div>
-								<div class="product_buttons">
-									<div class="text-right d-flex flex-row align-items-start justify-content-start">
-										<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
-											<div class="plus"><div class="plus"><img src="images/heart_2.svg" class="svg" alt=""><div class="plus">+</div></div></div>
-										</div>
-										<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-											<div class="plus"><div class="plus"><img src="images/cart.svg" class="svg" alt=""><div class="plus">+</div></div></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+						$sql2 = "SELECT * FROM venues WHERE venue_status != 'deleted' LIMIT $startFrom, $showRecordPerPage";
+						if($stmt2 = $pdo->query($sql2)){
+
+						while($venue = $stmt2->fetch()) {
+							
+							$sql1 = "SELECT * FROM venue_files WHERE venue_id = :venue_id LIMIT 1";
+        
+							if($stmt1 = $pdo->prepare($sql1)){
+								// Bind variables to the prepared statement as parameters
+								$stmt1->execute(['venue_id' => $venue[ 'venue_id' ]]); 
+								$venue_file = $stmt1->fetch();
+								$file_name = $venue_file["file_name"];
+								
+							
+								}
+							
+							
+							
+							?>
 
 					<!-- Product -->
 					<div class="col-xl-4 col-md-6 grid-item sale">
 						<div class="product">
-							<div class="product_image"><img src="images/product_3.jpg" alt=""></div>
+							<div class="product_image"><img src='http://localhost/git/bachelor/start_admin/images/<?php echo $file_name; ?>' height="350" width="442"></div>
 							<div class="product_content">
 								<div class="product_info d-flex flex-row align-items-start justify-content-start">
 									<div>
 										<div>
-											<div class="product_name"><a href="product.html">Long Sleeve Jacket</a></div>
-											<div class="product_category">In <a href="category.html">Category</a></div>
+											<div class="product_name"><a href="product.html"><?= $venue[ 'venue_name' ] ?></a></div>
+											<div class="product_category">Capacity: <?= $venue[ 'venue_capacity' ] ?></a></div>
+										</div>
+										</div>
+										<div class="ml-auto text-right">
+											<div class="rating_r rating_r_4 home_item_rating"><i></i><i></i><i></i><i></i><i></i></div>
+											<div class="product_price text-right">$<?= $venue[ 'venue_rent_price' ] ?></span></div>
 										</div>
 									</div>
-									<div class="ml-auto text-right">
-										<div class="rating_r rating_r_4 home_item_rating"><i></i><i></i><i></i><i></i><i></i></div>
-										<div class="product_price text-right">$13<span>.99</span></div>
-									</div>
-								</div>
 								<div class="product_buttons">
 									<div class="text-right d-flex flex-row align-items-start justify-content-start">
 										<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
-											<div class="plus"><div class="plus"><img src="images/heart_2.svg" class="svg" alt=""><div class="plus">+</div></div></div>
+											<a href="see_venue.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>"><div class="plus" data-toggle="tooltip" title="See details!" data-placement="top"><div class="plus"><img src="images/eye_2.png" class="svg" alt="" data-toggle="tooltip" title="See details!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
 										</div>
 										<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-											<div class="plus"><div class="plus"><img src="images/cart.svg" class="svg" alt=""><div class="plus">+</div></div></div>
+											<a href="choose_venue.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>"><div class="plus" data-toggle="tooltip" title="Choose this venue!" data-placement="top"><div class="plus"><img src="images/cart.png" class="svg" alt="" data-toggle="tooltip" title="Choose this venue!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
 										</div>
 									</div>
 								</div>
@@ -386,201 +200,44 @@ margin-left: 56px;top:3px;">
 						</div>
 					</div>
 
-					<!-- Product -->
-					<div class="col-xl-4 col-md-6 grid-item sale">
-						<div class="product">
-							<div class="product_image"><img src="images/product_4.jpg" alt=""></div>
-							<div class="product_content">
-								<div class="product_info d-flex flex-row align-items-start justify-content-start">
-									<div>
-										<div>
-											<div class="product_name"><a href="product.html">Denim Men Shirt</a></div>
-											<div class="product_category">In <a href="category.html">Category</a></div>
-										</div>
-									</div>
-									<div class="ml-auto text-right">
-										<div class="rating_r rating_r_4 home_item_rating"><i></i><i></i><i></i><i></i><i></i></div>
-										<div class="product_price text-right">$5<span>.99</span></div>
-									</div>
-								</div>
-								<div class="product_buttons">
-									<div class="text-right d-flex flex-row align-items-start justify-content-start">
-										<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
-											<div class="plus"><div class="plus"><img src="images/heart_2.svg" class="svg" alt=""><div class="plus">+</div></div></div>
-										</div>
-										<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-											<div class="plus"><div class="plus"><img src="images/cart.svg" class="svg" alt=""><div class="plus">+</div></div></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+					<?php
+						
+						
+						}}}
 
-					<!-- Product -->
-					<div class="col-xl-4 col-md-6 grid-item hot">
-						<div class="product">
-							<div class="product_image"><img src="images/product_5.jpg" alt=""></div>
-							<div class="product_content">
-								<div class="product_info d-flex flex-row align-items-start justify-content-start">
-									<div>
-										<div>
-											<div class="product_name"><a href="product.html">Long Red Shirt</a></div>
-											<div class="product_category">In <a href="category.html">Category</a></div>
-										</div>
-									</div>
-									<div class="ml-auto text-right">
-										<div class="rating_r rating_r_4 home_item_rating"><i></i><i></i><i></i><i></i><i></i></div>
-										<div class="product_price text-right">$7<span>.99</span></div>
-									</div>
-								</div>
-								<div class="product_buttons">
-									<div class="text-right d-flex flex-row align-items-start justify-content-start">
-										<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
-											<div class="plus"><div class="plus"><img src="images/heart_2.svg" class="svg" alt=""><div class="plus">+</div></div></div>
-										</div>
-										<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-											<div class="plus"><div class="plus"><img src="images/cart.svg" class="svg" alt=""><div class="plus">+</div></div></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
+					?>
 
-					<!-- Product -->
-					<div class="col-xl-4 col-md-6 grid-item new">
-						<div class="product">
-							<div class="product_image"><img src="images/product_6.jpg" alt=""></div>
-							<div class="product_content">
-								<div class="product_info d-flex flex-row align-items-start justify-content-start">
-									<div>
-										<div>
-											<div class="product_name"><a href="product.html">Short Sleeve Shirt</a></div>
-											<div class="product_category">In <a href="category.html">Category</a></div>
-										</div>
-									</div>
-									<div class="ml-auto text-right">
-										<div class="rating_r rating_r_4 home_item_rating"><i></i><i></i><i></i><i></i><i></i></div>
-										<div class="product_price text-right">$12<span>.99</span></div>
-									</div>
-								</div>
-								<div class="product_buttons">
-									<div class="text-right d-flex flex-row align-items-start justify-content-start">
-										<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
-											<div class="plus"><div class="plus"><img src="images/heart_2.svg" class="svg" alt=""><div class="plus">+</div></div></div>
-										</div>
-										<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-											<div class="plus"><div class="plus"><img src="images/cart.svg" class="svg" alt=""><div class="plus">+</div></div></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- Product -->
-					<div class="col-xl-4 col-md-6 grid-item sale">
-						<div class="product">
-							<div class="product_image"><img src="images/product_7.jpg" alt=""></div>
-							<div class="product_content">
-								<div class="product_info d-flex flex-row align-items-start justify-content-start">
-									<div>
-										<div>
-											<div class="product_name"><a href="product.html">Red Stripped Dress</a></div>
-											<div class="product_category">In <a href="category.html">Category</a></div>
-										</div>
-									</div>
-									<div class="ml-auto text-right">
-										<div class="rating_r rating_r_4 home_item_rating"><i></i><i></i><i></i><i></i><i></i></div>
-										<div class="product_price text-right">$6<span>.99</span></div>
-									</div>
-								</div>
-								<div class="product_buttons">
-									<div class="text-right d-flex flex-row align-items-start justify-content-start">
-										<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
-											<div class="plus"><div class="plus"><img src="images/heart_2.svg" class="svg" alt=""><div class="plus">+</div></div></div>
-										</div>
-										<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-											<div class="plus"><div class="plus"><img src="images/cart.svg" class="svg" alt=""><div class="plus">+</div></div></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- Product -->
-					<div class="col-xl-4 col-md-6 grid-item new">
-						<div class="product">
-							<div class="product_image"><img src="images/product_8.jpg" alt=""></div>
-							<div class="product_content">
-								<div class="product_info d-flex flex-row align-items-start justify-content-start">
-									<div>
-										<div>
-											<div class="product_name"><a href="product.html">White Cotton Shirt</a></div>
-											<div class="product_category">In <a href="category.html">Category</a></div>
-										</div>
-									</div>
-									<div class="ml-auto text-right">
-										<div class="rating_r rating_r_4 home_item_rating"><i></i><i></i><i></i><i></i><i></i></div>
-										<div class="product_price text-right">$21<span>.99</span></div>
-									</div>
-								</div>
-								<div class="product_buttons">
-									<div class="text-right d-flex flex-row align-items-start justify-content-start">
-										<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
-											<div class="plus"><div class="plus"><img src="images/heart_2.svg" class="svg" alt=""><div class="plus">+</div></div></div>
-										</div>
-										<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-											<div class="plus"><div class="plus"><img src="images/cart.svg" class="svg" alt=""><div class="plus">+</div></div></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<!-- Product -->
-					<div class="col-xl-4 col-md-6 grid-item sale">
-						<div class="product">
-							<div class="product_image"><img src="images/product_9.jpg" alt=""></div>
-							<div class="product_content">
-								<div class="product_info d-flex flex-row align-items-start justify-content-start">
-									<div>
-										<div>
-											<div class="product_name"><a href="product.html">Black Short Sleeve Dress</a></div>
-											<div class="product_category">In <a href="category.html">Category</a></div>
-										</div>
-									</div>
-									<div class="ml-auto text-right">
-										<div class="rating_r rating_r_4 home_item_rating"><i></i><i></i><i></i><i></i><i></i></div>
-										<div class="product_price text-right">$7<span>.99</span></div>
-									</div>
-								</div>
-								<div class="product_buttons">
-									<div class="text-right d-flex flex-row align-items-start justify-content-start">
-										<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
-											<div class="plus"><div class="plus"><img src="images/heart_2.svg" class="svg" alt=""><div class="plus">+</div></div></div>
-										</div>
-										<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-											<div class="plus"><div class="plus"><img src="images/cart.svg" class="svg" alt=""><div class="plus">+</div></div></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
 
 				</div>
 				<div class="row page_nav_row">
 					<div class="col">
 						<div class="page_nav">
 							<ul class="d-flex flex-row align-items-start justify-content-center">
-								<li class="active"><a href="#">01</a></li>
+								<!-- <li class="active"><a href="#">01</a></li>
 								<li><a href="#">02</a></li>
 								<li><a href="#">03</a></li>
-								<li><a href="#">04</a></li>
+								<li><a href="#">04</a></li> -->
+
+
+							<?php if($currentPage != $firstPage) { ?>
+								<li>
+								<a href="?page=<?php echo $firstPage ?>" tabindex="-1" aria-label="Previous">
+								<span aria-hidden="true">First</span>
+								</a>
+								</li>
+								<?php } ?>
+								<?php if($currentPage >= 2) { ?>
+								<li><a href="?page=<?php echo $previousPage ?>"><?php echo $previousPage ?></a></li>
+								<?php } ?>
+								<li class="active"><a href="?page=<?php echo $currentPage ?>"><?php echo $currentPage ?></a></li>
+								<?php if($currentPage != $lastPage) { ?>
+								<li><a href="?page=<?php echo $nextPage ?>"><?php echo $nextPage ?></a></li>
+								<li>
+								<a href="?page=<?php echo $lastPage ?>" aria-label="Next">
+								<span aria-hidden="true">Last</span>
+								</a>
+								</li>
+							<?php } ?>
 							</ul>
 						</div>
 					</div>
@@ -591,7 +248,7 @@ margin-left: 56px;top:3px;">
 
   <div style="overflow:auto;">
     <div >
-      <a href="wizard.php?event_id=<?php echo $_GET[ 'event_id' ] ?>"><button type="button" class="nextBtn" id="nextBtn" style="color:white;width:200px;margin-right:-200px;margin-left:250px;">Previous</button></a>
+      <a href="wizard.php?event_id=<?php echo $_GET[ 'event_id' ] ?>"><button type="button"  style="color:white;width:200px;margin-right:-500px;margin-left:550px;cursor:pointer;background-color: #bbbbbb;">Previous</button></a>
       <input type="submit" value="Next" class="nextBtn" id="nextBtn" style="color:white;width:200px;margin-left:290px;cursor:pointer;">
     </div>
   </div>
@@ -619,6 +276,9 @@ margin-left: 56px;top:3px;">
 <script src="../plugins/Isotope/isotope.pkgd.min.js"></script>
 <script src="../plugins/Isotope/fitcolumns.js"></script>
 <script src="../js/category.js"></script>
-        
+		
+
+<div style="height:800px;"></div>
+<?php include '../footer.php';  ?> 
 </body>
 </html>

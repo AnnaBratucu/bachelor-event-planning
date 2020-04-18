@@ -14,13 +14,13 @@ body
   
 }
 
-body::before {
+/* body::before {
   content: "";
   display: block;
   position: absolute;
   z-index: -1;
   width: 100%;
-  height: 340%;
+  height: 200%;
   top: 0;
   left: 0;
   background: rgba(93,84,240,0.5);
@@ -29,7 +29,7 @@ body::before {
   background: -moz-linear-gradient(left, rgba(0,168,255,0.5), rgba(185,0,255,0.5));
   background: linear-gradient(left, rgba(0,168,255,0.5), rgba(185,0,255,0.5)); 
   pointer-events: none;
-}
+} */
 
 
 @import url(//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css);
@@ -131,18 +131,17 @@ font-size:20px;
 
 
 .main-menu:hover, nav.main-menu.expanded {
-width:250px;
+width:200px;
 overflow:hidden;
 opacity:1;
-
 }
 
 .main-menu {
 background:#F7F7F7;
-position:absolute;
-top:0;
+
+top:-80px;
 bottom:0;
-height:100%;
+height:1000px;
 left:0;
 width:55px;
 overflow:hidden;
@@ -153,19 +152,19 @@ box-shadow: 1px 0 15px rgba(0, 0, 0, 0.07);
   opacity:1;
 
   position: sticky;
-  
+  overflow: hidden;
 }
 
 .main-menu>ul {
 margin:7px 0;
-
+overflow: hidden;
 }
 
 .main-menu li {
 position:relative;
 display:block;
 width:250px;
-  
+overflow: hidden;
 
 
 }
@@ -184,14 +183,14 @@ text-decoration:none;
 transition:all .14s linear;
 font-family: 'Strait', sans-serif;
 border-top:1px solid #f2f2f2;
-
+overflow: hidden;
 text-shadow: 1px 1px 1px  #fff;  
 }
 
 
 
 .main-menu .nav-icon {
-  
+  overflow: hidden;
 position:relative;
 display:table-cell;
 width:55px;
@@ -203,7 +202,7 @@ font-size:18px;
 }
 
 .main-menu .nav-text  {
-   
+  overflow: hidden;
 position:relative;
 display:table-cell;
 vertical-align:middle;
@@ -416,9 +415,9 @@ button:hover {
   background-color: #4CAF50;
 }
 
-.wiz{
-  margin-top:-700px;
-}
+/* .wiz{
+  margin-top:-1000px;
+} */
 
 
 /* ---------------------------------------datepicker-----------------------------------*/
@@ -562,6 +561,34 @@ hr {
 .form-container .btn:hover, .open-button:hover {
   opacity: 1;
 }
+
+
+@import url('//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css');
+ 
+.isa_info, .isa_success, .isa_warning, .isa_error {
+margin: 10px 0px;
+height:-10px;
+ 
+}
+
+.isa_error {
+  color: #D8000C;
+  background-color: #FFD2D2;
+  font-size: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

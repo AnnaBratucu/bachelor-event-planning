@@ -39,7 +39,7 @@
 			header("Location: log/login.php");// send to login page
 			exit;
 			}
-			if( $_SESSION['username'] != 'plan.saver@gmail.com' ){
+			if( $_SESSION['username'] != 'admin@yahoo.com' ){
 		?>
 
 		<div class="header">
@@ -51,11 +51,9 @@
 				<p>Because in your dreams,</p>
 				<p>every detail matters.</p>
 				<div class="space"></div>
-				<?php if( $_SESSION["username"] == 'admin@yahoo.com' ) { ?>
-				<a href="start_admin/wizard_admin.php" class="start"><span>START!</span></a>
-				<?php } else { ?>
+				
 				<a href="start/start.php" class="start"><span>START!</span></a>
-				<?php } ?>
+				
 			</div>
 
 		</div>
@@ -72,7 +70,10 @@
 			</div>
 			</div>
 		<?php } ?>
+		<div style="height:200px;"></div>
+		<?php include 'footer.php';  ?>
 	</body>
+	
 </html> 
 
 

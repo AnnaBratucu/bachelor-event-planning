@@ -1,8 +1,27 @@
 <!DOCTYPE html>
 <!--<html class="menu">-->
 <html>
+<style type="text/css">
+body::before {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  height: 200%;
+  top: 0;
+  left: 0;
+  background: rgba(93,84,240,0.5);
+  background: -webkit-linear-gradient(left, rgba(0,168,255,0.5), rgba(185,0,255,0.5));
+  background: -o-linear-gradient(left, rgba(0,168,255,0.5), rgba(185,0,255,0.5));
+  background: -moz-linear-gradient(left, rgba(0,168,255,0.5), rgba(185,0,255,0.5));
+  background: linear-gradient(left, rgba(0,168,255,0.5), rgba(185,0,255,0.5)); 
+  pointer-events: none;
+}
 
+</style>​ 
 <?php include '../head.php'; 
+require("../PHPMailer/src/Exception.php");
 require("../PHPMailer/src/PHPMailer.php");
 require("../PHPMailer/src/SMTP.php");
 require_once "../config.php";
@@ -27,12 +46,12 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         //$mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
         $mail->SMTPAuth = true; // authentication enabled
         $mail->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for Gmail
-        $mail->Host = "smtp.gmail.com";
+        $mail->Host = "ssl://smtp.gmail.com";
         $mail->Port = 465; // or 587
         $mail->IsHTML(true);
-        $mail->Username = "ana.bratucu@gmail.com";
+        $mail->Username = "ana7bratucu@gmail.com";
         $mail->Password = "gotony1997";
-        $mail->SetFrom("ana.bratucu@gmail.com");
+        $mail->SetFrom("ana7bratucu@gmail.com");
         $mail->Subject = "Event Survey";
         $mail->Body = "Hello, <br><br> You are on " . $user[ 'user_name' ] . "'s guest list for her upcoming " . $user[ 'event_type' ] . " event. Would you like to give her your opinion regarding what you expect from it?<br>Click on the link below to answer a few questions: <br> <a href=\"http://localhost/git/bachelor/start/survey_for_guests.php?eventid=". $user[ 'event_id' ] . "\">Take Survey</a> ";
         $mail->AddAddress($user[ 'guest_email' ]);
@@ -282,7 +301,7 @@ margin-left: 56px;top:3px;">
     $( "#datepicker1" ).datepicker();
   } );
   </script>
-
-        
+<div style="height:200px;"></div>
+<?php include '../footer.php';  ?>      
 </body>
 </html>

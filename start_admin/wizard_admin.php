@@ -2,6 +2,46 @@
 <!--<html class="menu">-->
 <html>
 <style type="text/css">
+body::before {
+  /* content: "";
+  display: block; */
+  /* position: absolute; */
+  /* z-index: -1; */
+  width: 100%;
+  
+   top: 0;
+  left: 0; 
+  background: white;
+  /* background: rgba(93,84,240,0.5);
+  background: -webkit-linear-gradient(left, rgba(0,168,255,0.5), rgba(185,0,255,0.5));
+  background: -o-linear-gradient(left, rgba(0,168,255,0.5), rgba(185,0,255,0.5));
+  background: -moz-linear-gradient(left, rgba(0,168,255,0.5), rgba(185,0,255,0.5));
+  background: linear-gradient(left, rgba(0,168,255,0.5), rgba(185,0,255,0.5));  */
+  pointer-events: none;
+}
+
+.wiz{
+  margin-top:-1000px;
+}
+
+.wiz{
+	margin-top:-200px;
+	position: relative;
+	background: white;
+}
+
+.products{
+	background: white;
+	
+}
+.container{
+	background: white;
+	
+}
+
+#regForm{
+	margin-top:0;
+}
 .div {
   position: relative; 
   padding-top: 10px;  
@@ -98,17 +138,17 @@ a.disabled {
 }
 
 </style>​ 
-<?php include '../head.php'; 
-
-
-require_once "../config.php";
-
+<?php 
 session_start();
-
 if( !isset($_SESSION['username']) ){
-	header("location: ../log/login.php"); // send to login page
+	header('location: ../log/login.php'); // send to login page
 	exit; 
  }
+include '../head.php'; 
+
+
+require_once '../config.php';
+
  
 
 // Processing form data when form is submitted
@@ -327,186 +367,11 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 ?>
 
 <body>
+<div class="wiz">
 
-
-
-<nav class="main-menu">
-
-
-  
-<div class="settings"></div>
-<div class="scrollbar" id="style-1">
-      
-<ul>
-  
-<li>                                   
-<a href="../plan.php">
-<i class="fa fa-home fa-lg"></i>
-<span class="nav-text">Home</span>
-</a>
-</li>     
-
-<li>                                 
-<a href="../contact.php">
-<i class="fa fa-envelope-o fa-lg"></i>
-<span class="nav-text">Contact</span>
-</a>
-</li>   
- 
-<li>
-<a href="http://startific.com">
-<i class="fa fa-heart-o fa-lg"></i>
-                        
-<span class="share"> 
-
-
-<div class="addthis_default_style addthis_32x32_style">
-  
-<div style="position:absolute;
-margin-left: 56px;top:3px;"> 
-   
-  
-
-  
- <a href="https://www.facebook.com/sharer/sharer.php?u=" target="_blank" class="share-popup"><img src="http://icons.iconarchive.com/icons/danleech/simple/512/facebook-icon.png" width="30px" height="30px"></a>
-
-   <a href="https://twitter.com/share" target="_blank" class="share-popup"><img src="https://cdn1.iconfinder.com/data/icons/metro-ui-dock-icon-set--icons-by-dakirby/512/Twitter_alt.png" width="30px" height="30px"></a>
-
-  
-  
-</div>
-<script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
-<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4ff17589278d8b3a"></script>
-                       
-                            
-                              
-                            
-                          
-                        </span>
-                        <span class="twitter"></span>
-                        <span class="fb-like">  
-<iframe src="//www.facebook.com/plugins/like.php?href=http%3A%2F%2Ffacebook.com%2Fstartific&amp;width&amp;layout=button&amp;action=like&amp;show_faces=false&amp;share=false&amp;height=35" scrolling="no" frameborder="0" style="border:none; overflow:hidden; height:35px;" allowTransparency="true"></iframe>
-                       
-                        </span>
-                        <span class="nav-text">
-                        </span>
-                        
-                    </a>
-
-</li>
-                            
-
-  
-  
-</li>
-
-<li class="darkerlishadow" style="background-color:#ffcccc;">
-<a href="wizard.php">
-<i class="fas fa-hotel"></i>
-<span class="nav-text">Venue</span>
-</a>
-</li>
-
-<li class="darkerli">
-<a href="food.php">
-<i class="fas fa-utensils"></i>
-<span class="nav-text">Food</span>
-</a>
-</li>
-  
-<li class="darkerli">
-<a href="http://startific.com">
-<i class="fa fa-plane fa-lg"></i>
-<span class="nav-text">Travel</span>
-</a>
-</li>
-  
-<li class="darkerli">
-<a href="http://startific.com">
-<i class="fa fa-shopping-cart"></i>
- <span class="nav-text">Shopping</span>
-</a>
-</li>
-  
-<li class="darkerli">
-<a href="http://startific.com">
-<i class="fa fa-microphone fa-lg"></i>
-<span class="nav-text">Film & Music</span>
-</a>
-</li>
-
-<li class="darkerli">
-<a href="http://startific.com">
-<i class="fa fa-flask fa-lg"></i>
-<span class="nav-text">Web Tools</span>
-</a>
-</li>
-  
-<li class="darkerli">
-<a href="http://startific.com">
-<i class="fa fa-picture-o fa-lg"></i>
-<span class="nav-text">Art & Design</span>
-</a>
-</li>
-
-<li class="darkerli">
-<a href="http://startific.com">
-<i class="fa fa-align-left fa-lg"></i>
-<span class="nav-text">Magazines
-</span>
-</a>
-</li>
-  
-<li class="darkerli">
-<a href="http://startific.com">
-<i class="fa fa-gamepad fa-lg"></i>
-<span class="nav-text">Games</span>
-</a>
-</li>
-  
-<li class="darkerli">
-<a href="http://startific.com">
-<i class="fa fa-glass fa-lg"></i>
-<span class="nav-text">Life & Style
-</span>
-</a>
-</li>
-  
-<li class="darkerlishadowdown">
-<a href="http://startific.com">
-<i class="fa fa-rocket fa-lg"></i>
-<span class="nav-text">Fun</span>
-</a>
-</li>
- 
-  
-</ul>
-
-  
-<li>
-                                   
-<a href="http://startific.com">
-<i class="fa fa-question-circle fa-lg"></i>
-<span class="nav-text">Help</span>
-</a>
-</li>   
-    
-  
-<ul class="logout">
-<li>
-                   <a href="../log/logout.php">
-                         <i class="fa fa-sign-out fa-lg"></i>
-                        <span class="nav-text">
-                            LOGOUT 
-                        </span>
-                        
-                    </a>
-</li>  
-</ul>
-        </nav>
-       
-
-        <div class="wiz">
+<?php 
+require_once '../menu.php'; 
+?>
 
   <!-- Modal -->
   <div class="modal fade" id="myModal" role="dialog">
@@ -631,7 +496,7 @@ margin-left: 56px;top:3px;">
     </div>
   </div>
 </div>
-				<?php echo $_GET[ 'name' ]; ?>
+				<?php //echo $_GET[ 'name' ]; ?>
 				<button type="submit" class="btn">Add</button>
 			</form>
         </div>
@@ -669,11 +534,32 @@ margin-left: 56px;top:3px;">
 <button type="button" class="open-button btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" data-id="<?php echo 0; ?>"><div data-toggle="tooltip" title="Add Venue!" data-placement="top" style="font-size:42px;color:black;"><b>+</b></div></button>
 <?php } ?>
         <form id="regForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-            <div style="background-color:#9999e6;background-size:cover;margin-top:-62px;margin-left:-40px;margin-right:-40px;height:250px;">
+            <div style="background-color:#9999e6;background-size:cover;margin-top:-900px;margin-left:-40px;margin-right:-40px;height:250px;">
             <div style="height:70px;"></div>
-		<h1 style="color:#1f1f2e;">Add venue</h1><br><br>
+			<?php if( $_SESSION[ 'username' ] == 'admin@yahoo.com' ){ ?>
+				<h1 style="color:#1f1f2e;">Add venue</h1><br><br>
+			<?php } else{ ?>
+				<h1 style="color:#1f1f2e;">Available venues</h1><br><br>
+				</div>
+				<div class="row" style="margin-left:80px;">
+					<div class="column">
+						<?php if( isset( $_GET[ 'message' ] ) ){ ?>
+							<div class="isa_error">
+								<i class="fa fa-times-circle"></i>
+								<?php echo $_GET[ 'message' ] ?>
+							</div>
+						<?php } ?>
+					</div>
+				</div>
+				<div class="row" style="margin-left:80px;margin-top:-60px;">
+					<div class="column">
+						<a href="novenue.php?event_id=<?php echo $_GET[ 'event_id' ] ?>"><div class="novenue" style="color:black;width:170px;height:50px;text-align:center;margin-top:18px;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 4px 15px 0 rgba(0, 0, 0, 0.19);text-decoration: none;border:1px solid #a2a2c3"><p>I don't need a venue.</p></div></a>
+					</div>
+				</div>
+				<hr/>
+			<?php } ?>
 
-</div>
+
 <div class="products" >
 			<div class="container">
 				
@@ -689,8 +575,123 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 	$currentPage = 1;
 	}
 	$startFrom = ($currentPage * $showRecordPerPage) - $showRecordPerPage;
+
+		if( $_SESSION['username'] != 'admin@yahoo.com' ){
+			$array = array(); 
+			$dateMin = $_SESSION['date_min'];
+			$dateMax = $_SESSION['date_max'];
+			$begin = new DateTime( "$dateMin" );
+			//echo $begin->format("d.m.Y");
+			$end = new DateTime( "$dateMax" );
+			$end = $end->modify( '+1 day' );
+			
+			$interval = new DateInterval('P1D');
+			$daterange = new DatePeriod($begin, $interval ,$end);
+			foreach($daterange as $date){
+				//echo $date->format("m/d/Y") . "<br>";
+				$array[] = $date->format("Y-m-d") . ' 00:00:00';
+			}
+
+			$sql6 = "SELECT * FROM venues WHERE venue_status != 'deleted'";
+			if($stmt6 = $pdo->query($sql6)){
+				while($venue = $stmt6->fetch()) {
+					$diff = [];
+				$event_start = [];
+				$sql5 = "SELECT start FROM tbl_events WHERE venue_id = :venue_id";
+				
+				if($stmt5 = $pdo->prepare($sql5)){
+					// Bind variables to the prepared statement as parameters
+					$stmt5->execute(['venue_id' => $venue[ 'venue_id' ]]); 
 					
+					while($start = $stmt5->fetch()) {
+						$event_start[] = $start[ 'start' ];
+					}
+				
+
+				// }
+			
+				$result = array_intersect($array, $event_start);
+			
+				if( !empty($result) ){
+				$diff = array_diff($array,$result);
+				
+				if( !empty($diff) ){
+					
+					
+
+					$sql7 = "UPDATE venues SET venue_status = :venue_status WHERE venue_id = :venue_id";
+					if( $stmt7 = $pdo->prepare($sql7)  ){
+						// Bind variables to the prepared statement as parameters
+						$stmt7->bindParam(":venue_status", $param_status);
+						$stmt7->bindParam(":venue_id", $venue_id);
+						
+						// Set parameters
+						$param_status = 'available';
+						$venue_id = $venue[ 'venue_id' ];
+						
+						// Attempt to execute the prepared statement
+						if($stmt7->execute()){
+							
+				
+						} else{
+							echo "Something went wrong. Please try again later.";
+						}
+					}
+
+
+
+
+				}else{
+
+					$sql8 = "UPDATE venues SET venue_status = :venue_status WHERE venue_id = :venue_id";
+					if( $stmt8 = $pdo->prepare($sql8)  ){
+						// Bind variables to the prepared statement as parameters
+						$stmt8->bindParam(":venue_status", $param_status);
+						$stmt8->bindParam(":venue_id", $venue_id);
+						
+						// Set parameters
+						$param_status = 'full';
+						$venue_id = $venue[ 'venue_id' ];
+						
+						// Attempt to execute the prepared statement
+						if($stmt8->execute()){
+							
+				
+						} else{
+							echo "Something went wrong. Please try again later.";
+						}
+					}
+
+
+
+				}  }else{
+					$sql7 = "UPDATE venues SET venue_status = :venue_status WHERE venue_id = :venue_id";
+					if( $stmt7 = $pdo->prepare($sql7)  ){
+						// Bind variables to the prepared statement as parameters
+						$stmt7->bindParam(":venue_status", $param_status);
+						$stmt7->bindParam(":venue_id", $venue_id);
+						
+						// Set parameters
+						$param_status = 'available';
+						$venue_id = $venue[ 'venue_id' ];
+						
+						// Attempt to execute the prepared statement
+						if($stmt7->execute()){
+							
+				
+						} else{
+							echo "Something went wrong. Please try again later.";
+						}
+					}
+				}
+				//print_r($result);
+			}}}}
+			
+			if( $_SESSION['username'] == 'admin@yahoo.com' ){
 					$sql = "SELECT * FROM venues WHERE venue_status != 'deleted'";
+			}else{
+				$sql = "SELECT * FROM venues WHERE venue_status = 'available'";
+			}
 					if($stmt = $pdo->query($sql)){
 						// Bind variables to the prepared statement as parameters
 						
@@ -699,8 +700,11 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 						$firstPage = 1;
 						$nextPage = $currentPage + 1;
 						$previousPage = $currentPage - 1;
-
+				if($_SESSION['username'] == 'admin@yahoo.com'){
 						$sql2 = "SELECT * FROM venues WHERE venue_status != 'deleted' LIMIT $startFrom, $showRecordPerPage";
+				}else{
+					$sql2 = "SELECT * FROM venues WHERE venue_status = 'available' LIMIT $startFrom, $showRecordPerPage";
+				}
 						if($stmt2 = $pdo->query($sql2)){
 
 						while($venue = $stmt2->fetch()) {
@@ -715,8 +719,6 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 								
 							
 								}
-							
-							
 							
 							?>
 						
@@ -747,14 +749,14 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 												<?php if( $_SESSION[ 'username' ] == 'admin@yahoo.com' ){ ?>
 													<a href="see_venue.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>" data-toggle="modal" data-target="#myModal" data-id="<?php echo $venue[ 'venue_id' ] ?>"><div class="plus" data-toggle="tooltip" title="Edit venue!" data-placement="top"><div class="plus"><img src="images/eye_2.png" class="svg" alt="" data-toggle="tooltip" title="Edit venue!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
 												<?php } else { ?>
-													<a href="see_venue.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>"><div class="plus" data-toggle="tooltip" title="See details!" data-placement="top"><div class="plus"><img src="images/eye_2.png" class="svg" alt="" data-toggle="tooltip" title="See details!" data-placement="top" height="40"><div class="plus">+<</a>/div></div></div>
+													<a href="../start/see_venue.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><div class="plus" data-toggle="tooltip" title="See details!" data-placement="top"><div class="plus"><img src="images/eye_2.png" class="svg" alt="" data-toggle="tooltip" title="See details!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
 												<?php } ?>
 											</div>
 											<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
 												<?php if( $_SESSION[ 'username' ] == 'admin@yahoo.com' ){ ?>
 													<a href="choose_venue.php" class="disabled" onclick="return false;"><div class="plus" data-toggle="tooltip" title="Choose this venue!" data-placement="top"><div class="plus"><img src="images/cart.png" class="svg" alt="" data-toggle="tooltip" title="Choose this venue!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
 												<?php } else { ?>
-													<a href="choose_venue.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>"><div class="plus" data-toggle="tooltip" title="Choose this venue!" data-placement="top"><div class="plus"><img src="images/cart.png" class="svg" alt="" data-toggle="tooltip" title="Choose this venue!" data-placement="top" height="40"><div class="plus">+</div></div></div></a>
+													<a href="../start/choose_venue.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>&venue_price=<?php echo $venue[ 'venue_rent_price' ] ?>" onclick="if (!confirm('Are you sure you want to book this venue?')) { return false; }"><div class="plus" data-toggle="tooltip" title="Choose this venue!" data-placement="top"><div class="plus"><img src="images/cart.png" class="svg" alt="" data-toggle="tooltip" title="Choose this venue!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
 												<?php }?>
 											</div>
 										</div>
@@ -823,9 +825,14 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 				</div>
 			</div>
 		</div>
-
-
-  
+<?php if( $_SESSION['username'] != 'admin@yahoo.com' ){ ?>
+		<div style="overflow:auto;">
+			<div >
+			<a href="../start/wizard.php?event_id=<?php echo $_GET[ 'event_id' ] ?>"><button type="button" class="nextBtn" id="prevBtn" style="color:white;width:200px;margin-right:-200px;margin-left:250px;">Previous</button></a>
+			<input type="submit" value="Next" class="nextBtn" id="nextBtn" style="color:white;width:200px;margin-left:290px;cursor:pointer;">
+			</div>
+		</div>
+<?php } ?>
 </form>
 </div>
 
@@ -1067,6 +1074,6 @@ $('#modal1').on('hidden.bs.modal', function () {
 
 
 </script>
-        
+
 </body>
 </html>
