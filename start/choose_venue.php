@@ -15,6 +15,20 @@ if( !isset($_SESSION['username']) ){
     $event_id = $_GET["event_id"];
     $venue_id = $_GET["venue_id"];
     $venue_price = $_GET["venue_price"];
+    $date = $_POST[ 'date' ];
+    // echo $date;
+    // echo '<br>';
+    $month = substr( $date,0,2 );
+    // echo $month;
+    // echo '<br>';
+    $day = substr( $date,3,2 );
+    // echo $day;
+    // echo '<br>';
+    $year = substr( $date, 6 );
+    // echo $year;
+    // echo '<br>';
+    $date1 = $year . '-' .  $month . '-' . $day;
+    //echo 'aa' . $date1;
     $message='';
     $budget_val = 0.00;
     $budget_emer = 0.00;
@@ -181,8 +195,8 @@ if( !isset($_SESSION['username']) ){
             
             // Set parameters
 			$param_title = 'event';
-            $param_start = '2020-04-01 00:00:00';
-            $param_end = '2020-04-02 00:00:00';
+            $param_start = $date1 . ' 00:00:00';
+            $param_end = $date1 . ' 00:00:00';
             $param_venue_id = $venue_id;
             
             // Attempt to execute the prepared statement

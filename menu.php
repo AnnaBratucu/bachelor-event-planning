@@ -88,7 +88,7 @@
                 </a>
             </li>
             <?php 
-                }else if( ( basename($_SERVER['PHP_SELF']) == 'wizard.php' || basename($_SERVER['PHP_SELF']) == 'wizard_admin.php' ) && $_SESSION[ 'username' ] != 'admin@yahoo.com' ){
+                }else if( ( basename($_SERVER['PHP_SELF']) == 'wizard.php' || basename($_SERVER['PHP_SELF']) == 'wizard_admin.php' || basename($_SERVER['PHP_SELF']) == 'see_venue.php' ) && $_SESSION[ 'username' ] != 'admin@yahoo.com' ){
             ?>
             <li class="darkerlishadow" style="background-color:#ffcccc;">
                 <a href="../start/wizard.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">

@@ -754,9 +754,9 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 											</div>
 											<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
 												<?php if( $_SESSION[ 'username' ] == 'admin@yahoo.com' ){ ?>
-													<a href="choose_venue.php" class="disabled" onclick="return false;"><div class="plus" data-toggle="tooltip" title="Choose this venue!" data-placement="top"><div class="plus"><img src="images/cart.png" class="svg" alt="" data-toggle="tooltip" title="Choose this venue!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
+													<a href="choose_venue.php" class="disabled" onclick="return false;"><div class="plus" data-toggle="tooltip" title="Add to favorites!" data-placement="top"><div class="plus"><img src="images/heart_2.png" class="svg" alt="" data-toggle="tooltip" title="Add to favorites!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
 												<?php } else { ?>
-													<a href="../start/choose_venue.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>&venue_price=<?php echo $venue[ 'venue_rent_price' ] ?>" onclick="if (!confirm('Are you sure you want to book this venue?')) { return false; }"><div class="plus" data-toggle="tooltip" title="Choose this venue!" data-placement="top"><div class="plus"><img src="images/cart.png" class="svg" alt="" data-toggle="tooltip" title="Choose this venue!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
+													<a href="../start/fav_venue.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>&venue_price=<?php echo $venue[ 'venue_rent_price' ] ?>" onclick="if (!confirm('Are you sure you want to book this venue?')) { return false; }"><div class="plus" data-toggle="tooltip" title="Add to favorites!" data-placement="top"><div class="plus"><img src="images/heart_2.png" class="svg" alt="" data-toggle="tooltip" title="Add to favorites!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
 												<?php }?>
 											</div>
 										</div>

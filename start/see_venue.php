@@ -61,7 +61,7 @@ input:not(:focus):valid ~ .floating-label {
 }
 input[type=text] {
 	color:black;
-  background-color:pink;
+  
 }
 input[type=number] {
 	color:black;
@@ -74,30 +74,74 @@ require_once "../config.php";
 
 session_start();
 
-$date_err = "";
+$sql = "SELECT count(*) AS count_reviews FROM rating WHERE venue_id = :venue_id";
+        
+            if($stmt = $pdo->prepare($sql)){
+            // Bind variables to the prepared statement as parameters
+            $stmt->execute(['venue_id' => $_GET[ 'venue_id' ] ]); 
+            $count = $stmt->fetch();
+
+        }
+
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate username
-    $input_date_min = $_POST["date_min"];
-    $input_date_max = $_POST["date_max"];
-    $input_date_min_time = strtotime($_POST["date_min"]);
-    $input_date_max_time = strtotime($_POST["date_max"]);
-    $today_time = strtotime( date("m/d/Y") );
-    if($input_date_min_time > $input_date_max_time){
-		$date_err = "Date Min can't be bigger than Date Max";
-    } else if( $input_date_min_time < $today_time || $input_date_max_time < $today_time ){
-        $date_err = "Date Min or Date Max can't be in the past" ;
-    }else{
-        $_SESSION[ 'date_min' ] = $input_date_min;
-        $_SESSION[ 'date_max' ] = $input_date_max;
-        if(isset($_GET[ 'event_id' ])){
-            $id = $_GET[ 'event_id' ];
-            header("location: ../start_admin/wizard_admin.php?event_id=$id");
-            exit();
-        }else{
-            header("location: ../start_admin/wizard_admin.php");
-            exit();
-        }
+    $input_rate = $_POST["rating"];
+    if($input_rate == 'one'){
+        $tru_rate = 1;
+    } else if($input_rate == 'two'){
+        $tru_rate = 2;
+    } else if($input_rate == 'three'){
+        $tru_rate = 3;
+    } else if($input_rate == 'four'){
+        $tru_rate = 4;
+    } else if($input_rate == 'five'){
+        $tru_rate = 5;
     }
+    $input_name = $_POST["name"];
+    $input_mess = $_POST["review"];
+    $input_date = date('Y-m-d');
+    $sql = "INSERT INTO rating (user_name, venue_id, date, message, value) VALUES (:username, :venue_id, :date, :message, :value)";
+        if( $stmt = $pdo->prepare($sql)  ){
+            // Bind variables to the prepared statement as parameters
+			$stmt->bindParam(":username", $param_username);
+			$stmt->bindParam(":venue_id", $param_venue);
+			$stmt->bindParam(":date", $param_date);
+            $stmt->bindParam(":message", $param_message);
+            $stmt->bindParam(":value", $param_value);
+            
+            // Set parameters
+			$param_username = $input_name;
+			$param_venue = $_GET[ 'venue_id' ];
+			$param_date = $input_date;
+            $param_message = $input_mess;
+            $param_value = $tru_rate;
+
+            $stmt->execute();
+            
+        }
+
+        $sql = "SELECT venue_rate FROM venues WHERE venue_id = :venue_id";
+        
+        if($stmt = $pdo->prepare($sql)){
+        // Bind variables to the prepared statement as parameters
+        $stmt->execute(['venue_id' => $_GET[ 'venue_id' ] ]); 
+        $last_rate = $stmt->fetch();
+
+    }
+
+    $sql7 = "UPDATE venues SET venue_rate = :venue_rate WHERE venue_id = :venue_id";
+                if( $stmt7 = $pdo->prepare($sql7)  ){
+                    // Bind variables to the prepared statement as parameters
+                    $stmt7->bindParam(":venue_rate", $param_rate);
+                    $stmt7->bindParam(":venue_id", $venue_id);
+                    
+                    // Set parameters
+                    $param_rate = ($last_rate[ 'venue_rate' ]+$tru_rate)/$count[ 'count_reviews' ];
+                    $venue_id = $_GET[ 'venue_id' ];
+                    
+                    $stmt7->execute();
+                    
+                }
 }
 
 
@@ -114,7 +158,7 @@ require_once '../menu.php';
 
         <div class="wiz">
         
-        <form id="regForm" autocomplete="off" action="<?php if(isset($_GET[ 'event_id' ])){ echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?event_id=' . $_GET[ 'event_id' ]; } else{ echo htmlspecialchars($_SERVER["PHP_SELF"]); } ?>" method="POST">
+        <form id="regForm" autocomplete="off" action="<?php //if(isset($_GET[ 'event_id' ])){ echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?event_id=' . $_GET[ 'event_id' ]; } else{ echo htmlspecialchars($_SERVER["PHP_SELF"]); } ?>" method="POST">
             <div style="background-image:url('../images/5631.jpg');background-size:cover;margin-top:-62px;margin-left:-40px;margin-right:-40px;height:250px;">
             <div style="height:70px;"></div>
         <h1 style="color:#1f1f2e;">See venue details</h1><br><br>
@@ -175,7 +219,12 @@ require_once '../menu.php';
 					<h1 class="product-title"><?php echo $name; ?></h1>
 					<div class="product-meta">
 						<ul class="list-inline">
-                            <li class="list-inline-item"><i class="fa fa-location-arrow"></i><?php echo $address; ?></li>
+                            <li class="list-inline-item">
+                                <i class="fa fa-location-arrow"></i>
+                            </li>
+                            <li class="list-inline-item">
+                                <?php echo $address; ?>
+                            </li>
 						</ul>
                     </div>
                     <!-- product slider -->
@@ -259,57 +308,70 @@ require_once '../menu.php';
 							<div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
 								<h3 class="tab-title">Venue Review</h3>
 								<div class="product-review">
+
+                                <?php 
+                    
+                                $sql1 = "SELECT * FROM rating WHERE venue_id = :venue_id";
+                    
+                                        if($stmt1 = $pdo->prepare($sql1)){
+                                            // Bind variables to the prepared statement as parameters
+                                            $stmt1->execute(['venue_id' => $_GET[ 'venue_id' ] ]); 
+                                            if($stmt->rowCount() == 0){
+                                                echo 'No reviews';
+                                                echo '<br>';
+                                            }else{
+                                            while ($row = $stmt1->fetch()) { 
+
+                                ?>
 									<div class="media">
-										<!-- Avater -->
-										<img src="images/user/user-thumb.jpg" alt="avater">
 										<div class="media-body">
 											<!-- Ratings -->
 											<div class="ratings">
-												<ul class="list-inline">
-													<li class="list-inline-item">
-														<i class="fa fa-star"></i>
-													</li>
-													<li class="list-inline-item">
-														<i class="fa fa-star"></i>
-													</li>
-													<li class="list-inline-item">
-														<i class="fa fa-star"></i>
-													</li>
-													<li class="list-inline-item">
-														<i class="fa fa-star"></i>
-													</li>
-													<li class="list-inline-item">
-														<i class="fa fa-star"></i>
-													</li>
-												</ul>
-											</div>
+                                                <p style="text-align:center;"><div style="margin-bottom:-50px;text-align:center;margin-left:-55px;font-size:35px;"><?php echo $row[ 'value' ] ?></div> <div style="text-align:center;margin-right:-17px;"><i class="fa fa-star" data-rating="2" style="font-size:20px;color:#ff9f00;"></i></div></p>
+                                            </div>
 											<div class="name">
-												<h5>Jessica Brown</h5>
+												<h5><?php echo $row[ 'user_name' ]; ?></h5>
 											</div>
 											<div class="date">
-												<p>Mar 20, 2018</p>
+												<p><?php echo $row[ 'date' ]; ?></p>
 											</div>
 											<div class="review-comment">
 												<p>
-													Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremqe laudant tota rem ape
-													riamipsa eaque.
+                                                    <?php echo $row[ 'message' ]; ?>
 												</p>
 											</div>
 										</div>
-									</div>
+                                    </div>
+                                <?php } } } ?>
+
 									<div class="review-submission">
 										<h3 class="tab-title">Submit your review</h3>
-										<!-- Rate -->
-										<div class="rate">
-											<div class="starrr"></div>
-										</div>
-										<div class="review-submit">
-											<form action="#" class="row">
+                                        <!-- Rate -->
+                                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>&event_id=<?php echo $_GET[ 'event_id' ]; ?>&venue_id=<?php echo $_GET[ 'venue_id' ]; ?>" class="row" method="post">
+                                            <div class="rate">
+                                                <div class="ratings">
+                                                    <ul class="list-inline">
+                                                        <li class="list-inline-item">
+                                                            <label for="one">1</label><br><input type="radio" id="one" name="rating" value="one" required="true">
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <label for="two">2</label><br><input type="radio" id="two" name="rating" value="two">
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <label for="three">3</label><br><input type="radio" id="three" name="rating" value="three">
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <label for="four">4</label><br><input type="radio" id="four" name="rating" value="four">
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <label for="five">5</label><br><input type="radio" id="five" name="rating" value="five">
+                                                        </li>
+                                                    </ul>
+                                                </div>
+										    </div>
+										    <div class="review-submit">
 												<div class="col-lg-6">
-													<input type="text" name="name" id="name" class="form-control" placeholder="Name">
-												</div>
-												<div class="col-lg-6">
-													<input type="email" name="email" id="email" class="form-control" placeholder="Email">
+													<input type="text" name="name" id="name" class="form-control" placeholder="Name" required>
 												</div>
 												<div class="col-12">
 													<textarea name="review" id="review" rows="10" class="form-control" placeholder="Message"></textarea>
@@ -317,8 +379,8 @@ require_once '../menu.php';
 												<div class="col-12">
 													<button type="submit" class="btn btn-main">Sumbit</button>
 												</div>
-											</form>
-										</div>
+                                            </div>
+                                        </form>
 									</div>
 								</div>
 							</div>
@@ -334,14 +396,33 @@ require_once '../menu.php';
 					</div>
 					<!-- User Profile widget -->
 					<div class="widget user text-center">
-						<img class="rounded-circle img-fluid mb-5 px-5" src="images/user/user-thumb.jpg" alt="">
-						<h4><a href="">Jonathon Andrew</a></h4>
-						<p class="member-time">Member Since Jun 27, 2017</p>
-						<a href="" style="color:black;">See all ads</a>
-						<ul class="list-inline mt-20">
-							<li class="list-inline-item"><a href="" class="btn btn-contact d-inline-block  btn-primary px-lg-5 my-1 px-md-3">Contact</a></li>
-							<li class="list-inline-item"><a href="choose_venue.php?venue_id=<?php echo $id ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>&venue_price=<?php echo $price ?>" onclick="if (!confirm('Are you sure you want to book this venue?')) { return false; }" class="btn btn-offer d-inline-block btn-primary ml-n1 my-1 px-lg-4 px-md-3">Book venue</a></li>
-						</ul>
+                        <form action="choose_venue.php?venue_id=<?php echo $id ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>&venue_price=<?php echo $price ?>" method="post" class="row" enctype='multipart/form-data' >
+                            <div class="col-lg-6">
+
+                            <?php 
+                                $event_start = [];
+                                $sql5 = "SELECT start FROM tbl_events WHERE venue_id = :venue_id";
+                                
+                                if($stmt5 = $pdo->prepare($sql5)){
+                                    // Bind variables to the prepared statement as parameters
+                                    $stmt5->execute(['venue_id' => $_GET[ 'venue_id' ]]); 
+                                    
+                                    while($start = $stmt5->fetch()) {
+                                        $event_start[] = $start[ 'start' ];
+                                    }
+                                }
+                            ?>
+                            <input type="text" hidden id='strawberry-plant' data-id="<?php print_r( $event_start ) ?>"/>
+                            <input type="text" name="date" class="form-control datepicker" placeholder="Select Date Here" required style="width:250px;"/><i class="fas fa-calendar-day" style="color:black;top:-30px;left:180px;"></i>
+                           
+                            </div>
+                           
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-main">Book venue</button><br>
+                            </div>
+                        </form>
+							<!-- <li class="list-inline-item"><a href="choose_venue.php?venue_id=<?php echo $id ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>&venue_price=<?php echo $price ?>" onclick="if (!confirm('Are you sure you want to book this venue?')) { return false; }" class="btn btn-offer d-inline-block btn-primary ml-n1 my-1 px-lg-4 px-md-3">Book venue</a></li> -->
+						
 					</div>
 					<!-- Map Widget -->
 					<div class="widget map">
@@ -352,14 +433,30 @@ require_once '../menu.php';
 					<!-- Rate Widget -->
 					<div class="widget rate">
 						<!-- Heading -->
-						<h5 class="widget-header text-center">What would you rate
-							<br>
-							this product</h5>
+                        <h5 class="widget-header text-center">Rating</h5>
+
 						<!-- Rate -->
-						<div class="starrr"></div>
+						<?php 
+                                $sql5 = "SELECT venue_rate FROM venues WHERE venue_id = :venue_id";
+                                
+                                if($stmt5 = $pdo->prepare($sql5)){
+                                    // Bind variables to the prepared statement as parameters
+                                    $stmt5->execute(['venue_id' => $_GET[ 'venue_id' ]]); 
+                                    
+                                    $venue_rate = $stmt5->fetch();
+                                
+
+                                }
+
+                                if( empty($venue_rate[ 'venue_rate' ]) ){
+                         ?>
+                            <p style="text-align:center;"><div style="margin-bottom:-50px;text-align:center;font-size:35px;">No reviews...</div></p>
+                        <?php } else { ?>
+                            <p style="text-align:center;"><div style="margin-bottom:-50px;text-align:center;margin-left:-55px;font-size:35px;"><?php echo $venue_rate[ 'venue_rate' ]; ?></div> <div style="text-align:center;margin-right:-17px;"><i class="fa fa-star" data-rating="2" style="font-size:20px;color:#ff9f00;"></i></div><br><div style="text-align:center;">/<?php echo $count[ 'count_reviews' ]; ?> reviews</div></p>
+                        <?php } ?>
 					</div>
 					<!-- Safety tips widget -->
-					<div class="widget disclaimer">
+					<!-- <div class="widget disclaimer">
 						<h5 class="widget-header">Safety Tips</h5>
 						<ul>
 							<li>Meet seller at a public place</li>
@@ -367,16 +464,16 @@ require_once '../menu.php';
 							<li>Pay only after collecting the item</li>
 							<li>Pay only after collecting the item</li>
 						</ul>
-					</div>
+					</div> -->
 					<!-- Coupon Widget -->
-					<div class="widget coupon text-center">
+					<!-- <div class="widget coupon text-center"> -->
 						<!-- Coupon description -->
-						<p>Have a great product to post ? Share it with
-							your fellow users.
-						</p>
+						<!-- <p>Have a great product to post ? Share it with -->
+							<!-- your fellow users. -->
+						<!-- </p> -->
 						<!-- Submii button -->
-						<a href="" class="btn btn-transparent-white">Submit Listing</a>
-					</div>
+						<!-- <a href="" class="btn btn-transparent-white">Submit Listing</a> -->
+					<!-- </div> -->
 
 				</div>
 			</div>
@@ -392,7 +489,7 @@ require_once '../menu.php';
   <div style="overflow:auto;">
     <div >
       <!--<button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>-->
-      <input type="submit" value="Next" class="nextBtn" id="nextBtn" style="color:white;width:200px;margin-left:390px;cursor:pointer;">
+      <a href="../start_admin/wizard_admin.php?event_id=<?php echo $_GET[ 'event_id' ] ?>"><button type="button" style="color:white;width:200px;cursor:pointer;margin-left:700px;margin-bottom:100px;">Back</button></a>
     </div>
   </div>
   
@@ -401,18 +498,45 @@ require_once '../menu.php';
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
-  $( function() {
-    $( "#datepicker" ).datepicker();
-  } );
-  $( function() {
-    $( "#datepicker1" ).datepicker();
-  } );
-  </script>
+
+
+<script type="text/javascript" src="../vendor/jquery/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../vendor/jquery/jquery-ui.js"></script>
+
+<script type="text/javascript">
+
+   // $( "#datepicker" ).datepicker();
+ 
+
+// $( ".datepicker" ).datepicker();
+
+//var disabledDates = ["2020-05-28","2015-11-14","2015-11-21"];
+
+var plant = document.getElementById('strawberry-plant');
+var fruitCount = plant.getAttribute('data-id');
+//alert(fruitCount);
+
+// $('.datepicker').on('click', function (e) {
+//         var rowid = $(e.relatedTarget).data('id');
+//         alert(rowid);
+//     });
+$('.datepicker').datepicker({
+    
+    
+    beforeShowDay: function(date){
+
+        var string = jQuery.datepicker.formatDate('yy-mm-dd', date);
+
+        return [ fruitCount.indexOf(string) == -1 ]
+
+    }
+
+});
+</script>
 
 <?php include '../footer.php';  ?> 
 
-<script src="../vendor/jquery/jquery-3.2.1.min.js"></script>
+<!-- <script src="../vendor/jquery/jquery-3.2.1.min.js"></script> -->
 <script src="../vendor/bootstrap/js/popper.min.js"></script>
 <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 <script src="../vendor/bootstrap/js/bootstrap-slider.js"></script>
