@@ -43,7 +43,7 @@ echo
 			<link rel="stylesheet" type="text/css" href="../styles/wizard.css">
 			<link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">';
 		}
-		else if( basename($_SERVER['PHP_SELF']) == 'wizard_step1.php' || basename($_SERVER['PHP_SELF']) == 'wizard_admin.php' ){ echo '
+		else if( basename($_SERVER['PHP_SELF']) == 'wizard_step1.php' || basename($_SERVER['PHP_SELF']) == 'wizard_admin.php' || basename($_SERVER['PHP_SELF']) == 'list_favourites.php' ){ echo '
 			
 			
 			<link rel="stylesheet" type="text/css" href="../styles/bootstrap-4.1.2/bootstrap.min.css">
@@ -102,7 +102,7 @@ echo
 			<link rel="stylesheet" type="text/css" href="../styles/util_guests.css">
 			<link rel="stylesheet" type="text/css" href="../styles/main_guests.css">';
 			}
-		else if( basename($_SERVER['PHP_SELF']) == 'see_venue.php' ){ echo '
+		else if( basename($_SERVER['PHP_SELF']) == 'see_venue.php' || basename($_SERVER['PHP_SELF']) == 'all_reviews.php' ){ echo '
 				<meta charset="utf-8"/>
 				<meta http-equiv="X-UA-Compatible" content=="IE=edge"/>
 				<meta name="google" value="notranslate"/>

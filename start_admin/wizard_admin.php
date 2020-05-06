@@ -137,6 +137,49 @@ a.disabled {
 	margin-left:250px;
 }
 
+
+/* disappearing message */
+#snackbar {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+}
+
+#snackbar.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+  from {bottom: 0; opacity: 0;} 
+  to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+  from {bottom: 0; opacity: 0;}
+  to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+  from {bottom: 30px; opacity: 1;} 
+  to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+  from {bottom: 30px; opacity: 1;}
+  to {bottom: 0; opacity: 0;}
+}
 </style>​ 
 <?php 
 session_start();
@@ -533,7 +576,6 @@ require_once '../menu.php';
 <?php if( $_SESSION[ 'username' ] == 'admin@yahoo.com' ){ ?>
 <button type="button" class="open-button btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" data-id="<?php echo 0; ?>"><div data-toggle="tooltip" title="Add Venue!" data-placement="top" style="font-size:42px;color:black;"><b>+</b></div></button>
 <?php } ?>
-        <form id="regForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
             <div style="background-color:#9999e6;background-size:cover;margin-top:-900px;margin-left:-40px;margin-right:-40px;height:250px;">
             <div style="height:70px;"></div>
 			<?php if( $_SESSION[ 'username' ] == 'admin@yahoo.com' ){ ?>
@@ -551,15 +593,27 @@ require_once '../menu.php';
 						<?php } ?>
 					</div>
 				</div>
-				<div class="row" style="margin-left:80px;margin-top:-60px;">
+				<div class="row" style="margin-left:80px;margin-top:-160px;">
 					<div class="column">
-						<a href="novenue.php?event_id=<?php echo $_GET[ 'event_id' ] ?>"><div class="novenue" style="color:black;width:170px;height:50px;text-align:center;margin-top:18px;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 4px 15px 0 rgba(0, 0, 0, 0.19);text-decoration: none;border:1px solid #a2a2c3"><p>I don't need a venue.</p></div></a>
+						<a href="novenue.php?event_id=<?php echo $_GET[ 'event_id' ] ?>"><div class="novenue" style="color:black;width:170px;height:50px;text-align:center;margin-top:55px;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 4px 15px 0 rgba(0, 0, 0, 0.19);text-decoration: none;border:1px solid #a2a2c3"><p>I don't need a venue.</p></div></a>
 					</div>
 				</div>
 				<hr/>
+				<?php if( $_SESSION[ 'username' ] != "admin@yahoo.com" ){ ?>
+				<form action="../start/venue_search.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>" class="row" method="post"> 
+					<div class="row" style="margin-left:300px;">
+						<div class="column">
+							<input type="text" name="name" id="name" class="form-control" placeholder="Name" <?php if( !empty( $_SESSION[ 'venue_search_name' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_name' ] ?>" <?php } ?> >
+						</div>
+						
+						<div class="column">
+							<button type="submit" class="btn btn-main">Apply filters</button>
+						</div>
+					</div>
+                </form>
+				<?php } ?>
 			<?php } ?>
-
-
+			<form id="regForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">de 
 <div class="products" >
 			<div class="container">
 				
@@ -703,8 +757,12 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 				if($_SESSION['username'] == 'admin@yahoo.com'){
 						$sql2 = "SELECT * FROM venues WHERE venue_status != 'deleted' LIMIT $startFrom, $showRecordPerPage";
 				}else{
-					$sql2 = "SELECT * FROM venues WHERE venue_status = 'available' LIMIT $startFrom, $showRecordPerPage";
+					$sql2 = "SELECT * FROM venues WHERE venue_status = 'available' 
+					" . ( $_SESSION[ 'venue_search_name' ] != '' ? " AND venue_name LIKE '%" . $_SESSION[ 'venue_search_name' ] . "%'"  : "" ) . "
+					
+					LIMIT $startFrom, $showRecordPerPage";
 				}
+					unset( $_SESSION[ 'venue_search_name' ] );
 						if($stmt2 = $pdo->query($sql2)){
 
 						while($venue = $stmt2->fetch()) {
@@ -719,6 +777,17 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 								
 							
 								}
+
+								$sql5 = "SELECT venue_rate FROM venues WHERE venue_id = :venue_id";
+                                
+                                if($stmt5 = $pdo->prepare($sql5)){
+                                    // Bind variables to the prepared statement as parameters
+                                    $stmt5->execute(['venue_id' => $venue[ 'venue_id' ]]); 
+                                    
+                                    $venue_rate = $stmt5->fetch();
+                                
+
+                                }
 							
 							?>
 						
@@ -734,12 +803,12 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 									<div class="product_info d-flex flex-row align-items-start justify-content-start">
 										<div>
 											<div>
-												<div class="product_name"><a href="product.html"><?= $venue[ 'venue_name' ] ?></a></div>
+												<div class="product_name"><a href="../start/see_venue.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><?= $venue[ 'venue_name' ] ?></a></div>
 												<div class="product_category">Capacity: <?= $venue[ 'venue_capacity' ] ?></a></div>
 											</div>
 										</div>
 										<div class="ml-auto text-right">
-											<div class="rating_r rating_r_4 home_item_rating"><i></i><i></i><i></i><i></i><i></i></div>
+											<p style="text-align:center;margin-bottom:-20px;"><div style="margin-bottom:-42px;text-align:center;margin-left:-55px;font-size:25px;color:black;"><?php echo $venue_rate[ 'venue_rate' ]; ?></div> <div style="text-align:center;margin-right:-17px;"><i class="fa fa-star" data-rating="2" style="font-size:20px;color:#ff9f00;"></i></div></p>
 											<div class="product_price text-right">$<?= $venue[ 'venue_rent_price' ] ?></span></div>
 										</div>
 									</div>
@@ -756,7 +825,30 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 												<?php if( $_SESSION[ 'username' ] == 'admin@yahoo.com' ){ ?>
 													<a href="choose_venue.php" class="disabled" onclick="return false;"><div class="plus" data-toggle="tooltip" title="Add to favorites!" data-placement="top"><div class="plus"><img src="images/heart_2.png" class="svg" alt="" data-toggle="tooltip" title="Add to favorites!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
 												<?php } else { ?>
-													<a href="../start/fav_venue.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>&venue_price=<?php echo $venue[ 'venue_rent_price' ] ?>" onclick="if (!confirm('Are you sure you want to book this venue?')) { return false; }"><div class="plus" data-toggle="tooltip" title="Add to favorites!" data-placement="top"><div class="plus"><img src="images/heart_2.png" class="svg" alt="" data-toggle="tooltip" title="Add to favorites!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
+												<a href="../start/add_favourites.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>" onclick="if (!confirm('Are you sure you want to add to favourites?')) { return false;  }"><div class="plus" data-toggle="tooltip" title="Add to favorites!" data-placement="top"><div class="plus"><img src="images/heart_2.png" class="svg" alt="" data-toggle="tooltip" title="Add to favorites!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
+												<div id="snackbar">Venue added to favourites!</div>
+
+												<?php 
+												$recordAdded = false;
+
+												if(isset($_SESSION['status']) && $_SESSION['status'] == 1)
+												{
+													$recordAdded = true;
+													unset($_SESSION['status']);
+												}
+
+												if($recordAdded)
+												{
+												echo '
+												<script type="text/javascript">
+												
+													var x = document.getElementById("snackbar");
+													x.className = "show";
+													setTimeout(function(){ x.className = x.className.replace("show", ""); }, 4000);
+												
+												</script>';
+												} ?>
+
 												<?php }?>
 											</div>
 										</div>
@@ -1071,8 +1163,6 @@ $('#modal1').on('show.bs.modal', function (e) {
 $('#modal1').on('hidden.bs.modal', function () {
 	$('#calendar').fullCalendar('destroy');  
 })
-
-
 </script>
 
 </body>

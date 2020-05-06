@@ -90,50 +90,30 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		$email = $input_guest_email;
 	}
     if(empty($guest_email_err) ){
-		$sql = "INSERT INTO guests (event_id, guest_name, guest_email, guest_status) VALUES (:event_id, :guest_name, :guest_email, :guest_status)";
+		$sql = "INSERT INTO guests (event_id, guest_name, guest_email, guest_plus, guest_send, guest_status) VALUES (:event_id, :guest_name, :guest_email, :guest_plus, :guest_send, :guest_status)";
         if( $stmt = $pdo->prepare($sql)  ){
             // Bind variables to the prepared statement as parameters
             $stmt->bindParam(":event_id", $param_event_id);
 			$stmt->bindParam(":guest_name", $param_name);
-			$stmt->bindParam(":guest_email", $param_email);
+      $stmt->bindParam(":guest_email", $param_email);
+      $stmt->bindParam(":guest_plus", $param_plus);
+      $stmt->bindParam(":guest_send", $param_send);
 			$stmt->bindParam(":guest_status", $param_status);
             
             // Set parameters
             $param_event_id = $_GET[ 'event_id' ];
 			$param_name = $input_guest_name;
-			$param_email = $email;
+      $param_email = $email;
+      $param_plus = '';
+      $param_send = 'no';
 			$param_status = 'pending';
             
             // Attempt to execute the prepared statement
             if(!$stmt->execute()){
                 echo "Something went wrong. Please try again later.";
-            } else{
-              $mail = new PHPMailer\PHPMailer\PHPMailer();
-        $mail->IsSMTP(); // enable SMTP
-      
-        //$mail->SMTPDebug = 1; // debugging: 1 = errors and messages, 2 = messages only
-        $mail->SMTPAuth = true; // authentication enabled
-        $mail->SMTPSecure = 'ssl'; // secure transfer enabled REQUIRED for Gmail
-        //$mail->Host = "smtp.gmail.com";
-        $mail->Host = "ssl://smtp.gmail.com"; 
-        $mail->Port = 465; // or 587
-        $mail->IsHTML(true);
-        $mail->Username = "ana7bratucu@gmail.com";
-        $mail->Password = "gotony1997";
-        $mail->SetFrom("ana7bratucu@gmail.com");
-        $mail->Subject = "Event Invitation";
-        $mail->Body = "Hello, <br><br> You are on invited to an event. Would you like to give her your opinion regarding what you expect from it?<br>Click on the link below to answer a few questions: <br> <a href=\"http://localhost/git/bachelor/start/survey_for_guests.php?eventid=". $_GET[ 'event_id' ] . "\">Take Survey</a> ";
-        $mail->AddAddress($email);
-        
-        if(!$mail->Send()) {
-           echo "Mailer Error: " . $mail->ErrorInfo;
+            } 
         }
-            }
-        }
-         
-		// Close statement
 		
-       
     } 
     
 }
@@ -144,6 +124,54 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <?php 
 require_once '../menu.php'; 
 ?>
+
+<div class="modal hide fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <div class="modal-dialog" style="width: 800px;margin-left: 180px;height:900px;">
+    <div class="modal-content" style="width: 800px;margin-left: 180px;">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title" id="myModalLabel"></h4>
+      </div>
+      <div class="modal-body">
+      <form action="edit_guest.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>" method="post" class="form-container" enctype='multipart/form-data'>
+			<!-- <div class="fetched-data" style="color:black;"></div>  -->
+				<h1 style = "color:black;">Edit guest</h1>
+				
+				<div class="container">
+  <div class="row text-center">
+    <div class="col border-right" style="color:black;">
+	  
+	
+				<input type="text" hidden name="id" id="id">
+				<div class='div'>
+					<span class='blocking-span'>
+						<input type="text" class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;height:55px;margin: 5px 0 18px 0;border: none;" class="inputText" name="name" id="name" required>
+						<span class="floating-label" style = "color:grey;padding-top: 12px;">Guest Name <span style="color:red"> *</span></span>
+					</span>
+				</div>
+				<div class='div'>
+					<span class='blocking-span'>
+						<input class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;padding: 12px;height:55px;margin: 5px 0 18px 0;border: none;" type="text" name="email" id="email" required>
+						<span class="floating-label" style = "color:grey;padding-top: 12px;">Guest Email <span style="color:red"> *</span></span>
+					</span>
+				</div>
+				
+
+    </div>
+  </div>
+</div>
+				<?php //echo $_GET[ 'name' ]; ?>
+				<button type="submit" class="btn" style="width:100px;margin-left:15px;height:60px;">Edit</button>
+			</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <div class="products" >
 			<div class="container">
 
@@ -173,13 +201,17 @@ require_once '../menu.php';
 			<div class="wrap-table100" style="background-color:transparent;">
 				<div class="table100 ver1 m-b-110">
 					<div class="table100-head">
-						<table>
+						<table id='recordsTable'>
 							<thead>
 								<tr>
+                  <th><input type="checkbox" id="checkAll" style="margin-left:20px;transform: scale(1);"></th>
 									<th class="cell100 column1">No.</th>
-									<th class="cell100 column2">Name</th>
-									<th class="cell100 column3">Email</th>
-									<th class="cell100 column4">Attends?</th>
+									<th class="cell100 column1">Name</th>
+									<th class="cell100 column4">Email</th>
+									<th class="cell100 column3">Attends?</th>
+                  <th class="cell100 column1">Plus one?</th>
+                  <th class="cell100 column1">Sent?</th>
+                  <th class="cell100 column4"></th>
 								</tr>
 							</thead>
 						</table>
@@ -213,26 +245,40 @@ $sql = "SELECT * FROM guests WHERE event_id = :event_id AND guest_status = 'pend
               }
           }
       
-
+          $count = 1;
         while ($row = $stmt->fetch()) { 
-
+          
             ?>
-								<tr class="row100 body">
+								<tr class="row100 body" id='tr_<?= $row[ 'guest_id' ]; ?>'>
+                  <td><input type='checkbox' id='del_<?php echo $row[ 'guest_id' ]; ?>' style="margin-left:20px;"></td>
 									<td class="cell100 column1"><?php echo $row[ 'guest_id' ]; ?></td>
-									<td class="cell100 column2"><?php echo $row[ 'guest_name' ]; ?></td>
-                                    <td class="cell100 column3"><?php echo $row[ 'guest_email' ]; ?></td>
-                                    <td class="cell100 column4"><?php if( $row[ 'guest_status' ] == 'pending' ) echo "Waiting to be answered";
-                                                                        else if ( $row[ 'guest_status' ] == 'accepted' ) echo "Invitation Accepted";
-                                                                        else if ( $row[ 'guest_status' ] == 'denied' ) echo "Invitation rejected"; ?></td>
-               
-									
-                                </tr>
-                                <?php } } else{ echo "No guests added yet"; } }  ?>
+									<td class="cell100 column1"><?php echo $row[ 'guest_name' ]; ?></td>
+                  <td class="cell100 column4"><?php echo $row[ 'guest_email' ]; ?></td>
+                  <td class="cell100 column3"><?php if( $row[ 'guest_status' ] == 'pending' ) echo "N/A";
+                                                      else if ( $row[ 'guest_status' ] == 'accepted' ) echo "Invitation Accepted";
+                                                      else if ( $row[ 'guest_status' ] == 'denied' ) echo "Invitation rejected"; ?></td>
+                  <td class="cell100 column1"><?php if( $row[ 'guest_plus' ] == 'no' ) echo "No";
+                                                      else if ( $row[ 'guest_plus' ] == 'yes' ) echo "Yes";
+                                                      else if ( $row[ 'guest_plus' ] == '' ) echo "N/A"; ?></td>
+                  <td class="cell100 column1"><?php if( $row[ 'guest_send' ] == 'no' ) echo "No";
+                                                      else if ( $row[ 'guest_send' ] == 'yes' ) echo "Yes"; ?></td>
+                  <td class="cell100 column4">
+                    <a class="active" href="send_mail.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>&guest_id=<?php echo $row[ 'guest_id' ]; ?>&guest_email=<?php echo $row[ 'guest_email' ]; ?>" onclick="if (!confirm('Are you sure you want to send mail?')) { return false; }"><i class="fa fa-envelope" style="color:black;" data-toggle="tooltip" title="Send mail!" data-placement="top"></i></a>
+                  </td>  
+                  <td class="cell100 column4">
+                    <a class="active" href="#" data-toggle="modal" data-target="#modal1" data-id="<?php echo $row[ 'guest_id' ] ?>"><i class="fa fa-edit" style="color:black;" data-toggle="tooltip" title="Edit guest!" data-placement="top"></i></a>
+                  </td>
+                  <td class="cell100 column4">
+                    <a class="active" href="delete_guest.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>&guest_id=<?php echo $row[ 'guest_id' ]; ?>" onclick="if (!confirm('Are you sure you want to delete guest?')) { return false; }"><i class="fa fa-times" style="color:black;" data-toggle="tooltip" title="Delete guest!" data-placement="top"></i></a>
+                  </td>
+
+                </tr>
+        <?php $count++; } } else{ ?> <tr>&nbsp</tr><tr><td>No guests added yet.</td></tr> <?php } }  ?>
 							</tbody>
 						</table>
 					</div>
 				</div>
-				
+				<input type='button' value='Delete' id='delete' style="width:200px;">
 				</div>
 			</div>
 		</div>
@@ -269,6 +315,75 @@ $sql = "SELECT * FROM guests WHERE event_id = :event_id AND guest_status = 'pend
 	</script>
 	<script src="../js/main_guests.js"></script>
 
-  <?php include '../footer.php';  ?>   
+  <?php include '../footer.php';  ?>  
+
+<script>
+
+$(document).ready(function(){
+    $('#modal1').on('show.bs.modal', function (e) {
+        var rowid = $(e.relatedTarget).data('id');
+        $.ajax({
+            type : 'post',
+            url : 'fetch_record.php', 
+            data :  'rowid='+ rowid, 
+            success : function(data){
+              var myObj = JSON.parse(data);
+              $('#id').val(myObj.id);
+              $('#name').val(myObj.name);
+              $('#email').val(myObj.email);
+            }
+        });
+     });
+});
+$('#myModal1').on('hidden.bs.modal', function () {
+    $(this).find('form').trigger('reset');
+})
+
+
+
+
+
+$('#delete').click(function(){
+  
+  var post_arr = [];
+
+  // Get checked checkboxes
+  $('input[type=checkbox]').each(function() {
+    
+    if (jQuery(this).is(":checked")) {
+      var id = this.id;
+      var splitid = id.split('_');
+      var postid = splitid[1];
+
+      post_arr.push(postid);
+      
+    }
+  });
+ //alert('aaa ' + post_arr);
+  if(post_arr.length > 0){
+    
+      var isDelete = confirm("Do you really want to delete records?");
+      if (isDelete == true) {
+         // AJAX Request
+         $.ajax({
+            url: 'ajaxfile.php',
+            type: 'POST',
+            data: { post_id: post_arr},
+            success: function(response){
+               $.each(post_arr, function( i,l ){
+                   $("#tr_"+l).remove();
+               });
+            }
+         });
+      } 
+  } 
+});
+
+
+$('#checkAll').click(function () {    
+     $('input:checkbox').prop('checked', this.checked);    
+ });
+</script> 
+
 </body>
 </html>
