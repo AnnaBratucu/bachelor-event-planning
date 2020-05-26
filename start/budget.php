@@ -24,19 +24,20 @@ body::before {
   margin-top:-1000px;
 }
 
-.products{
+/* .products{
 	background: white;
 	
 }
 .container{
 	background: white;
 	
-}
+} */
 .wiz{
 	margin-top:-400px;
 	position: relative;
 }
 
+.required:after { content:" *"; color:red;}
 </style>​ 
 
 <?php include '../head.php'; 
@@ -57,7 +58,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		$budget = $input_budget;
     }
     echo isset($_POST[ 'emergency' ]);
-    if( isset($_POST[ 'emergency' ]) ){
+    if( $_POST[ 'emergency' ] != 0 ){
         $input_emergency = $_POST["emergency"];
         if( !is_numeric( $input_emergency ) ){
             $emergency_err = "You must enter the numeric sum";
@@ -198,28 +199,66 @@ require_once '../menu.php';
 
         
         
-        <form id="regForm" action="<?php if(isset($_GET[ 'event_id' ])){ echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?event_id=' . $_GET[ 'event_id' ]; } else{ echo htmlspecialchars($_SERVER["PHP_SELF"]); } ?>" method="POST">
-            <div style="background-image:url('../images/5631.jpg');background-size:cover;margin-top:-660px;margin-left:-40px;margin-right:-40px;height:250px;">
+        
+            <div style="background-image:url('../images/banner2.jpg');background-size:cover;margin-top:-680px;margin-left:-40px;height:300px;">
             <div style="height:70px;"></div>
         <h1 style="color:#1f1f2e;">Make smart investments!</h1><br><br>
 </div>
+
+
+
+<div class="form-v4">
+	<div class="page-content">
+		<div class="form-v4-content">
+			<div class="form-left">
+				<h2>INFOMATION</h2><br>
+				<p class="text-1" style="color:white;">Tell us your budget and we'll try to make sure you don't exceed it.</p><br><br>
+				<p class="text-2" style="color:white;">Do you have any emergency fund in case it will be needed?</p>
+				
+			</div>
+			<form class="form-detail" autocomplete="off" action="<?php if(isset($_GET[ 'event_id' ])){ echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?event_id=' . $_GET[ 'event_id' ]; } else{ echo htmlspecialchars($_SERVER["PHP_SELF"]); } ?>" method="post" id="myform">
+            	<h2>REGISTER BUDGET</h2>
+				<div class="form-row">
+					<label for="budget">Budget</label> <label class="required"></label><label style="font-size:10px;margin-top:5px;margin-left:5px;">(RON)</label>
+					<input type="text" name="budget" id="budget1" class="input-text" required placeholder="00.00" value="<?php if( isset($_SESSION[ 'budget' ])) echo $_SESSION[ 'budget' ] ?>" pattern="[+-]?([0-9]*[.])?[0-9]+">
+				</div>
+				<div class="form-row">
+                    <label for="emergency">Emergency value</label><label style="font-size:10px;margin-top:5px;margin-left:5px;">(RON)</label>
+                    <input type="text" name="emergency" id="emergency1" class="input-text" placeholder="00.00" value="<?php if(isset($_SESSION[ 'emergency' ])) echo $_SESSION[ 'emergency' ] ?>" pattern="[+-]?([0-9]*[.])?[0-9]+">
+				</div>
+				<div class="form-row-last">
+					<input type="submit" name="register" class="register" value="Register">
+				</div>
+			</form>
+		</div>
+	</div>
+	
+</div>
+
+
+
+
+
+
+
+<!-- <form id="regForm" action="<?php //if(isset($_GET[ 'event_id' ])){ echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?event_id=' . $_GET[ 'event_id' ]; } else{ echo htmlspecialchars($_SERVER["PHP_SELF"]); } ?>" method="POST">
     <h1 style="color:#1f1f2e;">Tell us your budget and we'll try to make sure you don't exceed it</h1><br><br>
-    <p style="color:black;"><span style="margin-left:80px;">Budget (lei) :</span> <br><br><input type="numeric" name="budget" id="budget" required placeholder="00000.00" value="<?php if( isset($_SESSION[ 'budget' ])) echo $_SESSION[ 'budget' ] ?>"><i class="fa fa-money" style="color:black;top:0px;left:-50px;"></i></p>
-    <div style="color:red;"><?php echo $budget_err; ?></div>
+    <p style="color:black;"><span style="margin-left:80px;">Budget (lei) :</span> <br><br><input type="numeric" name="budget" id="budget" required placeholder="00000.00" value="<?php //if( isset($_SESSION[ 'budget' ])) echo $_SESSION[ 'budget' ] ?>"><i class="fa fa-money" style="color:black;top:0px;left:-50px;"></i></p>
+    <div style="color:red;"><?php //echo $budget_err; ?></div>
 <hr/>
     <h1 style="color:#1f1f2e;">Do you have any emergency fund in case it will be needed?</h1><br><br>
-    <p style="color:black;"><span style="margin-left:80px;">Emergency value (lei - optional) :</span> <br><br><input type="numeric" name="emergency" id="emergency" placeholder="00000.00" value="<?php if(isset($_SESSION[ 'emergency' ])) echo $_SESSION[ 'emergency' ] ?>"><i class="fa fa-money" style="color:black;top:0px;left:-50px;"></i></p>
-    <div style="color:red;"><?php echo $emergency_err; ?></div> <br><br>
+    <p style="color:black;"><span style="margin-left:80px;">Emergency value (lei - optional) :</span> <br><br><input type="numeric" name="emergency" id="emergency" placeholder="00000.00" value="<?php //if(isset($_SESSION[ 'emergency' ])) echo $_SESSION[ 'emergency' ] ?>"><i class="fa fa-money" style="color:black;top:0px;left:-50px;"></i></p>
+    <div style="color:red;"><?php //echo $emergency_err; ?></div> <br><br>
 
 <div style="height=50px;"></div>
   <div style="overflow:auto;">
     <div >
       <!--<button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>-->
-      <input type="submit" value="Next" class="nextBtn" id="nextBtn" style="color:white;width:200px;margin-left:390px;cursor:pointer;">
+      <!-- <input type="submit" value="Next" class="nextBtn" id="nextBtn" style="color:white;width:200px;margin-left:390px;cursor:pointer;">
     </div>
   </div>
   
-</form>
+</form>  -->
 </div>
 <?php include '../footer.php';  ?>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -232,6 +271,9 @@ require_once '../menu.php';
     $( "#datepicker1" ).datepicker();
   } );
   </script>
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/additional-methods.min.js"></script>
 
         
 </body>

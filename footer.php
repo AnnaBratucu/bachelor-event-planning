@@ -85,16 +85,13 @@
                     <div class="col-xl-3 col-lg-3 col-md-5 col-sm-7">
                         <div class="single-footer-caption mb-50">
                             <div class="footer-tittle">
-                                <h4>Instagram</h4>
+                                <h4>Follow us!</h4>
                             </div>
                             <div class="instagram-gellay">
                                 <ul class="insta-feed">
-                                    <li><a href="#"><img src="assets/img/post/instra1.jpg" alt=""></a></li>
-                                    <li><a href="#"><img src="assets/img/post/instra2.jpg" alt=""></a></li>
-                                    <li><a href="#"><img src="assets/img/post/instra3.jpg" alt=""></a></li>
-                                    <li><a href="#"><img src="assets/img/post/instra4.jpg" alt=""></a></li>
-                                    <li><a href="#"><img src="assets/img/post/instra5.jpg" alt=""></a></li>
-                                    <li><a href="#"><img src="assets/img/post/instra6.jpg" alt=""></a></li>
+                                    <li style="margin-right:-25px;"><a href="#"><img src="https://w7.pngwing.com/pngs/462/874/png-transparent-instagram-logo-icon-instagram-icon-text-logo-sticker.png" alt="" style="width:40px;" height="40" ></a></li>
+                                    <li style="margin-right:-25px;"><a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/Facebook_icon.svg/1200px-Facebook_icon.svg.png" alt="" style="width:45px;" height="43"></a></li>
+                                    <li><a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Linkedin.svg/1024px-Linkedin.svg.png" alt="" style="width:45px;" height="43"></a></li>
                                 </ul>
                             </div>
                         </div>
@@ -109,9 +106,7 @@
                      <div class="row d-flex align-items-center">
                          <div class="col-xl-12 ">
                              <div class="footer-copy-right text-center">
-                                 <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-  Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
+                                Copyright &copy;<script>document.write(new Date().getFullYear());</script> - PlanSaver Inc - All rights reserved
                              </div>
                          </div>
                      </div>

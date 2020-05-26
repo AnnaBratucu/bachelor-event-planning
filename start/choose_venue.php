@@ -203,6 +203,21 @@ if( !isset($_SESSION['username']) ){
             $stmt->execute();
         }
 
+
+        $sql = "UPDATE events SET event_date = :event_date WHERE event_id = :event_id";
+    
+		if( $stmt = $pdo->prepare($sql)  ){
+            // Bind variables to the prepared statement as parameters
+			$stmt->bindParam(":event_date", $param_date);
+			$stmt->bindParam(":event_id", $param_id);
+            
+			$param_date = $date1;
+            $param_id = $event_id;
+            
+            $stmt->execute();
+        }
+
+
         header("location: ../start_admin/wizard_admin.php?event_id=" . $event_id);
         exit();
     }else{

@@ -8,7 +8,7 @@
 			<div class="wrap-login100">
 				<form class="login100-form validate-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 					<span class="login100-form-logo">
-						<img src="images/Sbis.png">
+						<img src="images/logo2.png">
 					</span><br>
 
 					<p class="txt1" style="font-size:22px; text-align:center;">An email was sent to you.</p> <br>

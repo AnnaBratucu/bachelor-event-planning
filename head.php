@@ -5,7 +5,7 @@ echo
 	<head>';
 		if( basename($_SERVER['PHP_SELF']) == 'plan.php' || basename($_SERVER['PHP_SELF']) == 'contact.php' ){ echo '
 		<link rel="stylesheet" type="text/css" href="styles/style.css">
-		<link rel = "icon" href ="log/images/hi.png" type = "image/x-icon"> ';}
+		<link rel = "icon" href ="log/images/try.png" type = "image/x-icon"> ';}
 		else if( basename($_SERVER['PHP_SELF']) == 'register.php' || basename($_SERVER['PHP_SELF']) == 'login.php' || basename($_SERVER['PHP_SELF']) == 'forgot.php' || basename($_SERVER['PHP_SELF']) == 'message.php' || basename($_SERVER['PHP_SELF']) == 'reset.php' ){ echo '
 			<meta charset="UTF-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -20,19 +20,19 @@ echo
 			<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
 			<link rel="stylesheet" type="text/css" href="css/util.css">
 			<link rel="stylesheet" type="text/css" href="css/main.css">
-			<link rel = "icon" href ="images/hi.png" type = "image/x-icon">';
+			<link rel = "icon" href ="images/try.png" type = "image/x-icon">';
 		}
 		else if( basename($_SERVER['PHP_SELF']) == 'start.php' ){ echo '
 			<link rel="stylesheet" type="text/css" href="../styles/style_transition.css">
-			<link rel = "icon" href ="../log/images/hi.png" type = "image/x-icon"> 
+			<link rel = "icon" href ="../log/images/try.png" type = "image/x-icon"> 
 			<link href="https://fonts.googleapis.com/css?family=Fira Sans" rel="stylesheet">';
 		}
-		else if( basename($_SERVER['PHP_SELF']) == 'wizard.php' || basename($_SERVER['PHP_SELF']) == 'food.php' || basename($_SERVER['PHP_SELF']) == 'wizard_novenue.php'|| basename($_SERVER['PHP_SELF']) == 'budget.php' || basename($_SERVER['PHP_SELF']) == 'surveys.php' ){ echo '
+		else if( basename($_SERVER['PHP_SELF']) == 'wizard.php' || basename($_SERVER['PHP_SELF']) == 'food.php' || basename($_SERVER['PHP_SELF']) == 'wizard_novenue.php'|| basename($_SERVER['PHP_SELF']) == 'budget.php' || basename($_SERVER['PHP_SELF']) == 'invitations.php' || basename($_SERVER['PHP_SELF']) == 'invitations2.php' || basename($_SERVER['PHP_SELF']) == 'invitations3.php' || basename($_SERVER['PHP_SELF']) == 'surveys.php' ){ echo '
 			<meta charset="utf-8"/>
 			<meta http-equiv="X-UA-Compatible" content=="IE=edge"/>
 			<meta name="google" value="notranslate"/>
 			<title>Start your profile</title>
-			<link rel = "icon" href ="../log/images/hi.png" type = "image/x-icon"> 
+			<link rel = "icon" href ="../log/images/try.png" type = "image/x-icon"> 
 
 			<meta charset="utf-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -41,7 +41,16 @@ echo
 			<link rel="stylesheet" href="/resources/demos/style.css">
 
 			<link rel="stylesheet" type="text/css" href="../styles/wizard.css">
-			<link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">';
+			<link rel="stylesheet" type="text/css" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+			
+			
+			<link rel="stylesheet" type="text/css" href="../styles/css_form/opensans-font.css">
+			<link rel="stylesheet" type="text/css" href="../styles/fonts_form/line-awesome/css/line-awesome.min.css">
+			<!-- Jquery -->
+			<link rel="stylesheet" href="https://jqueryvalidation.org/files/demo/site-demos.css">
+			<!-- Main Style Css -->
+			<link rel="stylesheet" href="../styles/css_form/style.css"/>
+			';
 		}
 		else if( basename($_SERVER['PHP_SELF']) == 'wizard_step1.php' || basename($_SERVER['PHP_SELF']) == 'wizard_admin.php' || basename($_SERVER['PHP_SELF']) == 'list_favourites.php' ){ echo '
 			
@@ -59,7 +68,7 @@ echo
 			<meta http-equiv="X-UA-Compatible" content=="IE=edge"/>
 			<meta name="google" value="notranslate"/>
 			<title>Start your profile</title>
-			<link rel = "icon" href ="../log/images/hi.png" type = "image/x-icon"> 
+			<link rel = "icon" href ="../log/images/try.png" type = "image/x-icon"> 
 
 			<meta charset="utf-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -83,7 +92,7 @@ echo
 			<meta http-equiv="X-UA-Compatible" content=="IE=edge"/>
 			<meta name="google" value="notranslate"/>
 			<title>Start your profile</title>
-			<link rel = "icon" href ="../log/images/hi.png" type = "image/x-icon"> 
+			<link rel = "icon" href ="../log/images/try.png" type = "image/x-icon"> 
 
 			<meta charset="utf-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -107,7 +116,7 @@ echo
 				<meta http-equiv="X-UA-Compatible" content=="IE=edge"/>
 				<meta name="google" value="notranslate"/>
 				<title>Start your profile</title>
-				<link rel = "icon" href ="../log/images/hi.png" type = "image/x-icon"> 
+				<link rel = "icon" href ="../log/images/try.png" type = "image/x-icon"> 
 	
 				<meta charset="utf-8">
 				<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -147,7 +156,7 @@ echo
 			<title>Event Type</title>
 			<meta charset="UTF-8">
 			<meta name="viewport" content="width=device-width, initial-scale=1">
-			<link rel = "icon" href ="../log/images/hi.png" type = "image/x-icon"> 
+			<link rel = "icon" href ="../log/images/try.png" type = "image/x-icon"> 
 			<link rel="stylesheet" type="text/css" href="../vendor/bootstrap/css/bootstrap.min.css">
 			<link rel="stylesheet" type="text/css" href="../fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 			<link rel="stylesheet" type="text/css" href="../fonts/iconic/css/material-design-iconic-font.min.css">

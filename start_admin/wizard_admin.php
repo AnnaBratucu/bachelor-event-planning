@@ -161,6 +161,28 @@ a.disabled {
   animation: fadein 0.5s, fadeout 0.5s 2.5s;
 }
 
+#snackbar1 {
+  visibility: hidden;
+  min-width: 250px;
+  margin-left: -125px;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  border-radius: 2px;
+  padding: 16px;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  bottom: 30px;
+  font-size: 17px;
+}
+
+#snackbar1.show {
+  visibility: visible;
+  -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+  animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
 @-webkit-keyframes fadein {
   from {bottom: 0; opacity: 0;} 
   to {bottom: 30px; opacity: 1;}
@@ -411,7 +433,6 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 <body>
 <div class="wiz">
-
 <?php 
 require_once '../menu.php'; 
 ?>
@@ -827,13 +848,18 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 												<?php } else { ?>
 												<a href="../start/add_favourites.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>" onclick="if (!confirm('Are you sure you want to add to favourites?')) { return false;  }"><div class="plus" data-toggle="tooltip" title="Add to favorites!" data-placement="top"><div class="plus"><img src="images/heart_2.png" class="svg" alt="" data-toggle="tooltip" title="Add to favorites!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
 												<div id="snackbar">Venue added to favourites!</div>
+												<div id="snackbar1">Venue was alrady added to favourites!</div>
 
 												<?php 
 												$recordAdded = false;
+												$recordAddedBefore = false;
 
 												if(isset($_SESSION['status']) && $_SESSION['status'] == 1)
 												{
 													$recordAdded = true;
+													unset($_SESSION['status']);
+												}else if(isset($_SESSION['status']) && $_SESSION['status'] == 2){
+													$recordAddedBefore = true;
 													unset($_SESSION['status']);
 												}
 
@@ -847,6 +873,15 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 													setTimeout(function(){ x.className = x.className.replace("show", ""); }, 4000);
 												
 												</script>';
+												} else if( $recordAddedBefore ){
+													echo '
+													<script type="text/javascript">
+													
+														var x = document.getElementById("snackbar1");
+														x.className = "show";
+														setTimeout(function(){ x.className = x.className.replace("show", ""); }, 4000);
+													
+													</script>';
 												} ?>
 
 												<?php }?>

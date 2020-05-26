@@ -21,11 +21,11 @@ body::before {
 
 
 .wiz{
-  margin-top:-100px;
+  margin-top:-150px;
 }
 
 
-.products{
+/* .products{
 	background: white;
 	
 	
@@ -33,7 +33,7 @@ body::before {
 .container{
 	background: white;
 	
-}
+} */
 
 .div {
   position: relative; 
@@ -263,7 +263,7 @@ $sql = "SELECT * FROM guests WHERE event_id = :event_id AND guest_status = 'pend
                   <td class="cell100 column1"><?php if( $row[ 'guest_send' ] == 'no' ) echo "No";
                                                       else if ( $row[ 'guest_send' ] == 'yes' ) echo "Yes"; ?></td>
                   <td class="cell100 column4">
-                    <a class="active" href="send_mail.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>&guest_id=<?php echo $row[ 'guest_id' ]; ?>&guest_email=<?php echo $row[ 'guest_email' ]; ?>" onclick="if (!confirm('Are you sure you want to send mail?')) { return false; }"><i class="fa fa-envelope" style="color:black;" data-toggle="tooltip" title="Send mail!" data-placement="top"></i></a>
+                    <a class="active" href="send_mail.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>&guest_id=<?php echo $row[ 'guest_id' ]; ?>&guest_email=<?php echo $row[ 'guest_email' ]; ?>" onclick="if (!confirm('Are you sure you want to send invitation?')) { return false; }"><i class="fa fa-envelope" style="color:black;" data-toggle="tooltip" title="Send invitation!" data-placement="top"></i></a>
                   </td>  
                   <td class="cell100 column4">
                     <a class="active" href="#" data-toggle="modal" data-target="#modal1" data-id="<?php echo $row[ 'guest_id' ] ?>"><i class="fa fa-edit" style="color:black;" data-toggle="tooltip" title="Edit guest!" data-placement="top"></i></a>

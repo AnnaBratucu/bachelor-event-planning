@@ -43,7 +43,7 @@
             ?>
             <li class="darkerlishadow" style="background-color:#ffcccc;">
                 <a href="../start/budget.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
-                    <i class="fa fa-money"></i>
+                    <i class="fa fa-money" style="font-size:20px"></i>
                     <span class="nav-text">Budget</span>
                 </a>
             </li>
@@ -52,8 +52,31 @@
             ?>
             <li class="darkerli">
                 <a href="../start/budget.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
-                    <i class="fa fa-money"></i>
+                    <i class="fa fa-money" style="font-size:20px"></i>
                     <span class="nav-text">Budget</span>
+                </a>
+            </li>
+            <?php }} ?>
+
+
+
+            <?php 
+                if( $_SESSION[ 'username' ] != 'admin@yahoo.com' ){
+                if( basename($_SERVER['PHP_SELF']) == 'invitations.php' ){
+            ?>
+            <li class="darkerlishadow" style="background-color:#ffcccc;">
+                <a href="../start/invitations.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
+                    <i class="fa fa-newspaper-o" style="font-size:20px"></i>
+                    <span class="nav-text">Invitations</span>
+                </a>
+            </li>
+            <?php 
+                }else{
+            ?>
+            <li class="darkerli">
+                <a href="../start/invitations.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
+                    <i class="fa fa-newspaper-o" style="font-size:20px"></i>
+                    <span class="nav-text">Invitations</span>
                 </a>
             </li>
             <?php }} ?>

@@ -64,7 +64,7 @@ overflow-x: hidden;
 .scrollbar:hover
 {
 
-height: 90%;
+height: 75%;
 width: 100%;
 overflow-y: scroll;
 overflow-x: hidden;
@@ -113,9 +113,10 @@ display: table-cell;
 width: 55px;
 height: 36px;
 text-align: center;
-top:12px; 
+top:15px; 
 font-size:20px;
 }
+
 
 .fas {
   position: relative;
@@ -123,7 +124,7 @@ font-size:20px;
   width: 55px;
   height: 36px;
   text-align: center;
-  top:9px; 
+  top:15px; 
   font-size:20px;
   
   }
@@ -165,7 +166,7 @@ position:relative;
 display:block;
 width:250px;
 overflow: hidden;
-
+height:50px;
 
 }
 
@@ -185,6 +186,7 @@ font-family: 'Strait', sans-serif;
 border-top:1px solid #f2f2f2;
 overflow: hidden;
 text-shadow: 1px 1px 1px  #fff;  
+height:50px;
 }
 
 
@@ -212,8 +214,6 @@ font-family: 'Titillium Web', sans-serif;
 
 .main-menu .share {
 }
-
-
 
 .main-menu .fb-like {
 
@@ -275,7 +275,6 @@ nav {
 -ms-user-select:none;
 -o-user-select:none;
 user-select:none;
-  
 }
 
 nav ul,nav li {
@@ -283,6 +282,7 @@ outline:0;
 margin:0;
 padding:0;
 text-transform: uppercase;
+
 }
 
 
@@ -305,7 +305,6 @@ text-transform:capitalize;
 -moz-box-shadow:    inset 0px 5px 5px -4px rgba(50, 50, 50, 0.55);
 box-shadow:         inset 0px 5px 5px -4px rgba(50, 50, 50, 0.55);
 }
-
 
 .darkerlishadowdown
 {

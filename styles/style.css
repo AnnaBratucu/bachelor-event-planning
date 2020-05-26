@@ -146,7 +146,7 @@ div.header_up{
 	padding: 16px;
 	text-decoration: none;
 	font-size: 18px; 
-	line-height: 25px;
+	line-height: 70px;
 }
 
 .menu a:hover{
@@ -154,14 +154,9 @@ div.header_up{
 	background-color:#878f99;
 }
 
+
 .logo{
 	float:left;
-}
-
-.motto{
-	color:black;
-	margin-right:950px;
-	font-size:1vw;
 }
 
 

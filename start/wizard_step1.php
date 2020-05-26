@@ -25,7 +25,7 @@ body::before {
 }
 
 
-.products{
+/* .products{
 	background: white;
 	
 	
@@ -33,7 +33,7 @@ body::before {
 .container{
 	background: white;
 	
-}
+} */
 
 .div {
   position: relative; 

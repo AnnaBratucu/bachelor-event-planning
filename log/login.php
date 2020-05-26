@@ -72,7 +72,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 			<div class="wrap-login100">
 				<form class="login100-form validate-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 					<span class="login100-form-logo">
-						<img src="images/Sbis.png">
+						<img src="images/logo2.png">
 					</span>
 
 					<span class="login100-form-title p-b-34 p-t-27">

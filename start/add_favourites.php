@@ -48,7 +48,10 @@ $sql = "SELECT * FROM favourites WHERE venue_id = :venue_id AND event_id = :even
                         echo "Something went wrong. Please try again later.";
                     }
                 }
-			}
+			}else{
+                $_SESSION[ 'status' ] = 2;
+                header("Location: ../start_admin/wizard_admin.php?event_id=" . $event_id);
+            }
 		}
 
 ?>

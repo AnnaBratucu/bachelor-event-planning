@@ -1,8 +1,7 @@
 <?php echo '<div class="header_up">
 				<div class="logo">
-					<a href="plan.php"><img src="log/images/logo.png"></a>
+					<a href="plan.php"><img src="log/images/logo4.png"></a>
 				</div>
-				<span class="motto">For planners by planners.</span>
 				<div class="menu">';
 					$page_name = basename($_SERVER['PHP_SELF']);
 					if( $page_name == 'plan.php' )
