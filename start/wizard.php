@@ -21,7 +21,7 @@ body::before {
 
 
 .wiz{
-  margin-top:-500px;
+  margin-top:-540px;
 }
 
 
@@ -59,10 +59,7 @@ input:not(:focus):valid ~ .floating-label {
 .input:not(:focus):valid ~ .floating-label {
   top: -20px;
 }
-input[type=text] {
-	color:black;
-  background-color:pink;
-}
+
 input[type=number] {
 	color:black;
 }
@@ -114,30 +111,45 @@ require_once '../menu.php';
 
         <div class="wiz">
         
-        <form id="regForm" autocomplete="off" action="<?php if(isset($_GET[ 'event_id' ])){ echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?event_id=' . $_GET[ 'event_id' ]; } else{ echo htmlspecialchars($_SERVER["PHP_SELF"]); } ?>" method="POST">
-            <div style="background-image:url('../images/5631.jpg');background-size:cover;margin-top:-62px;margin-left:-40px;margin-right:-40px;height:250px;">
-            <div style="height:70px;"></div>
-        <h1 style="color:#1f1f2e;">Choose the date interval in which you want your event to take place</h1><br><br>
-</div>
-<div class="row" style="margin-left:80px;">
-  <div class="column">
-    <p style="color:black;">Date Min: <input type="text" name="date_min" id="datepicker" required placeholder="mm/dd/yyyy" value="<?php if( isset($_SESSION[ 'date_max' ]) && $date_err == '' ) echo $_SESSION[ 'date_min' ] ?>"><i class="fas fa-calendar-day" style="color:black;top:0px;left:-50px;"></i></p>
-  </div>
-  <div class="column">
-    <p style="color:black;">Date Max: <input type="text" name="date_max" id="datepicker1" required placeholder="mm/dd/yyyy" value="<?php if(isset($_SESSION[ 'date_max' ]) && $date_err == '' ) echo $_SESSION[ 'date_max' ] ?>"><i class="fas fa-calendar-day" style="color:black;top:0px;left:-50px;"></i></p>
-  </div>
-</div>
-<div style="color:red;"><?php echo $date_err; ?></div>
+            <div style="background-image:url('../images/venue.jpg');background-size:cover;margin-left:-40px;height:300px;">
+              <div style="height:70px;"></div>
+              <h1 style="color:#1f1f2e;">Choose the date interval in which you want your event to take place</h1><br><br>
+            </div>
 
 
-  <div style="overflow:auto;">
-    <div >
-      <!--<button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>-->
-      <input type="submit" value="Next" class="nextBtn" id="nextBtn" style="color:white;width:200px;margin-left:390px;cursor:pointer;">
-    </div>
+<div class="form-v4">
+	<div class="page-content" style="background-color:#FFE4B5;">
+		<div class="form-v4-content" style="margin-right:-150px;width:1260px;-webkit-box-shadow: 21px 23px 47px -22px rgba(143,143,143,0.83);
+-moz-box-shadow: 21px 23px 47px -22px rgba(143,143,143,0.83);
+box-shadow: 21px 23px 47px -22px rgba(143,143,143,0.83);">
+			<div class="form-left">
+				<h2>Don't need a venue?</h2>
+				<p class="text-1" style="color:white;">If you already have a venue, press the button below:</p>
+				<div class="form-left-last">
+          <a href="novenue.php?event_id=<?php echo $_GET[ 'event_id' ] ?>"><input type="submit" name="account" class="account" value="Have A Venue"></a>
+				</div>
+			</div>
+			<form style="width:2400px;" class="form-detail" autocomplete="off" action="<?php if(isset($_GET[ 'event_id' ])){ echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?event_id=' . $_GET[ 'event_id' ]; } else{ echo htmlspecialchars($_SERVER["PHP_SELF"]); } ?>" method="post" id="myform">
+        <h2>Date Interval</h2>
+          <div class="row" style="margin-left:80px;">
+            <div class="column">
+              <p style="color:black;">Date Min: <input type="text" name="date_min" id="datepicker" required placeholder="mm/dd/yyyy" value="<?php if( isset($_SESSION[ 'date_max' ]) && $date_err == '' ) echo $_SESSION[ 'date_min' ] ?>"><i class="fas fa-calendar-day" style="color:black;top:-40px;left:250px;"></i></p>
+            </div>
+            <div class="column">
+              <p style="color:black;">Date Max: <input type="text" name="date_max" id="datepicker1" required placeholder="mm/dd/yyyy" value="<?php if(isset($_SESSION[ 'date_max' ]) && $date_err == '' ) echo $_SESSION[ 'date_max' ] ?>"><i class="fas fa-calendar-day" style="color:black;top:-40px;left:250px;"></i></p>
+            </div>
+          </div>
+          <div style="color:red;"><?php echo $date_err; ?></div>
+				
+				<div class="form-row-last">
+					<input type="submit" name="register" class="register" value="Next">
+				</div>
+			</form>
+		</div>
   </div>
-  
-</form>
+</div>
+
+
 </div>
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -149,6 +161,11 @@ require_once '../menu.php';
   $( function() {
     $( "#datepicker1" ).datepicker();
   } );
+
+  //for form resubmition
+  if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
   </script>
 
 <?php include '../footer.php';  ?> 

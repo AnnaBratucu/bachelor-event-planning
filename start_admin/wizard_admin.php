@@ -597,14 +597,15 @@ require_once '../menu.php';
 <?php if( $_SESSION[ 'username' ] == 'admin@yahoo.com' ){ ?>
 <button type="button" class="open-button btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" data-id="<?php echo 0; ?>"><div data-toggle="tooltip" title="Add Venue!" data-placement="top" style="font-size:42px;color:black;"><b>+</b></div></button>
 <?php } ?>
-            <div style="background-color:#9999e6;background-size:cover;margin-top:-900px;margin-left:-40px;margin-right:-40px;height:250px;">
+            <div style="background-image:url('../images/venue.jpg');background-size:cover;margin-top:-875px;margin-left:-40px;margin-right:-40px;height:300px;">
             <div style="height:70px;"></div>
 			<?php if( $_SESSION[ 'username' ] == 'admin@yahoo.com' ){ ?>
 				<h1 style="color:#1f1f2e;">Add venue</h1><br><br>
 			<?php } else{ ?>
 				<h1 style="color:#1f1f2e;">Available venues</h1><br><br>
+			<?php } ?>
 				</div>
-				<div class="row" style="margin-left:80px;">
+				<!-- <div class="row" style="margin-left:80px;">
 					<div class="column">
 						<?php if( isset( $_GET[ 'message' ] ) ){ ?>
 							<div class="isa_error">
@@ -613,29 +614,27 @@ require_once '../menu.php';
 							</div>
 						<?php } ?>
 					</div>
-				</div>
-				<div class="row" style="margin-left:80px;margin-top:-160px;">
-					<div class="column">
-						<a href="novenue.php?event_id=<?php echo $_GET[ 'event_id' ] ?>"><div class="novenue" style="color:black;width:170px;height:50px;text-align:center;margin-top:55px;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 4px 15px 0 rgba(0, 0, 0, 0.19);text-decoration: none;border:1px solid #a2a2c3"><p>I don't need a venue.</p></div></a>
-					</div>
-				</div>
-				<hr/>
-				<?php if( $_SESSION[ 'username' ] != "admin@yahoo.com" ){ ?>
-				<form action="../start/venue_search.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>" class="row" method="post"> 
+				</div> -->
+				<?php if( $_SESSION[ 'username' ] != 'admin@yahoo.com' ){ ?>
+					<form style="margin-bottom:-50px;margin-top:20px;" action="../start/venue_search.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>" class="row" method="post"> 
+				<?php } else{ ?>
+					<form style="margin-bottom:-50px;margin-top:20px;" action="../start/venue_search.php" class="row" method="post"> 
+				<?php } ?>
 					<div class="row" style="margin-left:300px;">
 						<div class="column">
 							<input type="text" name="name" id="name" class="form-control" placeholder="Name" <?php if( !empty( $_SESSION[ 'venue_search_name' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_name' ] ?>" <?php } ?> >
 						</div>
 						
 						<div class="column">
-							<button type="submit" class="btn btn-main">Apply filters</button>
+							<button type="submit" style="height:38px;">Apply filters</button>
 						</div>
 					</div>
                 </form>
-				<?php } ?>
-			<?php } ?>
-			<form id="regForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">de 
-<div class="products" >
+				
+				<hr/>
+			
+			<form id="regForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
+<div class="products" style="margin-top:-90px;">
 			<div class="container">
 				
 				<div class="row products_row products_container grid">
@@ -776,10 +775,12 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 						$nextPage = $currentPage + 1;
 						$previousPage = $currentPage - 1;
 				if($_SESSION['username'] == 'admin@yahoo.com'){
-						$sql2 = "SELECT * FROM venues WHERE venue_status != 'deleted' LIMIT $startFrom, $showRecordPerPage";
+						$sql2 = "SELECT * FROM venues WHERE venue_status != 'deleted'
+						" . ( isset($_SESSION[ 'venue_search_name' ]) ? " AND venue_name LIKE '%" . $_SESSION[ 'venue_search_name' ] . "%'"  : "" ) . "
+						 LIMIT $startFrom, $showRecordPerPage";
 				}else{
 					$sql2 = "SELECT * FROM venues WHERE venue_status = 'available' 
-					" . ( $_SESSION[ 'venue_search_name' ] != '' ? " AND venue_name LIKE '%" . $_SESSION[ 'venue_search_name' ] . "%'"  : "" ) . "
+					" . ( isset($_SESSION[ 'venue_search_name' ]) ? " AND venue_name LIKE '%" . $_SESSION[ 'venue_search_name' ] . "%'"  : "" ) . "
 					
 					LIMIT $startFrom, $showRecordPerPage";
 				}
@@ -952,14 +953,7 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 				</div>
 			</div>
 		</div>
-<?php if( $_SESSION['username'] != 'admin@yahoo.com' ){ ?>
-		<div style="overflow:auto;">
-			<div >
-			<a href="../start/wizard.php?event_id=<?php echo $_GET[ 'event_id' ] ?>"><button type="button" class="nextBtn" id="prevBtn" style="color:white;width:200px;margin-right:-200px;margin-left:250px;">Previous</button></a>
-			<input type="submit" value="Next" class="nextBtn" id="nextBtn" style="color:white;width:200px;margin-left:290px;cursor:pointer;">
-			</div>
-		</div>
-<?php } ?>
+
 </form>
 </div>
 
@@ -1199,6 +1193,6 @@ $('#modal1').on('hidden.bs.modal', function () {
 	$('#calendar').fullCalendar('destroy');  
 })
 </script>
-
+<?php include '../footer.php';  ?> 
 </body>
 </html>

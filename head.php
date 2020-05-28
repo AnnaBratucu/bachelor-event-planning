@@ -50,6 +50,14 @@ echo
 			<link rel="stylesheet" href="https://jqueryvalidation.org/files/demo/site-demos.css">
 			<!-- Main Style Css -->
 			<link rel="stylesheet" href="../styles/css_form/style.css"/>
+
+
+			<link rel="stylesheet" type="text/css" href="../styles/css_form/opensans-font.css">
+			<link rel="stylesheet" type="text/css" href="../styles/fonts_form/line-awesome/css/line-awesome.min.css">
+			<!-- Jquery -->
+			<link rel="stylesheet" href="https://jqueryvalidation.org/files/demo/site-demos.css">
+			<!-- Main Style Css -->
+			<link rel="stylesheet" href="../styles/css_form/style.css"/>
 			';
 		}
 		else if( basename($_SERVER['PHP_SELF']) == 'wizard_step1.php' || basename($_SERVER['PHP_SELF']) == 'wizard_admin.php' || basename($_SERVER['PHP_SELF']) == 'list_favourites.php' ){ echo '
@@ -84,7 +92,12 @@ echo
 			<link rel="stylesheet" href="fullcalendar/fullcalendar.min.css" />
 			
 			
-
+			<link rel="stylesheet" type="text/css" href="../styles/css_form/opensans-font.css">
+			<link rel="stylesheet" type="text/css" href="../styles/fonts_form/line-awesome/css/line-awesome.min.css">
+			<!-- Jquery -->
+			<link rel="stylesheet" href="https://jqueryvalidation.org/files/demo/site-demos.css">
+			<!-- Main Style Css -->
+			<link rel="stylesheet" href="../styles/css_form/style.css"/>
 			';
 		}
 		else if( basename($_SERVER['PHP_SELF']) == 'guests.php' ){ echo '
@@ -109,7 +122,23 @@ echo
 			<link rel="stylesheet" type="text/css" href="../vendor/select2/select2.min.css">
 			<link rel="stylesheet" type="text/css" href="../vendor/perfect-scrollbar/perfect-scrollbar.css">
 			<link rel="stylesheet" type="text/css" href="../styles/util_guests.css">
-			<link rel="stylesheet" type="text/css" href="../styles/main_guests.css">';
+			<link rel="stylesheet" type="text/css" href="../styles/main_guests.css">
+			
+			
+			<link rel="stylesheet" type="text/css" href="../styles/css_form/opensans-font.css">
+			<link rel="stylesheet" type="text/css" href="../styles/fonts_form/line-awesome/css/line-awesome.min.css">
+			<!-- Jquery -->
+			<link rel="stylesheet" href="https://jqueryvalidation.org/files/demo/site-demos.css">
+			<!-- Main Style Css -->
+			<link rel="stylesheet" href="../styles/css_form/style.css"/>
+
+
+
+			<link rel="shortcut icon" href="http://d15dxvojnvxp1x.cloudfront.net/assets/favicon.ico">
+			<link rel="icon" href="http://d15dxvojnvxp1x.cloudfront.net/assets/favicon.ico">
+			<link rel="stylesheet" type="text/css" media="all" href="../styles/css_table/styles.css">
+			
+			';
 			}
 		else if( basename($_SERVER['PHP_SELF']) == 'see_venue.php' || basename($_SERVER['PHP_SELF']) == 'all_reviews.php' ){ echo '
 				<meta charset="utf-8"/>

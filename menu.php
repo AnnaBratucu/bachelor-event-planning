@@ -20,10 +20,10 @@
                 if( $_SESSION[ 'username' ] != 'admin@yahoo.com' ){
                 if( basename($_SERVER['PHP_SELF']) == 'list_favourites.php' ){
             ?>
-            <li style="background-color:#ffcccc;">
+            <li style="background-color:	#606060">
                 <a href="../start/list_favourites.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
-                    <i class="fa fa-heart-o fa-lg"></i>   
-                    <span class="nav-text">Favourites</span>
+                    <i class="fa fa-heart-o fa-lg" style="color:#F5F5F5;"></i>   
+                    <span class="nav-text" style="color:white;">Favourites</span>
                 </a>
             </li>
             <?php 
@@ -41,10 +41,10 @@
                 if( $_SESSION[ 'username' ] != 'admin@yahoo.com' ){
                 if( basename($_SERVER['PHP_SELF']) == 'budget.php' ){
             ?>
-            <li class="darkerlishadow" style="background-color:#ffcccc;">
+            <li class="darkerlishadow" style="background-color:	#606060;">
                 <a href="../start/budget.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
-                    <i class="fa fa-money" style="font-size:20px"></i>
-                    <span class="nav-text">Budget</span>
+                    <i class="fa fa-money" style="font-size:20px;color:#F5F5F5;"></i>
+                    <span class="nav-text" style="color:white;">Budget</span>
                 </a>
             </li>
             <?php 
@@ -62,12 +62,12 @@
 
             <?php 
                 if( $_SESSION[ 'username' ] != 'admin@yahoo.com' ){
-                if( basename($_SERVER['PHP_SELF']) == 'invitations.php' ){
+                if( basename($_SERVER['PHP_SELF']) == 'invitations.php' || basename($_SERVER['PHP_SELF']) == 'invitations2.php' ){
             ?>
-            <li class="darkerlishadow" style="background-color:#ffcccc;">
+            <li class="darkerlishadow" style="background-color:	#606060">
                 <a href="../start/invitations.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
-                    <i class="fa fa-newspaper-o" style="font-size:20px"></i>
-                    <span class="nav-text">Invitations</span>
+                    <i class="fa fa-newspaper-o" style="font-size:20px;color:#F5F5F5;"></i>
+                    <span class="nav-text" style="color:white;">Invitations</span>
                 </a>
             </li>
             <?php 
@@ -87,10 +87,10 @@
                 if( $_SESSION[ 'username' ] != 'admin@yahoo.com' ){
                 if( basename($_SERVER['PHP_SELF']) == 'guests.php' ){
             ?>
-            <li class="darkerlishadow" style="background-color:#ffcccc;">
+            <li class="darkerlishadow" style="background-color:	#606060">
                 <a href="../start/guests.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
-                    <i class="fas fa-user-tie"></i>
-                    <span class="nav-text">Guests</span>
+                    <i class="fas fa-user-tie" style="color:#F5F5F5;"></i>
+                    <span class="nav-text" style="color:white;">Guests</span>
                 </a>
             </li>
             <?php 
@@ -108,19 +108,19 @@
             <?php 
                 if( ( basename($_SERVER['PHP_SELF']) == 'wizard.php' || basename($_SERVER['PHP_SELF']) == 'wizard_admin.php' ) && $_SESSION[ 'username' ] == 'admin@yahoo.com' ){
             ?>
-            <li class="darkerlishadow" style="background-color:#ffcccc;">
+            <li class="darkerlishadow" style="background-color:	#606060">
                 <a href="../start_admin/wizard_admin.php">
-                    <i class="fas fa-hotel"></i>
-                    <span class="nav-text">Venue</span>
+                    <i class="fas fa-hotel" style="color:#F5F5F5;"></i>
+                    <span class="nav-text" style="color:white;">Venue</span>
                 </a>
             </li>
             <?php 
                 }else if( ( basename($_SERVER['PHP_SELF']) == 'wizard.php' || basename($_SERVER['PHP_SELF']) == 'wizard_admin.php' || basename($_SERVER['PHP_SELF']) == 'see_venue.php' || basename($_SERVER['PHP_SELF']) == 'all_reviews.php' ) && $_SESSION[ 'username' ] != 'admin@yahoo.com' ){
             ?>
-            <li class="darkerlishadow" style="background-color:#ffcccc;">
+            <li class="darkerlishadow" style="background-color:	#606060">
                 <a href="../start/wizard.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
-                    <i class="fas fa-hotel"></i>
-                    <span class="nav-text">Venue</span>
+                    <i class="fas fa-hotel" style="color:#F5F5F5;"></i>
+                    <span class="nav-text" style="color:white;">Venue</span>
                 </a>
             </li>
             <?php }else{ ?>

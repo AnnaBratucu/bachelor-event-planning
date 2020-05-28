@@ -130,7 +130,6 @@ label img {
   /* box-shadow: 0 0 5px #333; */
   z-index: -1;
 }
-
 </style>​  
 <?php include '../head.php'; 
 
@@ -155,54 +154,53 @@ require_once '../menu.php';
         <div class="wiz">
         
         
-            <div style="background-image:url('../images/5631.jpg');background-size:cover;margin-botton:-300px;margin-left:-40px;height:300px;">
-            <div style="height:70px;"></div>
-        <h1 style="color:#1f1f2e;">Choose an invitation template</h1><br><br>
-</div>
-
-
-
-<div class="form-v4">
-	<div class="page-content">
-		<div class="form-v4-content">
-
-        <form class="form-detail" id="regForm" autocomplete="off" action="invitations2.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>" method="POST">
-        <ul style="margin-top:70px;">
-          <li>
-            <input type="radio" id="myCheckbox1" name="img" value="img1" required/>
-            <label for="myCheckbox1"><img src="img/img1.png" /></label>
-          </li>
-          <li>
-            <input type="radio" id="myCheckbox2" name="img" value="img2" required/>
-            <label for="myCheckbox2"><img src="img/img2.png" /></label>
-          </li>
-          <li>
-            <input type="radio" id="myCheckbox3" name="img" value="img3" required/>
-            <label for="myCheckbox3"><img src="img/img3.png" /></label>
-          </li>
-        </ul>
-        <ul style="margin-bottom:70px;">
-          <li style="margin-left:140px;"><a href="invits/index.html" target="_blank" style="color:black;">DEMO</a></li>
-          <li style="margin-left:270px;"><a href="web1/index.html" target="_blank" style="color:black;">DEMO</a></li>
-          <li style="margin-left:270px;"><a href="web/index.html" target="_blank" style="color:black;">DEMO</a></li>
-        </ul>
-
-        <div class="form-row-last">
-					<input type="submit" name="register" class="register" value="Register">
-				</div>
-
-          <!-- <div style="overflow:auto;">
-            <div >
-              <input type="submit" value="Next" class="nextBtn" id="nextBtn" style="color:white;width:200px;margin-left:390px;cursor:pointer;">
-
+            <div style="background-image:url('../images/invit.jpg');background-size:cover;margin-botton:-300px;margin-left:-40px;height:350px;">
+              <div style="height:120px;"></div>
+              <h1 style="color:white;">Choose an invitation template</h1><br><br>
             </div>
-          </div> -->
-          
+
+
+
+<div class="form-v4" >
+	<div class="page-content" style="background-color:#996515;">
+    <div class="form-v4-content" style="width:1200px;margin-left:100px;height:650px;-webkit-box-shadow: 21px 23px 47px -22px rgba(143,143,143,0.83);
+-moz-box-shadow: 21px 23px 47px -22px rgba(143,143,143,0.83);
+box-shadow: 21px 23px 47px -22px rgba(143,143,143,0.83);">
+
+        <form class="form-detail" id="regForm" autocomplete="off" action="invitations2.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>" method="POST" style="width:1200px;">
+          <ul style="margin-top:-70px;margin-left:10px;">
+            <li>
+              <label class="container2">
+                <input type="radio" id="myCheckbox1" name="img" value="img1" required />
+                <label for="myCheckbox1"><img src="img/img1.png" /></label>
+              </label>
+            </li>
+            <li>
+              <label class="container2" style="margin-left:-40px;">
+                <input type="radio" id="myCheckbox2" name="img" value="img2" required/>
+                <label for="myCheckbox2"><img src="img/img2.png" /></label>
+              </label>
+            </li>
+            <li>
+              <label class="container2" style="margin-left:-40px;">
+                <input type="radio" id="myCheckbox3" name="img" value="img3" required/>
+                <label for="myCheckbox3"><img src="img/img3.png" /></label>
+              </label>
+            </li>
+          </ul>
+          <ul style="margin-bottom:70px;">
+            <li style="margin-left:150px;"><a href="invits/index.html" target="_blank" style="color:black;">DEMO</a></li>
+            <li style="margin-left:320px;"><a href="web1/index.html" target="_blank" style="color:black;">DEMO</a></li>
+            <li style="margin-left:300px;"><a href="web/index.html" target="_blank" style="color:black;">DEMO</a></li>
+          </ul>
+          <div class="form-row-last" style="margin-left:500px;">
+            <input type="submit" name="register" class="register" value="Next">
+          </div>
         </form>
+
       </div>
     </div>
 </div>
-
 
 </div>
 

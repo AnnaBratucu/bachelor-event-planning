@@ -21,7 +21,7 @@ body::before {
 
 
 .wiz{
-  margin-top:-500px;
+  margin-top:-537px;
 }
 
 
@@ -59,13 +59,7 @@ input:not(:focus):valid ~ .floating-label {
 .input:not(:focus):valid ~ .floating-label {
   top: -20px;
 }
-input[type=text] {
-	color:black;
-  background-color:pink;
-}
-input[type=number] {
-	color:black;
-}
+
 
 
 
@@ -130,7 +124,7 @@ label img {
   /* box-shadow: 0 0 5px #333; */
   z-index: -1;
 }
-
+.required:after { content:" *"; color:red;}
 </style>​  
 <?php include '../head.php'; 
 
@@ -154,45 +148,41 @@ require_once '../menu.php';
 
         <div class="wiz">
         
-        <form id="regForm" autocomplete="off" action="invitations3.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>" method="POST" enctype='multipart/form-data'>
-            <div style="background-image:url('../images/5631.jpg');background-size:cover;margin-top:-62px;margin-left:-40px;margin-right:-40px;height:250px;">
-            <div style="height:70px;"></div>
-        <h1 style="color:#1f1f2e;">Choose the invitation info</h1><br><br>
+            <div style="background-image:url('../images/invit.jpg');background-size:cover;margin-top:-62px;margin-left:-40px;height:300px;">
+              <div style="height:70px;"></div>
+              <h1 style="color:white;">Choose the invitation info</h1><br><br>
+            </div>
+
+
+
+            <div class="form-v4">
+	<div class="page-content" style="background-color:#996515;">
+		<div class="form-v4-content" style="-webkit-box-shadow: 21px 23px 47px -22px rgba(143,143,143,0.83);
+-moz-box-shadow: 21px 23px 47px -22px rgba(143,143,143,0.83);
+box-shadow: 21px 23px 47px -22px rgba(143,143,143,0.83);">
+			
+			<form class="form-detail" autocomplete="off" action="invitations3.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>" method="post" id="myform" enctype='multipart/form-data'>
+            	<h2>REGISTER CARD INFO</h2>
+				<div class="form-row">
+					<label for="her_name">Bride's Name</label> <label class="required" style="margin-left:-25px;"></label>
+          <input type="text" name="her_name" id="her_name" class="input-text" style="width:450px;margin-left:10px;" required>
+				</div>
+				<div class="form-row">
+          <label for="his_name">Groom's Name</label><label class="required" style="margin-left:-25px;"></label>
+          <input type="text" name="his_name" id="his_name" class="input-text" style="width:450px;" required>
+        </div>
+        <div class="form-row">
+          <label for="story">Your story</label><label class="required" style="margin-left:-25px;"></label>
+          <input type="text" name="story" id="story" class="input-text" required style="height:150px;width:450px;margin-left:32px;">
+				</div>
+				<div class="form-row-last">
+					<input type="submit" name="register" class="register" value="Save">
+				</div>
+			</form>
+		</div>
+	</div>
+	
 </div>
-        <div class='div'>
-					<span class='blocking-span'>
-						<input type="text" class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;height:55px;margin: 5px 0 18px 0;border: none;" class="inputText" name="her_name" id="her_name" required>
-						<span class="floating-label" style = "color:grey;padding-top: 12px;">Bride's Name <span style="color:red"> *</span></span>
-					</span>
-				</div>
-				<div class='div'>
-					<span class='blocking-span'>
-						<input class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;padding: 12px;height:55px;margin: 5px 0 18px 0;border: none;" type="text" name="his_name" id="his_name" required>
-						<span class="floating-label" style = "color:grey;padding-top: 12px;">Groom's Name <span style="color:red"> *</span></span>
-					</span>
-				</div>
-				<div class='div'>
-					<span class='blocking-span'>
-						<textarea class="input js-example-placeholder-single js-example-responsive" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;border-radius:4px;" rows="4" cols="57" name="story" id="story" required></textarea>
-						<span class="floating-label" style = "color:grey;padding-top: 12px;">Your story <span style="color:red"> *</span></span>
-					</span>
-				</div>
-				<div class='div'>
-				  <div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
-						<input id="upload" type="file" name="file" onchange="validateFileType()" class="form-control border-0" accept="image/*" required>
-						<i class="fa fa-cloud-upload mr-2 text-muted" id="iclass"></i><label id="upload-label" for="upload" class="font-weight-light text-muted">Import your picture</label>
-					</div>
-				</div>
-
-
-  <div style="overflow:auto;">
-    <div >
-      <!--<button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>-->
-      <input type="submit" value="Next" class="nextBtn" id="nextBtn" style="color:white;width:200px;margin-left:390px;cursor:pointer;">
-    </div>
-  </div>
-  
-</form>
 </div>
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>

@@ -407,7 +407,7 @@ $event_id = $_GET[ 'event_id' ];
      
 
 
-    //header("location: guests.php?event_id=" . $event_id);
+    header("location: guests.php?event_id=" . $event_id);
 
 
 ?>

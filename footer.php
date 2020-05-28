@@ -13,6 +13,18 @@
             <link rel="stylesheet" href="start/invits/assets/css/slick.css">
             <link rel="stylesheet" href="start/invits/assets/css/nice-select.css">
             <link rel="stylesheet" href="start/invits/assets/css/style.css">
+        <?php } else if( basename($_SERVER['PHP_SELF']) == 'wizard_admin.php' ) { ?>
+            <link rel="stylesheet" href="../styles/bootstrap-4.1.2/bootstrap.min.css">
+            <link rel="stylesheet" href="../start/invits/assets/css/owl.carousel.min.css">
+            <link rel="stylesheet" href="../start/invits/assets/css/flaticon.css">
+            <link rel="stylesheet" href="../start/invits/assets/css/slicknav.css">
+            <link rel="stylesheet" href="../start/invits/assets/css/animate.min.css">
+            <link rel="stylesheet" href="../start/invits/assets/css/magnific-popup.css">
+            <link rel="stylesheet" href="../start/invits/assets/css/fontawesome-all.min.css">
+            <link rel="stylesheet" href="../start/invits/assets/css/themify-icons.css">
+            <link rel="stylesheet" href="../start/invits/assets/css/slick.css">
+            <link rel="stylesheet" href="../start/invits/assets/css/nice-select.css">
+            <link rel="stylesheet" href="../start/invits/assets/css/style.css">
         <?php } else { ?>
             <link rel="stylesheet" href="../styles/bootstrap-4.1.2/bootstrap.min.css">
             <link rel="stylesheet" href="invits/assets/css/owl.carousel.min.css">
@@ -29,9 +41,9 @@
    </head>
 <footer>
     <!-- Footer Start-->
-      <div class="footer-main footer-bg">
+      <div class="footer-main footer-bg" >
         <div class="footer-area footer-padding">
-            <div class="container">
+            <div class="container" style="height:250px;">
                 <div class="row d-flex justify-content-between">
                     <div class="col-xl-4 col-lg-4 col-md-5 col-sm-8">
                        <div class="single-footer-caption mb-50">
