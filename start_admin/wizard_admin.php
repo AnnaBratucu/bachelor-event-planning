@@ -616,21 +616,46 @@ require_once '../menu.php';
 					</div>
 				</div> -->
 				<?php if( $_SESSION[ 'username' ] != 'admin@yahoo.com' ){ ?>
-					<form style="margin-bottom:-50px;margin-top:20px;" action="../start/venue_search.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>" class="row" method="post"> 
+					<form style="margin-bottom:-80px;margin-top:20px;" action="../start/venue_search.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>" class="row" method="post"> 
 				<?php } else{ ?>
-					<form style="margin-bottom:-50px;margin-top:20px;" action="../start/venue_search.php" class="row" method="post"> 
+					<form style="margin-bottom:-80px;margin-top:20px;" action="../start/venue_search.php" class="row" method="post"> 
 				<?php } ?>
 					<div class="row" style="margin-left:300px;">
-						<div class="column">
-							<input type="text" name="name" id="name" class="form-control" placeholder="Name" <?php if( !empty( $_SESSION[ 'venue_search_name' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_name' ] ?>" <?php } ?> >
+						<div class="column1bis">
+							<input style="width:200px;" type="text" name="name" id="name" class="form-control" placeholder="Name" <?php if( !empty( $_SESSION[ 'venue_search_name' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_name' ] ?>" <?php } ?> >
+						</div>
+
+						<div class="column1bis" style="margin-left:-10px;">
+							<input style="width:150px;" type="text" name="price_min" id="price_min" class="form-control" placeholder="Min Price" <?php if( !empty( $_SESSION[ 'venue_search_price_min' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_price_min' ] ?>" <?php } ?> >
 						</div>
 						
-						<div class="column">
-							<button type="submit" style="height:38px;">Apply filters</button>
+						<div class="column1bis" style="margin-left:-105px;">
+							<input style="width:150px;" type="text" name="price_max" id="price_max" class="form-control" placeholder="Max Price" <?php if( !empty( $_SESSION[ 'venue_search_price_max' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_price_max' ] ?>" <?php } ?> >
+						</div>
+						
+					</div>
+					<div class="row" style="margin-left:300px;margin-top:-65px;">
+						<div class="column1bis">
+							<input type="text" style="width:200px;" name="address" id="address" class="form-control" placeholder="Address" <?php if( !empty( $_SESSION[ 'venue_search_address' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_address' ] ?>" <?php } ?> >
+						</div>
+						<div class="column1bis" style="margin-left:-10px;">
+							<input type="text" style="width:150px;" name="capacity_min" id="capacity_min" class="form-control" placeholder="Min Capacity" <?php if( !empty( $_SESSION[ 'venue_search_capacity_min' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_capacity_min' ] ?>" <?php } ?> >
+						</div>
+						<div class="column1bis" style="margin-left:-105px;">
+							<input type="text" style="width:150px;" name="capacity_max" id="capacity_max" class="form-control" placeholder="Max Capacity" <?php if( !empty( $_SESSION[ 'venue_search_capacity_max' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_capacity_max' ] ?>" <?php } ?> >
+						</div>
+						
+						<div class="column" style="margin-top:-70px;">
+							<button type="submit" name="search" style="height:38px;margin-left:85px;">Apply filters</button>
+						</div>
+						<div class="column" style="margin-top:-70px;">
+							<button name="reset" style="height:38px;margin-left:-240px;background-color:#FFD700;">Reset</button>
 						</div>
 					</div>
                 </form>
 				
+				
+					
 				<hr/>
 			
 			<form id="regForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
@@ -776,15 +801,30 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 						$previousPage = $currentPage - 1;
 				if($_SESSION['username'] == 'admin@yahoo.com'){
 						$sql2 = "SELECT * FROM venues WHERE venue_status != 'deleted'
-						" . ( isset($_SESSION[ 'venue_search_name' ]) ? " AND venue_name LIKE '%" . $_SESSION[ 'venue_search_name' ] . "%'"  : "" ) . "
+						" . ( isset($_SESSION[ 'venue_search_name' ]) && $_SESSION[ 'venue_search_name' ] != '' ? " AND venue_name LIKE '%" . $_SESSION[ 'venue_search_name' ] . "%'"  : "" ) . "
+						" . ( isset($_SESSION[ 'venue_search_price_min' ]) && $_SESSION[ 'venue_search_price_min' ] != '' ? " AND venue_rent_price >= '" . $_SESSION[ 'venue_search_price_min' ] . "'"  : "" ) . "
+						" . ( isset($_SESSION[ 'venue_search_price_max' ]) && $_SESSION[ 'venue_search_price_max' ] != '' ? " AND venue_rent_price <= '" . $_SESSION[ 'venue_search_price_max' ] . "'"  : "" ) . "
+						" . ( isset($_SESSION[ 'venue_search_address' ]) && $_SESSION[ 'venue_search_address' ] != '' ? " AND venue_address LIKE '%" . $_SESSION[ 'venue_search_address' ] . "%'"  : "" ) . "
+						" . ( isset($_SESSION[ 'venue_search_capacity_min' ]) && $_SESSION[ 'venue_search_capacity_min' ] != '' ? " AND venue_capacity >= '" . $_SESSION[ 'venue_search_capacity_min' ] . "'"  : "" ) . "
+						" . ( isset($_SESSION[ 'venue_search_capacity_max' ]) && $_SESSION[ 'venue_search_capacity_max' ] != '' ? " AND venue_capacity <= '" . $_SESSION[ 'venue_search_capacity_max' ] . "'"  : "" ) . "
 						 LIMIT $startFrom, $showRecordPerPage";
 				}else{
 					$sql2 = "SELECT * FROM venues WHERE venue_status = 'available' 
-					" . ( isset($_SESSION[ 'venue_search_name' ]) ? " AND venue_name LIKE '%" . $_SESSION[ 'venue_search_name' ] . "%'"  : "" ) . "
+					" . ( isset($_SESSION[ 'venue_search_name' ]) && $_SESSION[ 'venue_search_name' ] != '' ? " AND venue_name LIKE '%" . $_SESSION[ 'venue_search_name' ] . "%'"  : "" ) . "
+					" .	( isset($_SESSION[ 'venue_search_price_min' ]) && $_SESSION[ 'venue_search_price_min' ] != '' ? " AND venue_rent_price >= '" . $_SESSION[ 'venue_search_price_min' ] . "'"  : "" ) . "
+					" .	( isset($_SESSION[ 'venue_search_price_max' ]) && $_SESSION[ 'venue_search_price_max' ] != '' ? " AND venue_rent_price <= '" . $_SESSION[ 'venue_search_price_max' ] . "'"  : "" ) . "
+					" .	( isset($_SESSION[ 'venue_search_address' ]) && $_SESSION[ 'venue_search_address' ] != '' ? " AND venue_address LIKE '%" . $_SESSION[ 'venue_search_address' ] . "%'"  : "" ) . "
+					" .	( isset($_SESSION[ 'venue_search_capacity_min' ]) && $_SESSION[ 'venue_search_capacity_min' ] != '' ? " AND venue_capacity >= '" . $_SESSION[ 'venue_search_capacity_min' ] . "'"  : "" ) . "
+					" .	( isset($_SESSION[ 'venue_search_capacity_max' ]) && $_SESSION[ 'venue_search_capacity_max' ] != '' ? " AND venue_capacity <= '" . $_SESSION[ 'venue_search_capacity_max' ] . "'"  : "" ) . "
 					
 					LIMIT $startFrom, $showRecordPerPage";
 				}
-					unset( $_SESSION[ 'venue_search_name' ] );
+				unset( $_SESSION[ 'venue_search_name' ] );
+				unset( $_SESSION[ 'venue_search_price_min' ] );
+				unset( $_SESSION[ 'venue_search_price_max' ] );
+				unset( $_SESSION[ 'venue_search_address' ] );
+				unset( $_SESSION[ 'venue_search_capacity_min' ] );
+				unset( $_SESSION[ 'venue_search_capacity_max' ] );
 						if($stmt2 = $pdo->query($sql2)){
 
 						while($venue = $stmt2->fetch()) {

@@ -41,19 +41,19 @@
    </head>
 <footer>
     <!-- Footer Start-->
-      <div class="footer-main footer-bg" >
-        <div class="footer-area footer-padding">
-            <div class="container" style="height:250px;">
-                <div class="row d-flex justify-content-between">
-                    <div class="col-xl-4 col-lg-4 col-md-5 col-sm-8">
-                       <div class="single-footer-caption mb-50">
-                         <div class="single-footer-caption mb-30">
+      <div class="footer-main footer-bg" style="background-color:#f9f7f4;">
+        <div class="footer-area footer-padding" style="background-color:#f9f7f4;">
+            <div class="container" style="height:250px;" style="background-color:#f9f7f4;">
+                <div class="row d-flex justify-content-between" style="background-color:#f9f7f4;">
+                    <div class="col-xl-4 col-lg-4 col-md-5 col-sm-8" >
+                       <div class="single-footer-caption mb-50" style="background-color:#f9f7f4;">
+                         <div class="single-footer-caption mb-30" style="background-color:#f9f7f4;">
                               <!-- logo -->
-                             <div class="footer-logo">
+                             <div class="footer-logo" style="background-color:#f9f7f4;">
                                  <a href="index.html"><img src="assets/img/logo/logo2_footer.png" alt=""></a>
                              </div>
-                             <div class="footer-tittle">
-                                 <div class="footer-pera">
+                             <div class="footer-tittle" style="background-color:#f9f7f4;">
+                                 <div class="footer-pera" style="background-color:#f9f7f4;">
                                      <p class="info1">Seddo eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 
                                      <p class="info2">theaisle@elated-themes.com</p>
@@ -65,8 +65,8 @@
                        </div>
                     </div>
                     <div class="col-xl-3 col-lg-4 col-md-5 col-sm-7">
-                        <div class="single-footer-caption mb-50">
-                            <div class="footer-tittle">
+                        <div class="single-footer-caption mb-50" style="background-color:#f9f7f4;">
+                            <div class="footer-tittle" style="background-color:#f9f7f4;">
                                 <h4>WEDDING PLANNER FAQS</h4>
                                 <ul>
                                     <li><a href="#">Why Hire a Planner?</a></li>
@@ -79,9 +79,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-2 col-lg-3 col-md-5 col-sm-7">
-                        <div class="single-footer-caption mb-50">
-                            <div class="footer-tittle">
+                    <div class="col-xl-2 col-lg-3 col-md-5 col-sm-7" >
+                        <div class="single-footer-caption mb-50" style="background-color:#f9f7f4;">
+                            <div class="footer-tittle" style="background-color:#f9f7f4;">
                                 <h4>ABOUT US</h4>
                                 <ul>
                                     <li><a href="#">Bridesmaids</a></li>
@@ -113,7 +113,7 @@
         </div>
         <!-- footer-bottom aera -->
         <div class="footer-bottom-area footer-bg">
-            <div class="container">
+            <div class="container" style="background-color:#f9f7f4;">
                 <div class="footer-border">
                      <div class="row d-flex align-items-center">
                          <div class="col-xl-12 ">

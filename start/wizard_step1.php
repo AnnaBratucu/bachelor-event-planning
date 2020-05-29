@@ -108,10 +108,10 @@ require_once '../menu.php';
         <div class="wiz">
         
         <form id="regForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-            <div style="background-image:url('../images/5631.jpg');background-size:cover;margin-top:-162px;margin-left:-40px;margin-right:-40px;height:250px;">
+        <div style="background-image:url('../images/5631.jpg');background-size:cover;margin-top:-162px;margin-left:-40px;margin-right:-40px;height:250px;">
             <div style="height:70px;"></div>
-        <h1 style="color:#1f1f2e;">Choose venue</h1><br><br>
-</div>
+        	<h1 style="color:#1f1f2e;">Choose venue</h1><br><br>
+		</div>
 <div class="row" style="margin-left:80px;">
   <div class="column">
     <a href="novenue.php?event_id=<?php echo $_GET[ 'event_id' ] ?>"><div class="novenue" style="color:black;width:170px;height:50px;text-align:center;margin-top:18px;box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.2), 0 4px 15px 0 rgba(0, 0, 0, 0.19);text-decoration: none;border:1px solid #a2a2c3"><p>I don't need a venue.</p></div></a>

@@ -223,28 +223,51 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 require_once '../menu.php'; 
 ?>
 
-            <div style="background-color:#9999e6;background-size:cover;margin-top:-900px;margin-left:-40px;margin-right:-40px;height:250px;">
+            <div style="background-image:url('../images/favs.jpg');background-size:cover;margin-top:-873px;margin-left:-40px;margin-right:-40px;height:300px;">
             <div style="height:70px;"></div>
 			
-				<h1 style="color:#1f1f2e;">Favourites</h1><br><br>
+				<h1 style="color:white">Favourites</h1><br><br>
 			
 				</div>
 				
-				<form action="../start/venue_search.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>" class="row" method="post"> 
-					<div class="row" style="margin-left:300px;">
-						<div class="column">
-<input type="text" name="name" id="name" class="form-control" placeholder="Name" <?php if( !empty( $_SESSION[ 'venue_search_name' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_name' ] ?>" <?php } ?>>
+				<form style="margin-bottom:-50px;margin-top:20px;" action="../start/venue_search.php?page=fav&event_id=<?php echo $_GET[ 'event_id' ]; ?>" class="row" method="post"> 
+				<div class="row" style="margin-left:300px;">
+						<div class="column1bis">
+							<input style="width:200px;" type="text" name="name" id="name" class="form-control" placeholder="Name" <?php if( !empty( $_SESSION[ 'venue_search_name' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_name' ] ?>" <?php } ?> >
+						</div>
+
+						<div class="column1bis" style="margin-left:-10px;">
+							<input style="width:150px;" type="text" name="price_min" id="price_min" class="form-control" placeholder="Min Price" <?php if( !empty( $_SESSION[ 'venue_search_price_min' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_price_min' ] ?>" <?php } ?> >
 						</div>
 						
-						<div class="column">
-							<button type="submit" class="btn btn-main">Apply filters</button>
+						<div class="column1bis" style="margin-left:-105px;">
+							<input style="width:150px;" type="text" name="price_max" id="price_max" class="form-control" placeholder="Max Price" <?php if( !empty( $_SESSION[ 'venue_search_price_max' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_price_max' ] ?>" <?php } ?> >
+						</div>
+						
+					</div>
+					<div class="row" style="margin-left:300px;margin-top:-65px;">
+						<div class="column1bis">
+							<input type="text" style="width:200px;" name="address" id="address" class="form-control" placeholder="Address" <?php if( !empty( $_SESSION[ 'venue_search_address' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_address' ] ?>" <?php } ?> >
+						</div>
+						<div class="column1bis" style="margin-left:-10px;">
+							<input type="text" style="width:150px;" name="capacity_min" id="capacity_min" class="form-control" placeholder="Min Capacity" <?php if( !empty( $_SESSION[ 'venue_search_capacity_min' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_capacity_min' ] ?>" <?php } ?> >
+						</div>
+						<div class="column1bis" style="margin-left:-105px;">
+							<input type="text" style="width:150px;" name="capacity_max" id="capacity_max" class="form-control" placeholder="Max Capacity" <?php if( !empty( $_SESSION[ 'venue_search_capacity_max' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_capacity_max' ] ?>" <?php } ?> >
+						</div>
+						
+						<div class="column" style="margin-top:-70px;">
+							<button type="submit" name="search" style="height:38px;margin-left:85px;">Apply filters</button>
+						</div>
+						<div class="column" style="margin-top:-70px;">
+							<button name="reset" style="height:38px;margin-left:-240px;background-color:#FFD700;">Reset</button>
 						</div>
 					</div>
                 </form>
-				
+				<hr/>
 			
 			<form id="regForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
-<div class="products" >
+<div class="products" style="margin-top:-90px;">
 			<div class="container">
 				
 				<div class="row products_row products_container grid">
@@ -279,7 +302,7 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 					LEFT JOIN venues v ON f.venue_id = v.venue_id
 					 WHERE v.venue_status != 'deleted' AND 
 							f.user_id = $user_id
-					" . ( $_SESSION[ 'venue_search_name' ] != '' ? " AND venue_name LIKE '%" . $_SESSION[ 'venue_search_name' ] . "%'"  : "" ) . "
+					" . ( isset( $_SESSION[ 'venue_search_name' ] ) ? " AND venue_name LIKE '%" . $_SESSION[ 'venue_search_name' ] . "%'"  : "" ) . "
 					
 					LIMIT $startFrom, $showRecordPerPage";
 				
@@ -336,7 +359,7 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 									<div class="product_buttons">
 										<div class="text-right d-flex flex-row align-items-start justify-content-start">
 											<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
-													<a href="../start/see_venue.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><div class="plus" data-toggle="tooltip" title="See details!" data-placement="top"><div class="plus"><img src="../start_admin/images/eye_2.png" class="svg" alt="" data-toggle="tooltip" title="See details!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
+													<a href="../start/see_venue.php?type=fav&venue_id=<?php echo $venue[ 'venue_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><div class="plus" data-toggle="tooltip" title="See details!" data-placement="top"><div class="plus"><img src="../start_admin/images/eye_2.png" class="svg" alt="" data-toggle="tooltip" title="See details!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
 											</div>
 											<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
 												<a class="disabled" href="#" onclick="return false;"><div class="plus" data-toggle="tooltip" title="Add to favorites!" data-placement="top"><div class="plus"><img src="../start_admin/images/heart_2.png" class="svg" alt="" data-toggle="tooltip" title="Add to favorites!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
@@ -414,6 +437,6 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 <script src="../js/category.js"></script>
 
 
-
+<?php include '../footer.php';  ?> 
 </body>
 </html>

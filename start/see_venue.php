@@ -21,7 +21,7 @@ body::before {
 
 
 .wiz{
-  margin-top:-500px;
+  margin-top:-537px;
 }
 
 
@@ -167,11 +167,11 @@ require_once '../menu.php';
 
         <div class="wiz">
         
+            <div style="background-image:url('../images/venue.jpg');background-size:cover;margin-top:-262px;margin-left:-40px;margin-right:-40px;height:300px;">
+                <div style="height:70px;"></div>
+                <h1 style="color:#1f1f2e;">See venue details</h1><br><br>
+            </div>
         <form id="regForm" autocomplete="off" action="<?php //if(isset($_GET[ 'event_id' ])){ echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?event_id=' . $_GET[ 'event_id' ]; } else{ echo htmlspecialchars($_SERVER["PHP_SELF"]); } ?>" method="POST">
-            <div style="background-image:url('../images/5631.jpg');background-size:cover;margin-top:-62px;margin-left:-40px;margin-right:-40px;height:250px;">
-            <div style="height:70px;"></div>
-        <h1 style="color:#1f1f2e;">See venue details</h1><br><br>
-</div>
 
 <?php $sql = "SELECT * FROM venues WHERE venue_id = :venue_id";
 				
@@ -220,21 +220,19 @@ require_once '../menu.php';
 
 <section class="section bg-gray" style="background-color:white;">
 	<!-- Container Start -->
-	<div class="container">
+	<div class="container" style="margin-top:-200px;">
 		<div class="row">
 			<!-- Left sidebar -->
 			<div class="col-md-8">
 				<div class="product-details">
 					<h1 class="product-title"><?php echo $name; ?></h1>
 					<div class="product-meta">
-						<ul class="list-inline">
-                            <li class="list-inline-item">
-                                <i class="fa fa-location-arrow"></i>
-                            </li>
-                            <li class="list-inline-item">
-                                <?php echo $address; ?>
-                            </li>
-						</ul>
+                        <table>
+                            <tr>
+                                <td><i class="fa fa-location-arrow" style="margin-top:-30px;"></td>
+                                <td><?php echo $address; ?></td>
+                            </tr>
+                        </table>
                     </div>
                     <!-- product slider -->
                     <div class="product-slider">
@@ -496,10 +494,14 @@ require_once '../menu.php';
 
 
 
-  <div style="overflow:auto;">
+  <div style="overflow:auto;margin-top:-180px;">
     <div >
       <!--<button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>-->
-      <a href="../start_admin/wizard_admin.php?event_id=<?php echo $_GET[ 'event_id' ] ?>"><button type="button" style="color:white;width:200px;cursor:pointer;margin-left:700px;margin-bottom:100px;">Back</button></a>
+      <?php if( !isset( $_GET[ 'type' ] ) ){ ?>
+        <a href="../start_admin/wizard_admin.php?event_id=<?php echo $_GET[ 'event_id' ] ?>"><button type="button" style="color:white;width:200px;cursor:pointer;margin-left:700px;margin-bottom:100px;">Back</button></a>
+      <?php }else{ ?>
+        <a href="list_favourites.php?event_id=<?php echo $_GET[ 'event_id' ] ?>"><button type="button" style="color:white;width:200px;cursor:pointer;margin-left:700px;margin-bottom:100px;">Back</button></a>
+      <?php } ?>
     </div>
   </div>
   
