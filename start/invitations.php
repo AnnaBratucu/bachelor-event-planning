@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <!--<html class="menu">-->
 <html>
@@ -137,9 +138,6 @@ require_once "../config.php";
 
 //session_start();
 
-
-
-
 ?>
 
 <body>
@@ -147,6 +145,7 @@ require_once "../config.php";
 <div class="wiz">
 
 <?php 
+
 require_once '../menu.php'; 
 ?>
        

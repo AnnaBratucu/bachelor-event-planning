@@ -1,4 +1,7 @@
-<?php session_start(); ?>
+<?php if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    }  ?>
 <nav class="main-menu">
     <div class="settings"></div>
     <div class="scrollbar" id="style-1">  
@@ -106,7 +109,54 @@
 
 
             <?php 
-                if( ( basename($_SERVER['PHP_SELF']) == 'wizard.php' || basename($_SERVER['PHP_SELF']) == 'wizard_admin.php' ) && $_SESSION[ 'username' ] == 'admin@yahoo.com' ){
+                if( $_SESSION[ 'username' ] == 'admin@yahoo.com' && basename($_SERVER['PHP_SELF']) != 'ceremony_admin.php' ){
+            ?>
+                    <li class="darkerli">
+                    <a href="ceremony_admin.php">
+                        <i class="fas fa-place-of-worship"></i>
+                        <span class="nav-text">Ceremony Venue</span>
+                    </a>
+            </li>
+            <?php }  
+                else if( ( basename($_SERVER['PHP_SELF']) == 'ceremony.php' || basename($_SERVER['PHP_SELF']) == 'ceremony_admin.php' ) && $_SESSION[ 'username' ] == 'admin@yahoo.com' ){
+            ?>
+            <li class="darkerlishadow" style="background-color:	#606060">
+                <a href="../start_admin/ceremony_admin.php">
+                    <i class="fas fa-place-of-worship" style="color:#F5F5F5;"></i>
+                    <span class="nav-text" style="color:white;">Ceremony Venue</span>
+                </a>
+            </li>
+            <?php 
+                }else if( ( basename($_SERVER['PHP_SELF']) == 'ceremony.php' || basename($_SERVER['PHP_SELF']) == 'ceremony_admin.php' || basename($_SERVER['PHP_SELF']) == 'see_ceremony.php' ) && $_SESSION[ 'username' ] != 'admin@yahoo.com' ){
+            ?>
+            <li class="darkerlishadow" style="background-color:	#606060">
+                <a href="../start/ceremony.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
+                    <i class="fas fa-place-of-worship" style="color:#F5F5F5;"></i>
+                    <span class="nav-text" style="color:white;">Ceremony Venue</span>
+                </a>
+            </li>
+            <?php }else{ ?>
+                <li class="darkerli">
+                <a href="../start/ceremony.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
+                    <i class="fas fa-place-of-worship"></i>
+                    <span class="nav-text">Ceremony Venue</span>
+                </a>
+            </li>
+            <?php } ?>
+
+
+
+            <?php 
+                if( $_SESSION[ 'username' ] == 'admin@yahoo.com' && basename($_SERVER['PHP_SELF']) != 'wizard_admin.php' ){
+            ?>
+                    <li class="darkerli">
+                    <a href="wizard_admin.php">
+                        <i class="fas fa-hotel"></i>
+                        <span class="nav-text">Venue</span>
+                    </a>
+            </li>
+            <?php }  
+                else if( ( basename($_SERVER['PHP_SELF']) == 'wizard.php' || basename($_SERVER['PHP_SELF']) == 'wizard_admin.php' ) && $_SESSION[ 'username' ] == 'admin@yahoo.com' ){
             ?>
             <li class="darkerlishadow" style="background-color:	#606060">
                 <a href="../start_admin/wizard_admin.php">

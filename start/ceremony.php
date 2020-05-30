@@ -84,14 +84,14 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     } else if( $input_date_min_time < $today_time || $input_date_max_time < $today_time ){
         $date_err = "Date Min or Date Max can't be in the past" ;
     }else{
-        $_SESSION[ 'date_min' ] = $input_date_min;
-        $_SESSION[ 'date_max' ] = $input_date_max;
+        $_SESSION[ 'date_min_ceremony' ] = $input_date_min;
+        $_SESSION[ 'date_max_ceremony' ] = $input_date_max;
         if(isset($_GET[ 'event_id' ])){
             $id = $_GET[ 'event_id' ];
-            header("location: ../start_admin/wizard_admin.php?event_id=$id");
+            header("location: ../start_admin/ceremony_admin.php?event_id=$id");
             exit();
         }else{
-            header("location: ../start_admin/wizard_admin.php");
+            header("location: ../start_admin/ceremony_admin.php");
             exit();
         }
     }
@@ -111,32 +111,32 @@ require_once '../menu.php';
 
         <div class="wiz">
         
-            <div style="background-image:url('../images/venue.jpg');background-size:cover;margin-left:-40px;height:300px;">
+            <div style="background-image:url('../images/ceremony.jpg');background-size:cover;margin-left:-40px;height:300px;">
               <div style="height:70px;"></div>
-              <h1 style="color:#1f1f2e;">Choose the date interval in which you want your event to take place</h1><br><br>
+              <h1 style="color:white;">Choose the date interval in which you want your event to take place</h1><br><br>
             </div>
 
 
 <div class="form-v4">
-	<div class="page-content" style="background-color:#FFE4B5;">
+	<div class="page-content" style="background-color:#87CEFA;">
 		<div class="form-v4-content" style="margin-right:-150px;width:1260px;-webkit-box-shadow: 21px 23px 47px -22px rgba(143,143,143,0.83);
 -moz-box-shadow: 21px 23px 47px -22px rgba(143,143,143,0.83);
 box-shadow: 21px 23px 47px -22px rgba(143,143,143,0.83);">
 			<div class="form-left">
-				<h2>Don't need a venue?</h2>
-				<p class="text-1" style="color:white;">If you already have a venue, press the button below:</p>
+				<h2>Don't need a ceremony venue?</h2>
+				<p class="text-1" style="color:white;">If you already have a venue or if you do not intend to officiate it religiously, press the button below:</p>
 				<div class="form-left-last">
-          <a href="novenue.php?event_id=<?php echo $_GET[ 'event_id' ] ?>"><input type="submit" name="account" class="account" value="Have A Venue"></a>
+          <a href="noceremony.php?event_id=<?php echo $_GET[ 'event_id' ] ?>"><input type="submit" name="account" class="account" value="Have A Venue"></a>
 				</div>
 			</div>
 			<form style="width:2400px;" class="form-detail" autocomplete="off" action="<?php if(isset($_GET[ 'event_id' ])){ echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?event_id=' . $_GET[ 'event_id' ]; } else{ echo htmlspecialchars($_SERVER["PHP_SELF"]); } ?>" method="post" id="myform">
         <h2>Date Interval</h2>
           <div class="row" style="margin-left:80px;">
             <div class="column">
-              <p style="color:black;">Date Min: <input type="text" name="date_min" id="datepicker" required placeholder="mm/dd/yyyy" value="<?php if( isset($_SESSION[ 'date_min' ]) && $date_err == '' ) echo $_SESSION[ 'date_min' ] ?>"><i class="fas fa-calendar-day" style="color:black;top:-40px;left:250px;"></i></p>
+              <p style="color:black;">Date Min: <input type="text" name="date_min" id="datepicker" required placeholder="mm/dd/yyyy" value="<?php if( isset($_SESSION[ 'date_min_ceremony' ]) && $date_err == '' ) echo $_SESSION[ 'date_min_ceremony' ] ?>"><i class="fas fa-calendar-day" style="color:black;top:-40px;left:250px;"></i></p>
             </div>
             <div class="column">
-              <p style="color:black;">Date Max: <input type="text" name="date_max" id="datepicker1" required placeholder="mm/dd/yyyy" value="<?php if(isset($_SESSION[ 'date_max' ]) && $date_err == '' ) echo $_SESSION[ 'date_max' ] ?>"><i class="fas fa-calendar-day" style="color:black;top:-40px;left:250px;"></i></p>
+              <p style="color:black;">Date Max: <input type="text" name="date_max" id="datepicker1" required placeholder="mm/dd/yyyy" value="<?php if(isset($_SESSION[ 'date_max_ceremony' ]) && $date_err == '' ) echo $_SESSION[ 'date_max_ceremony' ] ?>"><i class="fas fa-calendar-day" style="color:black;top:-40px;left:250px;"></i></p>
             </div>
           </div>
           <div style="color:red;"><?php echo $date_err; ?></div>

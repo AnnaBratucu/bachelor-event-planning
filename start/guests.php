@@ -38,20 +38,6 @@ body::before {
 }
 
 .required:after { content:" *"; color:red;}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </style>​ 
 
 <?php include '../head.php'; 

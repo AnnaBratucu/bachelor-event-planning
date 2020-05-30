@@ -404,7 +404,7 @@ require_once '../menu.php';
 					</div>
 					<!-- User Profile widget -->
 					<div class="widget user text-center">
-                        <form action="choose_venue.php?venue_id=<?php echo $id ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>&venue_price=<?php echo $price ?>" method="post" class="row" enctype='multipart/form-data' >
+                        <form autocomplete="off" action="choose_venue.php?venue_id=<?php echo $id ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>&venue_price=<?php echo $price ?>" method="post" class="row" enctype='multipart/form-data' >
                             <div class="col-lg-6">
 
                             <?php 
@@ -422,7 +422,7 @@ require_once '../menu.php';
                             ?>
                             <input type="text" hidden id='strawberry-plant' data-id="<?php print_r( $event_start ) ?>"/>
                             <input type="text" name="date" class="form-control datepicker" placeholder="Select Date Here" required style="width:250px;"/><i class="fas fa-calendar-day" style="color:black;top:-30px;left:180px;"></i>
-                           
+                            <input type="time" style="margin-left:-4px;margin-top:-20px;margin-bottom:20px;border-radius:5px;width:100px;" id="hour" name="hour" min="15:00" max="20:00" required>
                             </div>
                            
                             <div class="col-12">

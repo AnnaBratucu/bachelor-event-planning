@@ -230,34 +230,31 @@ require_once '../menu.php';
 			
 				</div>
 				
-				<form style="margin-bottom:-50px;margin-top:20px;" action="../start/venue_search.php?page=fav&event_id=<?php echo $_GET[ 'event_id' ]; ?>" class="row" method="post"> 
-				<div class="row" style="margin-left:300px;">
+				<form style="margin-bottom:-50px;margin-top:20px;" action="../start/favs_search.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>" class="row" method="post"> 
+					<div class="row" style="margin-left:300px;">
 						<div class="column1bis">
-							<input style="width:200px;" type="text" name="name" id="name" class="form-control" placeholder="Name" <?php if( !empty( $_SESSION[ 'venue_search_name' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_name' ] ?>" <?php } ?> >
+							<select id="category" name="category" class="form-control">
+								<?php if( !isset( $_SESSION[ 'category' ] ) ){ ?>
+									<option value="" disabled selected>Category</option>
+								<?php }else{ ?>
+									<option value="" disabled>Category</option>
+								<?php } ?>
+								<?php if( $_SESSION[ 'category' ] == 'venue' ){ ?>
+									<option value="venue" selected>Venue</option>
+								<?php } else{ ?>
+									<option value="venue">Venue</option>
+								<?php } 
+								if( $_SESSION[ 'category' ] == 'ceremony' ){ ?>
+									<option value="ceremony" selected>Ceremony Venue</option>
+								<?php }else{ ?>
+									<option value="ceremony">Ceremony Venue</option>
+								<?php } ?>
+							</select>
 						</div>
-
-						<div class="column1bis" style="margin-left:-10px;">
-							<input style="width:150px;" type="text" name="price_min" id="price_min" class="form-control" placeholder="Min Price" <?php if( !empty( $_SESSION[ 'venue_search_price_min' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_price_min' ] ?>" <?php } ?> >
-						</div>
-						
-						<div class="column1bis" style="margin-left:-105px;">
-							<input style="width:150px;" type="text" name="price_max" id="price_max" class="form-control" placeholder="Max Price" <?php if( !empty( $_SESSION[ 'venue_search_price_max' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_price_max' ] ?>" <?php } ?> >
-						</div>
-						
 					</div>
-					<div class="row" style="margin-left:300px;margin-top:-65px;">
-						<div class="column1bis">
-							<input type="text" style="width:200px;" name="address" id="address" class="form-control" placeholder="Address" <?php if( !empty( $_SESSION[ 'venue_search_address' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_address' ] ?>" <?php } ?> >
-						</div>
-						<div class="column1bis" style="margin-left:-10px;">
-							<input type="text" style="width:150px;" name="capacity_min" id="capacity_min" class="form-control" placeholder="Min Capacity" <?php if( !empty( $_SESSION[ 'venue_search_capacity_min' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_capacity_min' ] ?>" <?php } ?> >
-						</div>
-						<div class="column1bis" style="margin-left:-105px;">
-							<input type="text" style="width:150px;" name="capacity_max" id="capacity_max" class="form-control" placeholder="Max Capacity" <?php if( !empty( $_SESSION[ 'venue_search_capacity_max' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_capacity_max' ] ?>" <?php } ?> >
-						</div>
-						
+					<div class="row" style="margin-left:-75px;margin-top:125px;margin-bottom:-40px;">
 						<div class="column" style="margin-top:-70px;">
-							<button type="submit" name="search" style="height:38px;margin-left:85px;">Apply filters</button>
+							<button type="submit" name="search" style="height:38px;">Apply filter</button>
 						</div>
 						<div class="column" style="margin-top:-70px;">
 							<button name="reset" style="height:38px;margin-left:-240px;background-color:#FFD700;">Reset</button>
@@ -284,10 +281,10 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 	$startFrom = ($currentPage * $showRecordPerPage) - $showRecordPerPage;
 
 			$user_id = $_SESSION[ 'id' ];
-					$sql = "SELECT f.*, v.* FROM favourites f
+					$sql = "SELECT f.*, v.*, c.* FROM favourites f
 					LEFT JOIN venues v ON f.venue_id = v.venue_id
-					WHERE v.venue_status != 'deleted' AND 
-						  f.user_id = $user_id";
+					LEFT JOIN ceremonies c ON f.ceremony_id = c.ceremony_id
+					WHERE f.user_id = $user_id";
 			
 					if($stmt = $pdo->query($sql)){
 						// Bind variables to the prepared statement as parameters
@@ -298,15 +295,13 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 						$nextPage = $currentPage + 1;
 						$previousPage = $currentPage - 1;
 				
-					$sql2 = "SELECT f.*, v.* FROM favourites f
+					$sql2 = "SELECT f.*, v.*, c.* FROM favourites f
 					LEFT JOIN venues v ON f.venue_id = v.venue_id
-					 WHERE v.venue_status != 'deleted' AND 
-							f.user_id = $user_id
-					" . ( isset( $_SESSION[ 'venue_search_name' ] ) ? " AND venue_name LIKE '%" . $_SESSION[ 'venue_search_name' ] . "%'"  : "" ) . "
-					
+					LEFT JOIN ceremonies c ON f.ceremony_id = c.ceremony_id
+					 WHERE f.user_id = $user_id 
+					 " . ( isset($_SESSION[ 'category' ]) && $_SESSION[ 'category' ] != '' ? " AND f.category = '" . $_SESSION[ 'category' ] . "'"  : "" ) . "
 					LIMIT $startFrom, $showRecordPerPage";
 				
-					unset( $_SESSION[ 'venue_search_name' ] );
 						if($stmt2 = $pdo->query($sql2)){
 
 						while($venue = $stmt2->fetch()) {
@@ -322,6 +317,17 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 							
 								}
 
+							$sql1 = "SELECT * FROM ceremony_files WHERE ceremony_id = :ceremony_id LIMIT 1";
+        
+							if($stmt1 = $pdo->prepare($sql1)){
+								// Bind variables to the prepared statement as parameters
+								$stmt1->execute(['ceremony_id' => $venue[ 'ceremony_id' ]]); 
+								$ceremony_file = $stmt1->fetch();
+								$file_name_ceremony = $ceremony_file["file_name"];
+								
+							
+								}
+
 								$sql5 = "SELECT venue_rate FROM venues WHERE venue_id = :venue_id";
                                 
                                 if($stmt5 = $pdo->prepare($sql5)){
@@ -333,6 +339,9 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 
                                 }
 							
+
+
+							if( $venue[ 'venue_id' ] != 0){
 							?>
 						
 					
@@ -347,7 +356,7 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 									<div class="product_info d-flex flex-row align-items-start justify-content-start">
 										<div>
 											<div>
-												<div class="product_name"><a href="../start/see_venue.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><?= $venue[ 'venue_name' ] ?></a></div>
+												<div class="product_name"><a href="../start/see_venue.php?type=fav&venue_id=<?php echo $venue[ 'venue_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><?= $venue[ 'venue_name' ] ?></a></div>
 												<div class="product_category">Capacity: <?= $venue[ 'venue_capacity' ] ?></a></div>
 											</div>
 										</div>
@@ -372,7 +381,40 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 
 
 						<?php
-						
+						}else{ ?>
+
+
+						<!-- Product -->
+						<div class="col-xl-4 col-md-6 grid-item new">
+							<div class="product">
+								<div style="height:25px;"></div>
+								<div class="product_image"><img src='http://localhost/git/bachelor/start_admin/images/<?php echo $file_name_ceremony; ?>' height="350" width="442"> </div>
+								<div class="product_content">
+									<div class="product_info d-flex flex-row align-items-start justify-content-start">
+										<div>
+											<div>
+												<div class="product_name"><a href="../start/see_ceremony.php?ceremony_id=<?php echo $venue[ 'ceremony_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><?= $venue[ 'ceremony_name' ] ?></a></div>
+												<div class="product_category">Capacity: <?= $venue[ 'ceremony_capacity' ] ?></a></div>
+											</div>
+										</div>
+									</div>
+									<div class="product_buttons">
+										<div class="text-right d-flex flex-row align-items-start justify-content-start">
+											<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
+													<a href="../start/see_ceremony.php?type=fav&ceremony_id=<?php echo $venue[ 'ceremony_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><div class="plus" data-toggle="tooltip" title="See details!" data-placement="top"><div class="plus"><img src="../start_admin/images/eye_2.png" class="svg" alt="" data-toggle="tooltip" title="See details!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
+											</div>
+											<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
+												<a class="disabled" href="#" onclick="return false;"><div class="plus" data-toggle="tooltip" title="Add to favorites!" data-placement="top"><div class="plus"><img src="../start_admin/images/heart_2.png" class="svg" alt="" data-toggle="tooltip" title="Add to favorites!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+						<?php		}
 						
 						}}}
 
@@ -391,19 +433,19 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 
 							<?php if($currentPage != $firstPage) { ?>
 								<li>
-								<a href="?page=<?php echo $firstPage ?>" tabindex="-1" aria-label="Previous">
+								<a href="?page=<?php echo $firstPage ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>" tabindex="-1" aria-label="Previous">
 								<span aria-hidden="true">First</span>
 								</a>
 								</li>
 								<?php } ?>
 								<?php if($currentPage >= 2) { ?>
-								<li><a href="?page=<?php echo $previousPage ?>"><?php echo $previousPage ?></a></li>
+								<li><a href="?page=<?php echo $previousPage ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><?php echo $previousPage ?></a></li>
 								<?php } ?>
-								<li class="active"><a href="?page=<?php echo $currentPage ?>"><?php echo $currentPage ?></a></li>
+								<li class="active"><a href="?page=<?php echo $currentPage ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><?php echo $currentPage ?></a></li>
 								<?php if($currentPage != $lastPage) { ?>
-								<li><a href="?page=<?php echo $nextPage ?>"><?php echo $nextPage ?></a></li>
+								<li><a href="?page=<?php echo $nextPage ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><?php echo $nextPage ?></a></li>
 								<li>
-								<a href="?page=<?php echo $lastPage ?>" aria-label="Next">
+								<a href="?page=<?php echo $lastPage ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>" aria-label="Next">
 								<span aria-hidden="true">Last</span>
 								</a>
 								</li>

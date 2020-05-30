@@ -39,13 +39,15 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     
 
     if(empty($eventType_err)){
-		$sql = "INSERT INTO events (user_id, event_type, event_need_venue, event_date, event_stage, event_status) VALUES (:user_id, :event_type, :event_need_venue, :event_date, :event_stage, :event_status)";
+		$sql = "INSERT INTO events (user_id, event_type, event_need_venue, event_need_ceremony, event_date, ceremony_date, event_stage, event_status) VALUES (:user_id, :event_type, :event_need_venue, :event_need_ceremony, :event_date, :ceremony_date, :event_stage, :event_status)";
         if( $stmt = $pdo->prepare($sql)  ){
             // Bind variables to the prepared statement as parameters
 			$stmt->bindParam(":user_id", $param_user_id);
             $stmt->bindParam(":event_type", $param_eventType);
             $stmt->bindParam(":event_need_venue", $param_need_venue);
+            $stmt->bindParam(":event_need_ceremony", $param_need_ceremony);
             $stmt->bindParam(":event_date", $param_date);
+            $stmt->bindParam(":ceremony_date", $param_ceremony_date);
             $stmt->bindParam(":event_stage", $param_stage);
 			$stmt->bindParam(":event_status", $param_status);
             
@@ -53,7 +55,9 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 			$param_user_id = $_SESSION["id"];
             $param_eventType = $eventType;
             $param_need_venue = '';
+            $param_need_ceremony = '';
             $param_date = '';
+            $param_ceremony_date = '';
             $param_stage = 'budget';
 			$param_status = 'preparing';
             

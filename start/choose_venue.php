@@ -15,6 +15,7 @@ if( !isset($_SESSION['username']) ){
     $event_id = $_GET["event_id"];
     $venue_id = $_GET["venue_id"];
     $venue_price = $_GET["venue_price"];
+    $hour = $_POST[ 'hour' ];
     $date = $_POST[ 'date' ];
     // echo $date;
     // echo '<br>';
@@ -38,12 +39,12 @@ if( !isset($_SESSION['username']) ){
         
     if($stmt = $pdo->prepare($sql)){
     // Bind variables to the prepared statement as parameters
-    $stmt->execute(['user_id' => $_SESSION[ 'id' ], 'event_id' => $event_id]); 
-    $profile = $stmt->fetch();
+        $stmt->execute(['user_id' => $_SESSION[ 'id' ], 'event_id' => $event_id]); 
+        $profile = $stmt->fetch();
 
-    if($stmt->rowCount() != 0){
-        $message = "You already booked a venue.";
-    } 
+        if($stmt->rowCount() != 0 && $profile[ 'venue_id' ] != 0){
+            $message = "You already booked a venue.";
+        } 
 
     }
 
@@ -147,17 +148,19 @@ if( !isset($_SESSION['username']) ){
     } }
 
     if( empty($message) ){
-        $sql = "INSERT INTO users_profile (user_id, event_id, venue_id, profile_status) VALUES (:user_id, :event_id, :venue_id, :profile_status) ON DUPLICATE KEY UPDATE venue_id = :venue_id";
+        $sql = "INSERT INTO users_profile (user_id, event_id, ceremony_id, venue_id, profile_status) VALUES (:user_id, :event_id, :ceremony_id, :venue_id, :profile_status) ON DUPLICATE KEY UPDATE venue_id = :venue_id";
         if( $stmt = $pdo->prepare($sql)  ){
             // Bind variables to the prepared statement as parameters
 			$stmt->bindParam(":user_id", $param_user_id);
             $stmt->bindParam(":event_id", $param_event_id);
+            $stmt->bindParam(":ceremony_id", $param_ceremony_id);
             $stmt->bindParam(":venue_id", $param_venue_id);
             $stmt->bindParam(":profile_status", $param_status);
             
             // Set parameters
 			$param_user_id = $_SESSION["id"];
             $param_event_id = $event_id;
+            $param_ceremony_id = 0;
             $param_venue_id = $venue_id;
             $param_status = 'ongoing';
             
@@ -211,7 +214,7 @@ if( !isset($_SESSION['username']) ){
 			$stmt->bindParam(":event_date", $param_date);
 			$stmt->bindParam(":event_id", $param_id);
             
-			$param_date = $date1;
+			$param_date = $date1 . ' ' . $hour . ':00';
             $param_id = $event_id;
             
             $stmt->execute();

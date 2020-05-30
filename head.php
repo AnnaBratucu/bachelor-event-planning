@@ -27,7 +27,7 @@ echo
 			<link rel = "icon" href ="../log/images/try.png" type = "image/x-icon"> 
 			<link href="https://fonts.googleapis.com/css?family=Fira Sans" rel="stylesheet">';
 		}
-		else if( basename($_SERVER['PHP_SELF']) == 'wizard.php' || basename($_SERVER['PHP_SELF']) == 'food.php' || basename($_SERVER['PHP_SELF']) == 'wizard_novenue.php'|| basename($_SERVER['PHP_SELF']) == 'budget.php' || basename($_SERVER['PHP_SELF']) == 'invitations.php' || basename($_SERVER['PHP_SELF']) == 'invitations2.php' || basename($_SERVER['PHP_SELF']) == 'invitations3.php' || basename($_SERVER['PHP_SELF']) == 'surveys.php' ){ echo '
+		else if( basename($_SERVER['PHP_SELF']) == 'wizard.php' || basename($_SERVER['PHP_SELF']) == 'food.php' || basename($_SERVER['PHP_SELF']) == 'wizard_novenue.php'|| basename($_SERVER['PHP_SELF']) == 'budget.php' || basename($_SERVER['PHP_SELF']) == 'invitations.php' || basename($_SERVER['PHP_SELF']) == 'invitations2.php' || basename($_SERVER['PHP_SELF']) == 'invitations3.php' || basename($_SERVER['PHP_SELF']) == 'surveys.php' || basename($_SERVER['PHP_SELF']) == 'ceremony.php' ){ echo '
 			<meta charset="utf-8"/>
 			<meta http-equiv="X-UA-Compatible" content=="IE=edge"/>
 			<meta name="google" value="notranslate"/>
@@ -60,7 +60,7 @@ echo
 			<link rel="stylesheet" href="../styles/css_form/style.css"/>
 			';
 		}
-		else if( basename($_SERVER['PHP_SELF']) == 'wizard_step1.php' || basename($_SERVER['PHP_SELF']) == 'wizard_admin.php' || basename($_SERVER['PHP_SELF']) == 'list_favourites.php' ){ echo '
+		else if( basename($_SERVER['PHP_SELF']) == 'wizard_step1.php' || basename($_SERVER['PHP_SELF']) == 'wizard_admin.php' || basename($_SERVER['PHP_SELF']) == 'ceremony_admin.php' || basename($_SERVER['PHP_SELF']) == 'list_favourites.php' ){ echo '
 			
 			
 			<link rel="stylesheet" type="text/css" href="../styles/bootstrap-4.1.2/bootstrap.min.css">
@@ -140,7 +140,7 @@ echo
 			
 			';
 			}
-		else if( basename($_SERVER['PHP_SELF']) == 'see_venue.php' || basename($_SERVER['PHP_SELF']) == 'all_reviews.php' ){ echo '
+		else if( basename($_SERVER['PHP_SELF']) == 'see_venue.php' || basename($_SERVER['PHP_SELF']) == 'see_ceremony.php' || basename($_SERVER['PHP_SELF']) == 'all_reviews.php' ){ echo '
 				<meta charset="utf-8"/>
 				<meta http-equiv="X-UA-Compatible" content=="IE=edge"/>
 				<meta name="google" value="notranslate"/>
