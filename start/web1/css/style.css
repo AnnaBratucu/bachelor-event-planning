@@ -343,7 +343,7 @@ ul.nav.navbar-nav.navbar-right li:nth-child(6) a {
     margin: 12em 0em 0em 0em;
 }
 .banner-w3ls {
-    background: url(../images/banner.jpg)no-repeat 0px 0px;
+    /* background: url(../images/banner.jpg)no-repeat 0px 0px;*/
     background-size: cover;
     -webkit-background-size: cover;
     -moz-background-size: cover;

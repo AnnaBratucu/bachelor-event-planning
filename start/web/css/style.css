@@ -37,7 +37,7 @@ input[type="submit"],.btn-primary,.date-tag-right a,.news-grid-right ul li a,.na
 	-ms-transition:.5s ease-in-out;
 }
 .banner{
-	background:url(../images/banner.jpg) no-repeat 0px 0px;
+	/*background:url(../images/banner.jpg) no-repeat 0px 0px;*/
 	background-size:cover;
 	-webkit-background-size:cover;
 	-moz-background-size:cover;

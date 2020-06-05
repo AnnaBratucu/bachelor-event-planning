@@ -558,7 +558,7 @@ require_once '../menu.php';
    			<tr>
 				<td>
 					<div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
-						<input id="upload" type="file" name="file[]" onchange="readURL(this);" class="form-control border-0" multiple="multiple" required>
+						<input id="upload" type="file" name="file[]" onchange="readURL(this);" multiple="multiple" class="form-control border-0" required>
 						<i class="fa fa-cloud-upload mr-2 text-muted" id="iclass"></i><label id="upload-label" for="upload" class="font-weight-light text-muted">Choose files</label>
 					</div>
 				</td>
@@ -938,25 +938,47 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 								<li><a href="#">04</a></li> -->
 
 
-							<?php if($currentPage != $firstPage) { ?>
-								<li>
-								<a href="?page=<?php echo $firstPage ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>" tabindex="-1" aria-label="Previous">
-								<span aria-hidden="true">First</span>
-								</a>
-								</li>
-								<?php } ?>
-								<?php if($currentPage >= 2) { ?>
-								<li><a href="?page=<?php echo $previousPage ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><?php echo $previousPage ?></a></li>
-								<?php } ?>
-								<li class="active"><a href="?page=<?php echo $currentPage ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><?php echo $currentPage ?></a></li>
-								<?php if($currentPage != $lastPage) { ?>
-								<li><a href="?page=<?php echo $nextPage ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><?php echo $nextPage ?></a></li>
-								<li>
-								<a href="?page=<?php echo $lastPage ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>" aria-label="Next">
-								<span aria-hidden="true">Last</span>
-								</a>
-								</li>
-							<?php } ?>
+								<?php 
+							if( $_SESSION[ 'username' ] != 'admin@yahoo.com' ){
+								if($currentPage != $firstPage) { ?>
+									<li>
+									<a href="?page=<?php echo $firstPage ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>" tabindex="-1" aria-label="Previous">
+									<span aria-hidden="true">First</span>
+									</a>
+									</li>
+									<?php } ?>
+									<?php if($currentPage >= 2) { ?>
+									<li><a href="?page=<?php echo $previousPage ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><?php echo $previousPage ?></a></li>
+									<?php } ?>
+									<li class="active"><a href="?page=<?php echo $currentPage ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><?php echo $currentPage ?></a></li>
+									<?php if($currentPage != $lastPage) { ?>
+									<li><a href="?page=<?php echo $nextPage ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><?php echo $nextPage ?></a></li>
+									<li>
+									<a href="?page=<?php echo $lastPage ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>" aria-label="Next">
+									<span aria-hidden="true">Last</span>
+									</a>
+									</li>
+								<?php }
+							}else{ 
+								if($currentPage != $firstPage) {?>
+									<li>
+									<a href="?page=<?php echo $firstPage ?>" tabindex="-1" aria-label="Previous">
+									<span aria-hidden="true">First</span>
+									</a>
+									</li>
+									<?php } ?>
+									<?php if($currentPage >= 2) { ?>
+									<li><a href="?page=<?php echo $previousPage ?>"><?php echo $previousPage ?></a></li>
+									<?php } ?>
+									<li class="active"><a href="?page=<?php echo $currentPage ?>"><?php echo $currentPage ?></a></li>
+									<?php if($currentPage != $lastPage) { ?>
+									<li><a href="?page=<?php echo $nextPage ?>"><?php echo $nextPage ?></a></li>
+									<li>
+									<a href="?page=<?php echo $lastPage ?>" aria-label="Next">
+									<span aria-hidden="true">Last</span>
+									</a>
+									</li>
+							<?php }} ?>
 							</ul>
 						</div>
 					</div>

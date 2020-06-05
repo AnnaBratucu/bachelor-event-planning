@@ -1,4 +1,7 @@
-<?php session_start(); ?>
+<?php if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    }  ?>
 <!DOCTYPE html>
 <!--<html class="menu">-->
 <html>
@@ -131,7 +134,10 @@ label img {
 
 require_once "../config.php";
 
-session_start();
+if(!isset($_SESSION)) 
+    { 
+        session_start(); 
+    }  
 
 $_SESSION[ 'inv' ] = $_POST[ 'img' ];
 
@@ -175,6 +181,10 @@ box-shadow: 21px 23px 47px -22px rgba(143,143,143,0.83);">
         <div class="form-row">
           <label for="story">Your story</label><label class="required" style="margin-left:-25px;"></label>
           <input type="text" name="story" id="story" class="input-text" required style="height:150px;width:450px;margin-left:32px;">
+				</div>
+        <div class="form-row">
+          <label for="story">Upload a picture of you</label><label class="required" style="margin-left:-25px;"></label>
+          <input id="upload" type="file" name="file" onchange="readURL(this);" class="input-text" required style="width:355px;margin-left:32px;">
 				</div>
 				<div class="form-row-last">
 					<input type="submit" name="register" class="register" value="Save">

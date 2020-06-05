@@ -21,11 +21,11 @@ body::before {
 }
 
 .wiz{
-  margin-top:-1000px;
+  margin-top:-100px;
 }
 
 .wiz{
-	margin-top:-200px;
+	
 	position: relative;
 	background: white;
 }
@@ -219,49 +219,33 @@ require_once '../config.php';
 // Processing form data when form is submitted
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 	$input_name = $_POST["name"];
-    $input_capacity = $_POST["capacity"];
+    $input_venue = $_POST["ven"];
 	$input_price = $_POST["price"];
-	$input_address = $_POST["address"];
-	$input_phone = $_POST["phone"];
-	$input_observations = $_POST["observations"];
-	if( !empty($_POST["gmaps"]) ){
-		$input_gmaps = $_POST["gmaps"];
-	} else{ $input_gmaps = ''; }
-	$input_type = $_POST["type"];
-
+	$input_category = $_POST["categ"];
+	$input_ingredents = $_POST["ingredients"];
+	$input_grams = $_POST["grams"];
+	
 
     // Check input errors before inserting in database
 	if( empty($_POST["id"]) ){
-	$sql = "INSERT INTO venues (venue_name, venue_capacity, venue_rent_price, venue_rate, venue_address, venue_phone, venue_observations, venue_type, venue_gmaps, venue_status) VALUES (:venue_name, :venue_capacity, :venue_rent_price, :venue_rate, :venue_address, :venue_phone, :venue_observations, :venue_type, :venue_gmaps, :venue_status)";
+	$sql = "INSERT INTO food (venue_id, food_category, food_name, food_price, food_ingredients, food_grams) VALUES (:venue_id, :food_category, :food_name, :food_price, :food_ingredients, :food_grams)";
 	if( $stmt = $pdo->prepare($sql)  ){
 		// Bind variables to the prepared statement as parameters
-		$stmt->bindParam(":venue_name", $param_name);
-		$stmt->bindParam(":venue_capacity", $venue_capacity);
-		$stmt->bindParam(":venue_rent_price", $venue_rent_price);
-		$stmt->bindParam(":venue_rate", $venue_rate);
-		$stmt->bindParam(":venue_address", $venue_address);
-		$stmt->bindParam(":venue_phone", $venue_phone);
-		$stmt->bindParam(":venue_observations", $venue_observations);
-		$stmt->bindParam(":venue_gmaps", $venue_gmaps);
-		$stmt->bindParam(":venue_type", $venue_type);
-		$stmt->bindParam(":venue_status", $venue_status);
+		$stmt->bindParam(":venue_id", $param_venue);
+		$stmt->bindParam(":food_category", $param_category);
+		$stmt->bindParam(":food_name", $param_name);
+		$stmt->bindParam(":food_price", $param_price);
+		$stmt->bindParam(":food_ingredients", $param_ingredients);
+		$stmt->bindParam(":food_grams", $param_grams);
 		
 		// Set parameters
+		$param_venue = $input_venue;
+		$param_category = $input_category;
 		$param_name = $input_name;
-		$venue_capacity = $input_capacity;
-		$venue_rent_price = $input_price;
-		$venue_rate = 0;
-		$venue_address = $input_address;
-		$venue_phone = $input_phone;
-		$venue_observations = $input_observations;
-		$venue_type = $input_type;
-		if( !empty($input_gmaps) ){
-			$venue_gmaps = $input_gmaps;
-		}
-		else{
-			$venue_gmaps = '';
-		}
-		$venue_status = 'available';
+		$param_price = $input_price;
+		$param_ingredients = $input_ingredents;
+		$param_grams = $input_grams;
+		
 		
 		// Attempt to execute the prepared statement
 		if($stmt->execute()){
@@ -294,10 +278,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		// Upload file
 		move_uploaded_file($_FILES['file']['tmp_name'][$i],'images/'.$filename);
 	
-		$sql = "INSERT INTO venue_files (venue_id, file_name) VALUES (:venue_id, :file_name)";
+		$sql = "INSERT INTO food_files (food_id, file_name) VALUES (:food_id, :file_name)";
 		if( $stmt = $pdo->prepare($sql)  ){
 			// Bind variables to the prepared statement as parameters
-			$stmt->bindParam(":venue_id", $param_id);
+			$stmt->bindParam(":food_id", $param_id);
 			$stmt->bindParam(":file_name", $file_name);
 			
 			// Set parameters
@@ -323,34 +307,27 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	 }
 	}
 	else{
-		$sql = "UPDATE venues SET venue_name = :venue_name, venue_capacity = :venue_capacity, venue_rent_price = :venue_rent_price, venue_address = :venue_address, venue_phone = :venue_phone, venue_observations = :venue_observations, venue_type = :venue_type, venue_gmaps = :venue_gmaps WHERE venue_id = :venue_id";
+		$sql = "UPDATE food SET venue_id = :venue_id, food_category = :food_category, food_name = :food_name, food_price = :food_price, food_ingredients = :food_ingredients, food_grams = :food_grams WHERE food_id = :food_id";
 	if( $stmt = $pdo->prepare($sql)  ){
 		// Bind variables to the prepared statement as parameters
-		$stmt->bindParam(":venue_name", $param_name);
-		$stmt->bindParam(":venue_capacity", $venue_capacity);
-		$stmt->bindParam(":venue_rent_price", $venue_rent_price);
-		$stmt->bindParam(":venue_address", $venue_address);
-		$stmt->bindParam(":venue_phone", $venue_phone);
-		$stmt->bindParam(":venue_observations", $venue_observations);
-		$stmt->bindParam(":venue_gmaps", $venue_gmaps);
-		$stmt->bindParam(":venue_type", $venue_type);
-		$stmt->bindParam(":venue_id", $venue_id);
+		$stmt->bindParam(":venue_id", $param_venue);
+		$stmt->bindParam(":food_category", $param_category);
+		$stmt->bindParam(":food_name", $param_name);
+		$stmt->bindParam(":food_price", $param_price);
+		$stmt->bindParam(":food_ingredients", $param_ingredients);
+		$stmt->bindParam(":food_grams", $param_grams);
+	
+		$stmt->bindParam(":food_id", $param_id);
 		
 		// Set parameters
+		$param_venue = $input_venue;
+		$param_category = $input_category;
 		$param_name = $input_name;
-		$venue_capacity = $input_capacity;
-		$venue_rent_price = $input_price;
-		$venue_address = $input_address;
-		$venue_phone = $input_phone;
-		$venue_observations = $input_observations;
-		$venue_type = $input_type;
-		if( !empty($input_gmaps) ){
-			$venue_gmaps = $input_gmaps;
-		}
-		else{
-			$venue_gmaps = '';
-		}
-		$venue_id = $_POST[ 'id' ];
+		$param_price = $input_price;
+		$param_ingredients = $input_ingredents;
+		$param_grams = $input_grams;
+		
+		$param_id = $_POST[ 'id' ];
 		
 		// Attempt to execute the prepared statement
 		if($stmt->execute()){
@@ -368,10 +345,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	
 	unset($stmt);
 
-	$sql = "DELETE FROM venue_files WHERE venue_id= :venue_id";
+	$sql = "DELETE FROM food_files WHERE food_id= :food_id";
 
 	if( $stmt = $pdo->prepare($sql)  ){
-		$stmt->bindParam(":venue_id", $param_id);
+		$stmt->bindParam(":food_id", $param_id);
 			
 			// Set parameters
 			$param_id = $_POST["id"];
@@ -397,10 +374,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 		// Upload file
 		move_uploaded_file($_FILES['file']['tmp_name'][$i],'images/'.$filename);
 	
-		$sql = "INSERT INTO venue_files (venue_id, file_name) VALUES (:venue_id, :file_name)";
+		$sql = "INSERT INTO food_files (food_id, file_name) VALUES (:food_id, :file_name)";
 		if( $stmt = $pdo->prepare($sql)  ){
 			// Bind variables to the prepared statement as parameters
-			$stmt->bindParam(":venue_id", $param_id);
+			$stmt->bindParam(":food_id", $param_id);
 			$stmt->bindParam(":file_name", $file_name);
 			
 			// Set parameters
@@ -451,112 +428,83 @@ require_once '../menu.php';
         <div class="modal-body" style="width:900px;">
 			<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="form-container" enctype='multipart/form-data'>
 			<!-- <div class="fetched-data" style="color:black;"></div>  -->
-				<h1 style = "color:black;">Add venue</h1>
+				<h1 style = "color:black;">Add course</h1>
 				
 				<div class="container">
   <div class="row text-center">
     <div class="col border-right" style="color:black;">
-	  
-	
 				<input type="text" hidden name="id" id="id">
 				<div class='div'>
 					<span class='blocking-span'>
-						<input type="text" class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;height:55px;margin: 5px 0 18px 0;border: none;" class="inputText" name="name" id="name" required>
-						<span class="floating-label" style = "color:grey;padding-top: 12px;">Venue Name <span style="color:red"> *</span></span>
+						<select class="input js-example-placeholder-single js-example-responsive" name="ven" style="background-color:#f1f1f1;border-radius:4px;height:50px;margin: 5px 0 22px 0;border: none;width:100%;" id="ven" required>
+							<option disabled="disabled" selected="selected" value="" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;"></option>
+							<?php
+							$sql = "SELECT * FROM venues";
+							if($stmt = $pdo->prepare($sql)){
+								
+								$stmt->execute();
+
+								while ($venues = $stmt->fetch()) { 
+								?>
+									<option value="<?= $venues[  'venue_id' ] ?>" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;"><?= $venues[ 'venue_name' ] ?></option>
+
+								<?php
+								}
+							}
+							?>
+						</select>
+						<span class="floating-label" style = "color:grey;padding-top: 12px;">Venue <span style="color:red"> *</span></span>
 					</span>
 				</div>
 				<div class='div'>
 					<span class='blocking-span'>
-						<input class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;padding: 12px;height:55px;margin: 5px 0 18px 0;border: none;" type="number" name="capacity" id="capacity" required>
-						<span class="floating-label" style = "color:grey;padding-top: 12px;">Capacity <span style="color:red"> *</span></span>
+						<input type="text" class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;height:55px;margin: 5px 0 18px 0;border: none;" class="inputText" name="name" id="name" required>
+						<span class="floating-label" style = "color:grey;padding-top: 12px;">Course Name <span style="color:red"> *</span></span>
+					</span>
+				</div>
+				<div class='div'>
+					<span class='blocking-span'>
+						<select class="input js-example-placeholder-single js-example-responsive" name="categ" style="background-color:#f1f1f1;border-radius:4px;height:50px;margin: 5px 0 22px 0;border: none;width:100%;" id="categ" required>
+							<option disabled="disabled" selected="selected" value="" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;"></option>
+							<option value="starters" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;">Starters</option>
+							<option value="salad" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;">Salad</option>
+							<option value="entree" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;">Entree</option>
+							<option value="dessert" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;">Dessert</option>
+						</select>
+						<span class="floating-label" style = "color:grey;padding-top: 12px;">Category <span style="color:red"> *</span></span>
 					</span>
 				</div>
 				<div class='div'>
 					<span class='blocking-span'>
 						<input class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;" type="number" name="price" step="0.1" id="price" required>
-						<span class="floating-label" style = "color:grey;padding-top: 12px;">Venue Price <span style="color:red"> *</span></span>
+						<span class="floating-label" style = "color:grey;padding-top: 12px;">Course Price per portion <span style="color:red"> *</span></span>
 					</span>
 				</div>
 				<div class='div'>
 					<span class='blocking-span'>
-						<input class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;" type="text" name="address" id="address" required>
-						<span class="floating-label" style = "color:grey;padding-top: 12px;">Address <span style="color:red"> *</span> <span style="color:#b8b894;">(street, number, building)</span></span>
+						<input class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;padding: 12px;height:55px;margin: 5px 0 18px 0;border: none;" type="number" name="grams" id="grams" required>
+						<span class="floating-label" style = "color:grey;padding-top: 12px;">Grams per portion <span style="color:red"> *</span></span>
 					</span>
 				</div>
 				<div class='div'>
 					<span class='blocking-span'>
-						<input class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;" type="text" name="phone" id="phone" required>
-						<span class="floating-label" style = "color:grey;padding-top: 12px;">Phone <span style="color:red"> *</span></span>
+						<input class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;" type="text" name="ingredients" id="ingredients" required>
+						<span class="floating-label" style = "color:grey;padding-top: 12px;">Ingredents <span style="color:red"> *</span> </span>
 					</span>
 				</div>
-				<div class='div'>
-					<span class='blocking-span'>
-						<select class="input js-example-placeholder-single js-example-responsive" name="type" style="background-color:#f1f1f1;border-radius:4px;height:50px;margin: 5px 0 22px 0;border: none;width:100%;" id="type" required>
-							<option disabled="disabled" selected="selected" value="" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;"></option>
-							<option value="outdoor" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;">Outdoor</option>
-							<option value="indoor" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;">Indoor</option>
-							<option value="both" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;">Outdoor & Indoor</option>
-						</select>
-						<span class="floating-label" style = "color:grey;padding-top: 12px;">Type <span style="color:red"> *</span></span>
-					</span>
-				</div>
-				<div class='div'>
-					<span class='blocking-span'>
-						<textarea class="input js-example-placeholder-single js-example-responsive" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;border-radius:4px;" rows="4" cols="57" name="observations" id="observations" required></textarea>
-						<span class="floating-label" style = "color:grey;padding-top: 12px;">Observations <span style="color:red"> *</span></span>
-					</span>
-				</div>
-
-
-
-
-    </div>
-    <div class="col" style="color:black;">
-	  <br> 
-
-	  	<h3 style = "color:black;">Venue Virtual Tour</h3> <br>
-
-	    <div class='div'>
-			<span class='blocking-span'>
-				<select id='dropdown' class="input js-example-placeholder-single js-example-responsive" name="gmaps_choose" style="background-color:#f1f1f1;border-radius:4px;height:50px;margin: 5px 0 22px 0;border: none;width:100%;" required>
-					<option disabled="disabled" selected="selected" value="" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;"></option>
-					<option value="yes" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;">Yes</option>
-					<option value="no" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;">No</option>
-				</select>
-				<span class="floating-label" style = "color:grey;padding-top: 12px;">Do you have gmaps street view? <span style="color:red"> *</span></span>
-			</span>
-		</div>
-
-		<div class='div'>
-			<span class='blocking-span'>
-				<input id="textInput" type="text" class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;height:55px;border: none;margin-top:-10px;" class="inputText" name="gmaps" required>
-				<span class="floating-label" style = "color:grey;padding-top: 12px;margin-top:-14px;">Gmaps link <span style="color:red"> *</span></span>
-			</span>
-		</div>
-
-		<h3 style = "color:black;">Venue Photos</h3>
-
-		<table>
-   			<tr>
-				<td>
-					<div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
-						<input id="upload" type="file" name="file[]" onchange="readURL(this);" class="form-control border-0" multiple="multiple" required>
-						<i class="fa fa-cloud-upload mr-2 text-muted" id="iclass"></i><label id="upload-label" for="upload" class="font-weight-light text-muted">Choose files</label>
-					</div>
-				</td>
-				<td style="width:5px;"></td>
-				<td><a href="#" id="clear">&times;</a></td>
-			</tr>
-		</table>
+				<table>
+					<tr>
+						<td>
+							<div class="input-group mb-3 px-2 py-2 rounded-pill bg-white shadow-sm">
+								<input id="upload" type="file" name="file[]" onchange="readURL(this);" class="form-control border-0" multiple="multiple" required>
+								<i class="fa fa-cloud-upload mr-2 text-muted" id="iclass"></i><label id="upload-label" for="upload" class="font-weight-light text-muted">Choose files</label>
+							</div>
+						</td>
+						<td style="width:5px;"></td>
+						<td><a href="#" id="clear">&times;</a></td>
+					</tr>
+				</table>
 		<span style="color:red;font-size:12px;">Only image files are allowed!</span>
-
-		<!-- <input type="file" name="file[]" id="file" class="form-control" multiple> -->
-		
-		
-
-        <!-- <div class="image-area mt-4"><img id="imageResult" src="#" alt="" class="img-fluid rounded shadow-sm mx-auto d-block"></div> -->
-
-
     </div>
   </div>
 </div>
@@ -573,7 +521,7 @@ require_once '../menu.php';
   </div>
   
   
-  <div class="modal hide fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+  <!-- <div class="modal hide fade" id="modal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
       <div class="modal-dialog" style="width: 800px;margin-left: 180px;height:900px;">
         <div class="modal-content" style="width: 800px;margin-left: 180px;">
           <div class="modal-header">
@@ -590,19 +538,19 @@ require_once '../menu.php';
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   
   
 
 <?php if( $_SESSION[ 'username' ] == 'admin@yahoo.com' ){ ?>
 <button type="button" class="open-button btn btn-info btn-lg" data-toggle="modal" data-target="#myModal" data-id="<?php echo 0; ?>"><div data-toggle="tooltip" title="Add Venue!" data-placement="top" style="font-size:42px;color:black;"><b>+</b></div></button>
 <?php } ?>
-            <div style="background-image:url('../images/venue.jpg');background-size:cover;margin-top:-875px;margin-left:-40px;margin-right:-40px;height:300px;">
+            <div style="background-image:url('../images/menu.jpg');background-size:cover;margin-top:-925px;margin-left:-40px;margin-right:-40px;height:300px;">
             <div style="height:70px;"></div>
 			<?php if( $_SESSION[ 'username' ] == 'admin@yahoo.com' ){ ?>
-				<h1 style="color:#1f1f2e;">Add venue</h1><br><br>
+				<h1 style="color:white">Add courses</h1><br><br>
 			<?php } else{ ?>
-				<h1 style="color:#1f1f2e;">Available venues</h1><br><br>
+				<h1 style="color:white">Available courses</h1><br><br>
 			<?php } ?>
 				</div>
 				<!-- <div class="row" style="margin-left:80px;">
@@ -615,48 +563,7 @@ require_once '../menu.php';
 						<?php } ?>
 					</div>
 				</div> -->
-				<?php if( $_SESSION[ 'username' ] != 'admin@yahoo.com' ){ ?>
-					<form style="margin-bottom:-80px;margin-top:20px;" action="../start/venue_search.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>" class="row" method="post"> 
-				<?php } else{ ?>
-					<form style="margin-bottom:-80px;margin-top:20px;" action="../start/venue_search.php" class="row" method="post"> 
-				<?php } ?>
-					<div class="row" style="margin-left:300px;">
-						<div class="column1bis">
-							<input style="width:200px;" type="text" name="name" id="name" class="form-control" placeholder="Name" <?php if( !empty( $_SESSION[ 'venue_search_name' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_name' ] ?>" <?php } ?> >
-						</div>
-
-						<div class="column1bis" style="margin-left:-10px;">
-							<input style="width:150px;" type="text" name="price_min" id="price_min" class="form-control" placeholder="Min Price" <?php if( !empty( $_SESSION[ 'venue_search_price_min' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_price_min' ] ?>" <?php } ?> >
-						</div>
-						
-						<div class="column1bis" style="margin-left:-105px;">
-							<input style="width:150px;" type="text" name="price_max" id="price_max" class="form-control" placeholder="Max Price" <?php if( !empty( $_SESSION[ 'venue_search_price_max' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_price_max' ] ?>" <?php } ?> >
-						</div>
-						
-					</div>
-					<div class="row" style="margin-left:300px;margin-top:-65px;">
-						<div class="column1bis">
-							<input type="text" style="width:200px;" name="address" id="address" class="form-control" placeholder="Address" <?php if( !empty( $_SESSION[ 'venue_search_address' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_address' ] ?>" <?php } ?> >
-						</div>
-						<div class="column1bis" style="margin-left:-10px;">
-							<input type="text" style="width:150px;" name="capacity_min" id="capacity_min" class="form-control" placeholder="Min Capacity" <?php if( !empty( $_SESSION[ 'venue_search_capacity_min' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_capacity_min' ] ?>" <?php } ?> >
-						</div>
-						<div class="column1bis" style="margin-left:-105px;">
-							<input type="text" style="width:150px;" name="capacity_max" id="capacity_max" class="form-control" placeholder="Max Capacity" <?php if( !empty( $_SESSION[ 'venue_search_capacity_max' ] ) ){ ?>value="<?php echo $_SESSION[ 'venue_search_capacity_max' ] ?>" <?php } ?> >
-						</div>
-						
-						<div class="column" style="margin-top:-70px;">
-							<button type="submit" name="search" style="height:38px;margin-left:85px;">Apply filters</button>
-						</div>
-						<div class="column" style="margin-top:-70px;">
-							<button name="reset" style="height:38px;margin-left:-240px;background-color:#FFD700;">Reset</button>
-						</div>
-					</div>
-                </form>
 				
-				
-					
-				<hr/>
 			
 			<form id="regForm" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
 <div class="products" style="margin-top:-90px;">
@@ -675,121 +582,35 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 	}
 	$startFrom = ($currentPage * $showRecordPerPage) - $showRecordPerPage;
 
-		if( $_SESSION['username'] != 'admin@yahoo.com' ){
-			$array = array(); 
-			$dateMin = $_SESSION['date_min'];
-			$dateMax = $_SESSION['date_max'];
-			$begin = new DateTime( "$dateMin" );
-			//echo $begin->format("d.m.Y");
-			$end = new DateTime( "$dateMax" );
-			$end = $end->modify( '+1 day' );
-			
-			$interval = new DateInterval('P1D');
-			$daterange = new DatePeriod($begin, $interval ,$end);
-			foreach($daterange as $date){
-				//echo $date->format("m/d/Y") . "<br>";
-				$array[] = $date->format("Y-m-d") . ' 00:00:00';
-			}
-
-			$sql6 = "SELECT * FROM venues WHERE venue_status != 'deleted'";
-			if($stmt6 = $pdo->query($sql6)){
-				while($venue = $stmt6->fetch()) {
-					$diff = [];
-				$event_start = [];
-				$sql5 = "SELECT start FROM tbl_events WHERE venue_id = :venue_id";
-				
-				if($stmt5 = $pdo->prepare($sql5)){
-					// Bind variables to the prepared statement as parameters
-					$stmt5->execute(['venue_id' => $venue[ 'venue_id' ]]); 
-					
-					while($start = $stmt5->fetch()) {
-						$event_start[] = $start[ 'start' ];
-					}
-				
-
-				// }
-			
-				$result = array_intersect($array, $event_start);
-			
-				if( !empty($result) ){
-				$diff = array_diff($array,$result);
-				
-				if( !empty($diff) ){
-					
-					
-
-					$sql7 = "UPDATE venues SET venue_status = :venue_status WHERE venue_id = :venue_id";
-					if( $stmt7 = $pdo->prepare($sql7)  ){
-						// Bind variables to the prepared statement as parameters
-						$stmt7->bindParam(":venue_status", $param_status);
-						$stmt7->bindParam(":venue_id", $venue_id);
-						
-						// Set parameters
-						$param_status = 'available';
-						$venue_id = $venue[ 'venue_id' ];
-						
-						// Attempt to execute the prepared statement
-						if($stmt7->execute()){
-							
-				
-						} else{
-							echo "Something went wrong. Please try again later.";
-						}
-					}
+if( $_SESSION['username'] != 'admin@yahoo.com' ){
+	$sql = "SELECT * FROM users_profile WHERE event_id = :event_id AND user_id = :user_id";
+    
+	if($stmt = $pdo->prepare($sql)){
+		// Bind variables to the prepared statement as parameters
+		$stmt->bindParam(":event_id", $param_id);
+		$stmt->bindParam(":user_id", $param_user);
+		
+		// Set parameters
+		$param_id = $_GET[ 'event_id' ];
+		$param_user = $_SESSION[ 'id' ];
+		
+		// Attempt to execute the prepared statement
+  $stmt->execute();
+  $profile = $stmt->fetch();
+  $venue_id = $profile[ 'venue_id' ];
+	
+}
+}
 
 
-
-
-				}else{
-
-					$sql8 = "UPDATE venues SET venue_status = :venue_status WHERE venue_id = :venue_id";
-					if( $stmt8 = $pdo->prepare($sql8)  ){
-						// Bind variables to the prepared statement as parameters
-						$stmt8->bindParam(":venue_status", $param_status);
-						$stmt8->bindParam(":venue_id", $venue_id);
-						
-						// Set parameters
-						$param_status = 'full';
-						$venue_id = $venue[ 'venue_id' ];
-						
-						// Attempt to execute the prepared statement
-						if($stmt8->execute()){
-							
-				
-						} else{
-							echo "Something went wrong. Please try again later.";
-						}
-					}
-
-
-
-				}  }else{
-					$sql7 = "UPDATE venues SET venue_status = :venue_status WHERE venue_id = :venue_id";
-					if( $stmt7 = $pdo->prepare($sql7)  ){
-						// Bind variables to the prepared statement as parameters
-						$stmt7->bindParam(":venue_status", $param_status);
-						$stmt7->bindParam(":venue_id", $venue_id);
-						
-						// Set parameters
-						$param_status = 'available';
-						$venue_id = $venue[ 'venue_id' ];
-						
-						// Attempt to execute the prepared statement
-						if($stmt7->execute()){
-							
-				
-						} else{
-							echo "Something went wrong. Please try again later.";
-						}
-					}
-				}
-				//print_r($result);
-			}}}}
 			
 			if( $_SESSION['username'] == 'admin@yahoo.com' ){
-					$sql = "SELECT * FROM venues WHERE venue_status != 'deleted'";
+					$sql = "SELECT * FROM food";
 			}else{
-				$sql = "SELECT * FROM venues WHERE venue_status = 'available'";
+				$event_id = $_GET[ 'event_id' ];
+				$sql = "SELECT m.*,f.*,f.food_id AS foodid FROM menu m
+				LEFT JOIN food f ON m.food_id = f.food_id
+				 WHERE m.event_id =$event_id";
 			}
 					if($stmt = $pdo->query($sql)){
 						// Bind variables to the prepared statement as parameters
@@ -800,51 +621,52 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 						$nextPage = $currentPage + 1;
 						$previousPage = $currentPage - 1;
 				if($_SESSION['username'] == 'admin@yahoo.com'){
-						$sql2 = "SELECT * FROM venues WHERE venue_status != 'deleted'
-						" . ( isset($_SESSION[ 'venue_search_name' ]) && $_SESSION[ 'venue_search_name' ] != '' ? " AND venue_name LIKE '%" . $_SESSION[ 'venue_search_name' ] . "%'"  : "" ) . "
-						" . ( isset($_SESSION[ 'venue_search_price_min' ]) && $_SESSION[ 'venue_search_price_min' ] != '' ? " AND venue_rent_price >= '" . $_SESSION[ 'venue_search_price_min' ] . "'"  : "" ) . "
-						" . ( isset($_SESSION[ 'venue_search_price_max' ]) && $_SESSION[ 'venue_search_price_max' ] != '' ? " AND venue_rent_price <= '" . $_SESSION[ 'venue_search_price_max' ] . "'"  : "" ) . "
-						" . ( isset($_SESSION[ 'venue_search_address' ]) && $_SESSION[ 'venue_search_address' ] != '' ? " AND venue_address LIKE '%" . $_SESSION[ 'venue_search_address' ] . "%'"  : "" ) . "
-						" . ( isset($_SESSION[ 'venue_search_capacity_min' ]) && $_SESSION[ 'venue_search_capacity_min' ] != '' ? " AND venue_capacity >= '" . $_SESSION[ 'venue_search_capacity_min' ] . "'"  : "" ) . "
-						" . ( isset($_SESSION[ 'venue_search_capacity_max' ]) && $_SESSION[ 'venue_search_capacity_max' ] != '' ? " AND venue_capacity <= '" . $_SESSION[ 'venue_search_capacity_max' ] . "'"  : "" ) . "
+						$sql2 = "SELECT * FROM food WHERE 1
+						" . ( isset($_SESSION[ 'food_search_category' ]) && $_SESSION[ 'food_search_category' ] != '' ? " AND food_category = '" . $_SESSION[ 'food_search_category' ] . "'"  : "" ) . "
 						 LIMIT $startFrom, $showRecordPerPage";
 				}else{
-					$sql2 = "SELECT * FROM venues WHERE venue_status = 'available' 
-					" . ( isset($_SESSION[ 'venue_search_name' ]) && $_SESSION[ 'venue_search_name' ] != '' ? " AND venue_name LIKE '%" . $_SESSION[ 'venue_search_name' ] . "%'"  : "" ) . "
-					" .	( isset($_SESSION[ 'venue_search_price_min' ]) && $_SESSION[ 'venue_search_price_min' ] != '' ? " AND venue_rent_price >= '" . $_SESSION[ 'venue_search_price_min' ] . "'"  : "" ) . "
-					" .	( isset($_SESSION[ 'venue_search_price_max' ]) && $_SESSION[ 'venue_search_price_max' ] != '' ? " AND venue_rent_price <= '" . $_SESSION[ 'venue_search_price_max' ] . "'"  : "" ) . "
-					" .	( isset($_SESSION[ 'venue_search_address' ]) && $_SESSION[ 'venue_search_address' ] != '' ? " AND venue_address LIKE '%" . $_SESSION[ 'venue_search_address' ] . "%'"  : "" ) . "
-					" .	( isset($_SESSION[ 'venue_search_capacity_min' ]) && $_SESSION[ 'venue_search_capacity_min' ] != '' ? " AND venue_capacity >= '" . $_SESSION[ 'venue_search_capacity_min' ] . "'"  : "" ) . "
-					" .	( isset($_SESSION[ 'venue_search_capacity_max' ]) && $_SESSION[ 'venue_search_capacity_max' ] != '' ? " AND venue_capacity <= '" . $_SESSION[ 'venue_search_capacity_max' ] . "'"  : "" ) . "
-					
-					LIMIT $startFrom, $showRecordPerPage";
+					$sql2 = "SELECT m.*,f.*,f.food_id AS foodid FROM menu m
+							LEFT JOIN food f ON m.food_id = f.food_id
+							WHERE m.event_id =$event_id
+							GROUP BY f.food_id
+							LIMIT $startFrom, $showRecordPerPage";
 				}
 				
 						if($stmt2 = $pdo->query($sql2)){
 
 						while($venue = $stmt2->fetch()) {
 							
-							$sql1 = "SELECT * FROM venue_files WHERE venue_id = :venue_id LIMIT 1";
+							$sql1 = "SELECT * FROM food_files WHERE food_id = :food_id LIMIT 1";
         
 							if($stmt1 = $pdo->prepare($sql1)){
 								// Bind variables to the prepared statement as parameters
-								$stmt1->execute(['venue_id' => $venue[ 'venue_id' ]]); 
+								$stmt1->execute(['food_id' => $venue[ 'foodid' ]]); 
 								$venue_file = $stmt1->fetch();
 								$file_name = $venue_file["file_name"];
 								
 							
 								}
 
-								$sql5 = "SELECT venue_rate FROM venues WHERE venue_id = :venue_id";
-                                
-                                if($stmt5 = $pdo->prepare($sql5)){
-                                    // Bind variables to the prepared statement as parameters
-                                    $stmt5->execute(['venue_id' => $venue[ 'venue_id' ]]); 
-                                    
-                                    $venue_rate = $stmt5->fetch();
-                                
 
-                                }
+
+								$sql = "SELECT * FROM menu WHERE event_id = :event_id AND food_id = :food_id";
+    
+								if($stmt = $pdo->prepare($sql)){
+									// Bind variables to the prepared statement as parameters
+									$stmt->bindParam(":event_id", $param_id);
+									$stmt->bindParam(":food_id", $param_food);
+									
+									// Set parameters
+									$param_id = $_GET[ 'event_id' ];
+									$param_food = $venue[ 'food_id' ];
+									
+									// Attempt to execute the prepared statement
+										$stmt->execute();
+										$food = $stmt->fetch();
+										$food_count = $stmt->rowCount();
+								
+								}
+
 							
 							?>
 						
@@ -860,41 +682,42 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 									<div class="product_info d-flex flex-row align-items-start justify-content-start">
 										<div>
 											<div>
-												<div class="product_name"><a href="../start/see_venue.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><?= $venue[ 'venue_name' ] ?></a></div>
-												<div class="product_category">Capacity: <?= $venue[ 'venue_capacity' ] ?></a></div>
+												<div class="product_name"><a href="../start/see_food.php?food_id=<?php echo $venue[ 'food_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><?= $venue[ 'food_name' ] ?></a></div>
+												<div class="product_category">Category: <?= $venue[ 'food_category' ] ?></a></div>
+												<?php if( $food_count > 0 ){ ?><div style="color:red;">CHOSEN</div><?php } ?>
 											</div>
 										</div>
 										<div class="ml-auto text-right">
-											<p style="text-align:center;margin-bottom:-20px;"><div style="margin-bottom:-42px;text-align:center;margin-left:-55px;font-size:25px;color:black;"><?php echo $venue_rate[ 'venue_rate' ]; ?></div> <div style="text-align:center;margin-right:-17px;"><i class="fa fa-star" data-rating="2" style="font-size:20px;color:#ff9f00;"></i></div></p>
-											<div class="product_price text-right">$<?= $venue[ 'venue_rent_price' ] ?></span></div>
+											
+											<div class="product_price text-right">$<?= $venue[ 'food_price' ] ?></span></div>
 										</div>
 									</div>
 									<div class="product_buttons">
 										<div class="text-right d-flex flex-row align-items-start justify-content-start">
 											<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
 												<?php if( $_SESSION[ 'username' ] == 'admin@yahoo.com' ){ ?>
-													<a href="see_venue.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>" data-toggle="modal" data-target="#myModal" data-id="<?php echo $venue[ 'venue_id' ] ?>"><div class="plus" data-toggle="tooltip" title="Edit venue!" data-placement="top"><div class="plus"><img src="images/eye_2.png" class="svg" alt="" data-toggle="tooltip" title="Edit venue!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
+													<a href="see_food.php?food_id=<?php echo $venue[ 'food_id' ] ?>" data-toggle="modal" data-target="#myModal" data-id="<?php echo $venue[ 'food_id' ] ?>"><div class="plus" data-toggle="tooltip" title="Edit venue!" data-placement="top"><div class="plus"><img src="images/eye_2.png" class="svg" alt="" data-toggle="tooltip" title="Edit venue!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
 												<?php } else { ?>
-													<a href="../start/see_venue.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><div class="plus" data-toggle="tooltip" title="See details!" data-placement="top"><div class="plus"><img src="images/eye_2.png" class="svg" alt="" data-toggle="tooltip" title="See details!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
+													<a href="../start/see_food.php?food_id=<?php echo $venue[ 'food_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><div class="plus" data-toggle="tooltip" title="See details!" data-placement="top"><div class="plus"><img src="../start_admin/images/eye_2.png" class="svg" alt="" data-toggle="tooltip" title="See details!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
 												<?php } ?>
 											</div>
 											<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
 												<?php if( $_SESSION[ 'username' ] == 'admin@yahoo.com' ){ ?>
 													<a href="choose_venue.php" class="disabled" onclick="return false;"><div class="plus" data-toggle="tooltip" title="Add to favorites!" data-placement="top"><div class="plus"><img src="images/heart_2.png" class="svg" alt="" data-toggle="tooltip" title="Add to favorites!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
 												<?php } else { ?>
-												<a href="../start/add_favourites.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>" onclick="if (!confirm('Are you sure you want to add to favourites?')) { return false;  }"><div class="plus" data-toggle="tooltip" title="Add to favorites!" data-placement="top"><div class="plus"><img src="images/heart_2.png" class="svg" alt="" data-toggle="tooltip" title="Add to favorites!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
-												<div id="snackbar">Venue added to favourites!</div>
-												<div id="snackbar1">Venue was already added to favourites!</div>
+												<a href="../start/add_favourites.php?food_id=<?php echo $venue[ 'food_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>" onclick="if (!confirm('Are you sure you want to add to favourites?')) { return false;  }"><div class="plus" data-toggle="tooltip" title="Add to favorites!" data-placement="top"><div class="plus"><img src="../start_admin/images/heart_2.png" class="svg" alt="" data-toggle="tooltip" title="Add to favorites!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
+												<div id="snackbar">Course added to favourites!</div>
+												<div id="snackbar1">Course was already added to favourites!</div>
 
 												<?php 
 												$recordAdded = false;
 												$recordAddedBefore = false;
 
-												if(isset($_SESSION['status']) && $_SESSION['status'] == 1)
+												if(isset($_SESSION['status']) && $_SESSION['status'] == 5)
 												{
 													$recordAdded = true;
 													unset($_SESSION['status']);
-												}else if(isset($_SESSION['status']) && $_SESSION['status'] == 2){
+												}else if(isset($_SESSION['status']) && $_SESSION['status'] == 6){
 													$recordAddedBefore = true;
 													unset($_SESSION['status']);
 												}
@@ -929,14 +752,10 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 										<div class="text-right d-flex flex-row align-items-start justify-content-start">
 											<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
 												
-												<a href="delete_venue.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>" onclick="if (!confirm('Are you sure you want to delete?')) { return false; }"><div class="plus" data-toggle="tooltip" title="Delete venue!" data-placement="top"><div class="plus"><img src="images/trash.png" class="svg" alt="" data-toggle="tooltip" title="Delete venue!" data-placement="top" height="40"><div class="plus">-</a></div></div></div>
+												<a href="delete_food.php?food_id=<?php echo $venue[ 'food_id' ] ?>" onclick="if (!confirm('Are you sure you want to delete?')) { return false; }"><div class="plus" data-toggle="tooltip" title="Delete!" data-placement="top"><div class="plus"><img src="../start_admin/images/trash.png" class="svg" alt="" data-toggle="tooltip" title="Delete!" data-placement="top" height="40"><div class="plus">-</a></div></div></div>
 												
 											</div>
-											<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-												
-												<a href="add_dates.php?venue_id=<?php echo $venue[ 'venue_id' ] ?>" data-toggle="modal" data-target="#modal1" data-id="<?php echo $venue[ 'venue_id' ] ?>"><div class="plus" data-toggle="tooltip" title="Add booked dates!" data-placement="top"><div class="plus"><img src="images/calendar.png" class="svg" alt="" data-toggle="tooltip" title="Add booked dates!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
-												
-											</div>
+											
 										</div>
 									</div>
 									<?php } ?>
@@ -1118,39 +937,22 @@ $(document).ready(function(){
         var rowid = $(e.relatedTarget).data('id');
         $.ajax({
             type : 'post',
-            url : 'fetch_record.php', //Here you will fetch records 
+            url : 'fetch_record_food.php', //Here you will fetch records 
             data :  'rowid='+ rowid, //Pass $id
             success : function(data){
             //$('.fetched-data').html(data);//Show fetched data from database
 			//testValue.toString().replaceAll("\"", "");
 			//x={age:"clar"};
 			//alert(data);
-			//alert(x);
+			
 			var myObj = JSON.parse(data);
 			$('#id').val(myObj.id);
 			$('#name').val(myObj.name);
-			$('#capacity').val(myObj.capacity);
+			$('#ven').val(myObj.ven);
 			$('#price').val(myObj.price);
-			$('#address').val(myObj.address);
-			$('#phone').val(myObj.phone);
-			$('#type').val(myObj.type);
-			$('#observations').val(myObj.observations);
-			$('#dropdown').val(myObj.gmaps_choose);
-			$('#textInput').val(myObj.gmaps);
-			if( $('#dropdown').val() == 'no') {
-				$('#textInput').prop( "disabled", true );
-			} else {
-				$('#textInput').prop( "disabled", false );
-			}
-			$('#dropdown').change(function() {
-			if( $(this).val() == 'yes') {
-					$('#textInput').prop( "disabled", false );
-			} else {       
-				$('#textInput').val( '' );
-			$('#textInput').prop( "disabled", true );
-			}
-			});
-			
+			$('#categ').val(myObj.categ);
+			$('#grams').val(myObj.grams);
+			$('#ingredients').val(myObj.ingredients);
             }
         });
      });

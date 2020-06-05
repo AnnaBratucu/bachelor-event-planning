@@ -151,10 +151,10 @@ $.fn.ajaxSubmit = function(options) {
     if (qx) {
         q = ( q ? (q + '&' + qx) : qx );
     }
-    if (options.type.toUpperCase() == 'GET') {
-        options.url += (options.url.indexOf('?') >= 0 ? '&' : '?') + q;
-        options.data = null;  // data is null for 'get'
-    }
+    // if (options.type.toUpperCase() == 'GET') {
+    //     options.url += (options.url.indexOf('?') >= 0 ? '&' : '?') + q;
+    //     options.data = null;  // data is null for 'get'
+    // }
     else {
         options.data = q; // data is the query string for 'post'
     }

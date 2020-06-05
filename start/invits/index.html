@@ -22,6 +22,23 @@
             <link rel="stylesheet" href="assets/css/slick.css">
             <link rel="stylesheet" href="assets/css/nice-select.css">
             <link rel="stylesheet" href="assets/css/style.css">
+			<style>
+			input { 
+		text-transform: lowercase;
+}
+::-webkit-input-placeholder { 
+    text-transform: none;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    text-transform: none;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    text-transform: none;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    text-transform: none;
+}
+			</style>
    </head>
 
    <body>
@@ -172,12 +189,12 @@
                                 <div class="row">
                                     <div class="col-lg-12">
                                         <div class="form-box mb-30">
-                                            <input type="text" name="name" placeholder="Name">
+                                            <input type="text" name="name" placeholder="Name" style="text-transform:lowercase">
                                         </div>
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="form-box subject-icon mb-30">
-                                            <input type="Email" name="subject" placeholder="Email">
+                                            <input type="Email" name="subject" id="email" placeholder="Email" style="text-transform:lowercase">
                                         </div>
                                     </div>
                                     <div class="col-lg-12 mb-30">
@@ -232,7 +249,6 @@
     </main>
    
    
-	<!-- JS here -->
 	
 		<!-- All JS Custom Plugins Link Here here -->
         <script src="./assets/js/vendor/modernizr-3.5.0.min.js"></script>

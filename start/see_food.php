@@ -87,20 +87,20 @@ require_once '../menu.php';
 
         <div class="wiz">
         
-            <div style="background-image:url('../images/ceremony.jpg');background-size:cover;margin-top:-262px;margin-left:-40px;margin-right:-40px;height:300px;">
+            <div style="background-image:url('../images/menu.jpg');background-size:cover;margin-top:-262px;margin-left:-40px;margin-right:-40px;height:300px;">
                 <div style="height:70px;"></div>
-                <h1 style="color:white;">See ceremony venue details</h1><br><br>
+                <h1 style="color:white;">See course menu details</h1><br><br>
             </div>
         <form id="regForm" autocomplete="off" action="<?php //if(isset($_GET[ 'event_id' ])){ echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?event_id=' . $_GET[ 'event_id' ]; } else{ echo htmlspecialchars($_SERVER["PHP_SELF"]); } ?>" method="POST">
 
-<?php $sql = "SELECT * FROM ceremonies WHERE ceremony_id = :ceremony_id";
+<?php $sql = "SELECT * FROM food WHERE food_id = :food_id";
 				
                 if($stmt = $pdo->prepare($sql)){
                     // Bind variables to the prepared statement as parameters
-                    $stmt->bindParam(":ceremony_id", $param_id);
+                    $stmt->bindParam(":food_id", $param_id);
                     
                     // Set parameters
-                    $param_id = $_GET["ceremony_id"];
+                    $param_id = $_GET["food_id"];
                     
                     // Attempt to execute the prepared statement
                     if($stmt->execute()){
@@ -109,30 +109,19 @@ require_once '../menu.php';
                         $row = $stmt->fetch(PDO::FETCH_ASSOC);
                         
                         // Retrieve individual field value
-                        $id = $row["ceremony_id"];
-                        $name = $row["ceremony_name"];
-                        $address = $row["ceremony_address"];
-                        $obs = $row["ceremony_observations"];
-                        $capacity = $row["ceremony_capacity"];
-                        $phone = $row["ceremony_phone"];
-                        $live = $row["ceremony_live"];
-                        $bell = $row["ceremony_bell"];
-                        $flower = $row["ceremony_flower"];
-                        $heat = $row["ceremony_heat"];
+                        $id = $row["food_id"];
+                        $name = $row["food_name"];
+                        $category = $row["food_category"];
+                        $venue = $row["venue_id"];
+                        $price = $row["food_price"];
+                        $ingredients = $row["food_ingredients"];
+                        $grams = $row["food_grams"];
+                        
                         
                     } else{
                         echo "Oops! Something went wrong. Please try again later.";
                     }
                 } 
-                
-                $address1 = $address; // Address
-                $apiKey = '5970d7a2091d43c5a9883bcbf56631a1'; // Google maps now requires an API key.
-                // Get JSON results from this request
-                $geo = file_get_contents('https://api.opencagedata.com/geocode/v1/json?q='.urlencode($address1).'&key='.$apiKey);
-                $geo = json_decode($geo, true); // Convert the JSON to an array
-
-                $latitude = $geo['results'][0]['geometry']['lat']; // Latitude
-                $longitude = $geo['results'][0]['geometry']['lng']; // Longitude
                 
                 ?>
 
@@ -146,23 +135,18 @@ require_once '../menu.php';
 				<div class="product-details">
 					<h1 class="product-title"><?php echo $name; ?></h1>
 					<div class="product-meta">
-                        <table>
-                            <tr>
-                                <td><i class="fa fa-location-arrow" style="margin-top:-30px;"></td>
-                                <td><?php echo $address; ?></td>
-                            </tr>
-                        </table>
+                        
                     </div>
                     <!-- product slider -->
                     <div class="product-slider">
 
                     <?php 
                     
-                    $sql1 = "SELECT * FROM ceremony_files WHERE ceremony_id = :ceremony_id";
+                    $sql1 = "SELECT * FROM food_files WHERE food_id = :food_id";
         
 							if($stmt1 = $pdo->prepare($sql1)){
 								// Bind variables to the prepared statement as parameters
-								$stmt1->execute(['ceremony_id' => $id]); 
+								$stmt1->execute(['food_id' => $id]); 
 								
 								while ($row = $stmt1->fetch()) { 
 
@@ -181,50 +165,28 @@ require_once '../menu.php';
 						<ul class="nav nav-pills  justify-content-center" id="pills-tab" role="tablist">
 							<li class="nav-item">
 								<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home"
-								 aria-selected="true" style="color:black">Venue Details</a>
+								 aria-selected="true" style="color:black">Speciications</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile"
-								 aria-selected="false" style="color:black">Specifications</a>
-							</li>
+							
 						</ul>
 						<div class="tab-content" id="pills-tabContent">
+							
 							<div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-								<h3 class="tab-title">Venue Description</h3>
-								<p><?php echo $obs; ?></p>
-
-								</div>
-							<div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-								<h3 class="tab-title">Venue Specifications</h3>
+								<h3 class="tab-title">Course Specifications</h3>
 								<table class="table table-bordered product-table">
 									<tbody>
 										<tr>
-											<td>Capacity</td>
-											<td><?php echo $capacity; ?> guests</td>
+											<td>Category</td>
+											<td><?php echo $category; ?></td>
 										</tr>
 										<tr>
-											<td>Phone</td>
-											<td><?php echo $phone; ?></td>
+											<td>Ingredients</td>
+											<td><?php echo $ingredients; ?></td>
 										</tr>
 										<tr>
-                      <td>Facilities</td>
+                      <td>Grams per portion</td>
                         <td>
-                          <table>
-                            <tr>
-                              <?php if( $live == 'yes' ){ ?>
-                                <td style="background-color:white;">Live Music</td>
-                              <?php } ?>
-                              <?php if( $bell == 'yes' ){ ?>
-                                <td>Church Bells</td>
-                              <?php } ?>
-                              <?php if( $flower == 'yes' ){ ?>
-                                <td>Flowers Provided</td>
-                              <?php } ?>
-                              <?php if( $heat == 'yes' ){ ?>
-                                <td>Heating</td>
-                              <?php } ?>
-                            </tr>
-                          </table>
+                          <?= $grams ?>g
                         </td>         
 										  </tr>
 									</tbody>
@@ -240,44 +202,24 @@ require_once '../menu.php';
 					
 					<!-- User Profile widget -->
 					<div class="widget user text-center">
-                        <form action="choose_ceremony.php?ceremony_id=<?php echo $id ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>" method="post">
+                        <form action="choose_food.php?food_id=<?php echo $id ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>&food_price=<?= $price ?>" method="post">
                             
                         </form>
-                        <form autocomplete="off" action="choose_ceremony.php?ceremony_id=<?php echo $id ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>" method="post" name="myForm" id="myForm">
+                        <form autocomplete="off" action="choose_food.php?food_id=<?php echo $id ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>&food_price=<?= $price ?>" method="post" name="myForm" id="myForm">
                             <div class="col-lg-6">
 
-                            <?php 
-                                $event_start = [];
-                                $sql5 = "SELECT start FROM tbl_events_ceremony WHERE ceremony_id = :ceremony_id";
-                                
-                                if($stmt5 = $pdo->prepare($sql5)){
-                                    // Bind variables to the prepared statement as parameters
-                                    $stmt5->execute(['ceremony_id' => $_GET[ 'ceremony_id' ]]); 
-                                    
-                                    while($start = $stmt5->fetch()) {
-                                        $event_start[] = $start[ 'start' ];
-                                    }
-                                }
-                            ?>
-                            <input type="text" hidden id='strawberry-plant' data-id="<?php print_r( $event_start ) ?>"/>
-                            <input type="text" name="date" class="form-control datepicker" placeholder="Select Date Here" required style="width:250px;margin-left:-20px;"/><i class="fas fa-calendar-day" style="color:black;top:-30px;left:160px;"></i>
-                            <input type="time" style="margin-left:-30px;margin-top:-20px;margin-bottom:20px;border-radius:5px;width:100px;" id="hour" name="hour" max="15:00" required>
-                            </div>
+                            
                            
                             <div class="col-12">
                                 <!-- <button type="submit" class="btn btn-main">Book ceremony venue</button><br> -->
-                                <button type="submit" form="myForm" value="Submit">Submit</button>
+                                <button type="submit" form="myForm" value="Submit">Choose Course</button>
                             </div>
                         </form>
 							<!-- <li class="list-inline-item"><a href="choose_venue.php?venue_id=<?php echo $id ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>&venue_price=<?php echo $price ?>" onclick="if (!confirm('Are you sure you want to book this venue?')) { return false; }" class="btn btn-offer d-inline-block btn-primary ml-n1 my-1 px-lg-4 px-md-3">Book venue</a></li> -->
 						
 					</div>
 					<!-- Map Widget -->
-					<div class="widget map">
-						<div class="map">
-							<div id="map_canvas" data-latitude=<?php echo $latitude ?> data-longitude=<?php echo $longitude ?>></div>
-						</div>
-					</div>
+					
 					<!-- Rate Widget -->
 					
 					<!-- Safety tips widget -->
@@ -315,7 +257,7 @@ require_once '../menu.php';
     <div >
       <!--<button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>-->
       <?php if( !isset( $_GET[ 'type' ] ) ){ ?>
-        <a href="../start_admin/ceremony_admin.php?event_id=<?php echo $_GET[ 'event_id' ] ?>"><button type="button" style="color:white;width:200px;cursor:pointer;margin-left:700px;margin-bottom:100px;">Back</button></a>
+        <a href="../start_admin/food_admin.php?event_id=<?php echo $_GET[ 'event_id' ] ?>"><button type="button" style="color:white;width:200px;cursor:pointer;margin-left:700px;margin-bottom:100px;">Back</button></a>
       <?php }else{ ?>
         <a href="list_favourites.php?event_id=<?php echo $_GET[ 'event_id' ] ?>"><button type="button" style="color:white;width:200px;cursor:pointer;margin-left:700px;margin-bottom:100px;">Back</button></a>
       <?php } ?>

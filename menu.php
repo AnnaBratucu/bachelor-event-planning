@@ -2,6 +2,7 @@
     { 
         session_start(); 
     }  ?>
+
 <nav class="main-menu">
     <div class="settings"></div>
     <div class="scrollbar" id="style-1">  
@@ -12,12 +13,50 @@
                     <span class="nav-text">Home</span>
                 </a>
             </li>     
-            <li>                                 
-                <a href="../contact.php">
-                    <i class="fa fa-envelope-o fa-lg"></i>
-                    <span class="nav-text">Contact</span>
+            
+            
+            <?php 
+require_once "../config.php";
+if( $_SESSION[ 'username' ] != 'admin@yahoo.com' ){
+$sql = "SELECT * FROM notificatins WHERE event_id = :event_id AND notification_status='not_seen'";
+    
+		if($stmt = $pdo->prepare($sql)){
+			// Bind variables to the prepared statement as parameters
+			$stmt->bindParam(":event_id", $param_id);
+			
+			// Set parameters
+			$param_id = $_GET[ 'event_id' ];
+			
+			// Attempt to execute the prepared statement
+      //$stmt->execute();
+      $notif = $stmt->rowCount();
+        
+  }
+}
+
+
+                if( $_SESSION[ 'username' ] != 'admin@yahoo.com' ){
+
+                if( basename($_SERVER['PHP_SELF']) == 'profile.php' ){
+            ?>
+            <li class="darkerlishadow" style="background-color:	#606060">
+                <a href="../start/profile.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
+                    <i class="fas fa-chart-bar" style="color:#F5F5F5;"></i>
+                    <span class="nav-text" style="color:white;">Profile <?php if( $notif > 0 ){ ?> <i data-toggle="tooltip" title="You have new notifications" class="fas fa-exclamation" style="color:red;"></i> <?php } ?></span>
                 </a>
-            </li>   
+            </li>
+            <?php 
+                }else{
+            ?>
+            <li>
+                <a href="../start/profile.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
+                    <i class="fas fa-chart-bar"></i>
+                    <span class="nav-text">Profile <?php if( $notif > 0 ){ ?> <i data-toggle="tooltip" title="You have new notifications" class="fas fa-exclamation" style="color:red;"></i> <?php } ?></span>
+                </a>
+            </li>
+            <?php }} ?>
+
+
             
             <?php 
                 if( $_SESSION[ 'username' ] != 'admin@yahoo.com' ){
@@ -184,74 +223,91 @@
 
 
 
-            
+
+            <?php 
+                if( $_SESSION[ 'username' ] != 'admin@yahoo.com' ){
+                if( basename($_SERVER['PHP_SELF']) == 'arrange.php' ){
+            ?>
+            <li class="darkerlishadow" style="background-color:	#606060">
+                <a href="../start/arrange.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
+                    <i class="fa fa-object-ungroup" style="color:#F5F5F5;font-size:22px;"></i>
+                    <span class="nav-text" style="color:white;">Guest Arrangement</span>
+                </a>
+            </li>
+            <?php 
+                }else{
+            ?>
             <li class="darkerli">
-                <a href="food.php">
+                <a href="../start/arrange.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
+                    <i class="fa fa-object-ungroup" style="font-size:22px;"></i>
+                    <span class="nav-text">Guest Arrangement</span>
+                </a>
+            </li>
+            <?php }} ?>
+
+
+
+
+            <?php 
+                if( $_SESSION[ 'username' ] == 'admin@yahoo.com' && basename($_SERVER['PHP_SELF']) != 'food_admin.php' ){
+            ?>
+                    <li class="darkerli">
+                    <a href="food_admin.php">
+                        <i class="fas fa-utensils"></i>
+                        <span class="nav-text">Menu</span>
+                    </a>
+            </li>
+            <?php }  
+                else if( ( basename($_SERVER['PHP_SELF']) == 'food_admin.php' ) && $_SESSION[ 'username' ] == 'admin@yahoo.com' ){
+            ?>
+            <li class="darkerlishadow" style="background-color:	#606060">
+                <a href="../start_admin/food_admin.php">
+                    <i class="fas fa-utensils" style="color:#F5F5F5;"></i>
+                    <span class="nav-text" style="color:white;">Menu</span>
+                </a>
+            </li>
+            <?php 
+                }else if( ( basename($_SERVER['PHP_SELF']) == 'food_admin.php' || basename($_SERVER['PHP_SELF']) == 'see_food.php' ) && $_SESSION[ 'username' ] != 'admin@yahoo.com' ){
+            ?>
+            <li class="darkerlishadow" style="background-color:	#606060">
+                <a href="../start_admin/food_admin.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
+                    <i class="fas fa-utensils" style="color:#F5F5F5;"></i>
+                    <span class="nav-text" style="color:white;">Menu</span>
+                </a>
+            </li>
+            <?php }else{ ?>
+                <li class="darkerli">
+                <a href="../start_admin/food_admin.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
                     <i class="fas fa-utensils"></i>
-                    <span class="nav-text">Food</span>
+                    <span class="nav-text">Menu</span>
                 </a>
             </li>
+            <?php } ?>
+
+
+            <?php 
+                if( $_SESSION[ 'username' ] != 'admin@yahoo.com' ){
+                if( basename($_SERVER['PHP_SELF']) == 'music.php' ){
+            ?>
+            <li class="darkerlishadow" style="background-color:	#606060">
+                <a href="../start/music.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
+                    <i class="fas fa-music" style="color:#F5F5F5;"></i>
+                    <span class="nav-text" style="color:white;">Music</span>
+                </a>
+            </li>
+            <?php 
+                }else{
+            ?>
             <li class="darkerli">
-                <a href="http://startific.com">
-                    <i class="fa fa-plane fa-lg"></i>
-                    <span class="nav-text">Travel</span>
+                <a href="../start/music.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
+                    <i class="fas fa-music"></i>
+                    <span class="nav-text">Music</span>
                 </a>
             </li>
-            <li class="darkerli">
-                <a href="http://startific.com">
-                    <i class="fa fa-shopping-cart"></i>
-                    <span class="nav-text">Shopping</span>
-                </a>
-            </li>
-            <li class="darkerli">
-                <a href="http://startific.com">
-                    <i class="fa fa-microphone fa-lg"></i>
-                    <span class="nav-text">Film & Music</span>
-                </a>
-            </li>
-            <li class="darkerli">
-                <a href="http://startific.com">
-                    <i class="fa fa-flask fa-lg"></i>
-                    <span class="nav-text">Web Tools</span>
-                </a>
-            </li>
-            <li class="darkerli">
-                <a href="http://startific.com">
-                    <i class="fa fa-picture-o fa-lg"></i>
-                    <span class="nav-text">Art & Design</span>
-                </a>
-            </li>
-            <li class="darkerli">
-                <a href="http://startific.com">
-                    <i class="fa fa-align-left fa-lg"></i>
-                    <span class="nav-text">Magazines</span>
-                </a>
-            </li>
-            <li class="darkerli">
-                <a href="http://startific.com">
-                    <i class="fa fa-gamepad fa-lg"></i>
-                    <span class="nav-text">Games</span>
-                </a>
-            </li>
-            <li class="darkerli">
-                <a href="http://startific.com">
-                    <i class="fa fa-glass fa-lg"></i>
-                    <span class="nav-text">Life & Style</span>
-                </a>
-            </li>
-            <li class="darkerlishadowdown">
-                <a href="http://startific.com">
-                    <i class="fa fa-rocket fa-lg"></i>
-                    <span class="nav-text">Fun</span>
-                </a>
-            </li>
-        </ul>
-        <li>                              
-            <a href="http://startific.com">
-                <i class="fa fa-question-circle fa-lg"></i>
-                <span class="nav-text">Help</span>
-            </a>
-        </li>   
+            <?php }} ?>
+
+
+            
         <ul class="logout">
             <li>
                 <a href="../log/logout.php">

@@ -66,6 +66,23 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $emergency = $input_emergency;
         }
     } 
+
+
+    $sql = "SELECT * FROM events WHERE event_id = :event_id";
+    
+  if($stmt = $pdo->prepare($sql)){
+      // Bind variables to the prepared statement as parameters
+      $stmt->bindParam(":event_id", $param_id);
+      
+      // Set parameters
+      $param_id = $_GET[ 'event_id' ];
+      
+      // Attempt to execute the prepared statement
+        $stmt->execute();
+        $eventt = $stmt->fetch();
+        $stage = $eventt[ 'event_stage' ];
+  
+}
     
     if( $budget_err == '' && $emergency_err == '' ){
         $_SESSION[ 'budget' ] = $budget;
@@ -82,20 +99,31 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 			// Attempt to execute the prepared statement
 			
 			if($stmt->rowCount() > 0){
-				$exists = true;
+                if( $stage == 'guests' || $stage == 'ceremony' || $stage == 'venue' ){
+                    $exists = 'true';
+                }else{
+                    $exists = 'add';
+                    $bud = $user[ 'budget_value' ];
+                    $emer = $user[ 'budget_emergency' ];
+                    $budfi = $user[ 'budget_value_first' ];
+                    $emerfi = $user[ 'budget_emergency_first' ];
+                }
 			} else{
-				$exists = false;
-			}
+				$exists = 'false';
+            }
+        
 		}	
 
-    if( $exists == false ){
-        $sql = "INSERT INTO budget (user_id, event_id, budget_value, budget_emergency, budget_status) VALUES (:user_id, :event_id, :budget_value, :budget_emergency, :budget_status)";
+    if( $exists == 'false' ){
+        $sql = "INSERT INTO budget (user_id, event_id, budget_value, budget_emergency, budget_value_first, budget_emergency_first, budget_status) VALUES (:user_id, :event_id, :budget_value, :budget_emergency, :budget_value_first, :budget_emergency_first, :budget_status)";
         if( $stmt = $pdo->prepare($sql)  ){
             // Bind variables to the prepared statement as parameters
             $stmt->bindParam(":user_id", $param_user);
             $stmt->bindParam(":event_id", $param_event);
             $stmt->bindParam(":budget_value", $param_budget);
             $stmt->bindParam(":budget_emergency", $param_emergency);
+            $stmt->bindParam(":budget_value_first", $param_budget_first);
+            $stmt->bindParam(":budget_emergency_first", $param_emergency_first);
             $stmt->bindParam(":budget_status", $param_status);
             
             // Set parameters
@@ -104,6 +132,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $param_event = $event_id;
             $param_budget = $budget;
             $param_emergency = $emergency;
+            $param_budget_first = $budget;
+            $param_emergency_first = $emergency;
             $param_status = 'onbudget';
             
             // Attempt to execute the prepared statement
@@ -135,18 +165,67 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                 echo "Something went wrong. Please try again later.";
             }
         }
-    } else{
-        $sql = "UPDATE budget SET budget_value = :budget_value, budget_emergency = :budget_emergency WHERE event_id = :event_id";
+    } else if( $exists == 'true' ){
+        $sql = "UPDATE budget SET budget_value = :budget_value, budget_emergency = :budget_emergency, budget_value_first = :budget_value_first, budget_emergency_first = :budget_emergency_first WHERE event_id = :event_id";
         if( $stmt = $pdo->prepare($sql)  ){
             // Bind variables to the prepared statement as parameters
             $stmt->bindParam(":budget_value", $param_budget);
             $stmt->bindParam(":budget_emergency", $param_emergency);
+            $stmt->bindParam(":budget_value_first", $param_budget_first);
+            $stmt->bindParam(":budget_emergency_first", $param_emergency_first);
 			$stmt->bindParam(":event_id", $param_event_id);
             $event_id = $_GET[ 'event_id' ];
             // Set parameters
 			$param_budget = $budget;
             $param_emergency = $emergency;
+            $param_budget_first = $budget;
+            $param_emergency_first = $emergency;
             $param_event_id = $event_id;
+            
+            // Attempt to execute the prepared statement
+            if($stmt->execute()){
+				// Records created successfully. Redirect to landing page
+				
+                $sql = "UPDATE events SET event_stage = :event_stage WHERE event_id = :event_id";
+                if( $stmt = $pdo->prepare($sql)  ){
+                    // Bind variables to the prepared statement as parameters
+                    $stmt->bindParam(":event_stage", $param_event_stage);
+                    $stmt->bindParam(":event_id", $param_event_id);
+                    
+                    // Set parameters
+                    $param_event_id = $event_id;
+                    $param_event_stage = 'guests';
+                    
+                    // Attempt to execute the prepared statement
+                    if($stmt->execute()){
+                        // Records created successfully. Redirect to landing page
+                        
+                        header("location: pages.php?event_id=$event_id");
+                        exit();
+                    } else{
+                        echo "Something went wrong. Please try again later.";
+                    }
+                }
+            } else{
+                echo "Something went wrong. Please try again later.";
+            }
+        }
+    }else{
+        $sql = "UPDATE budget SET budget_value = :budget_value, budget_emergency = :budget_emergency, budget_value_first = :budget_value_first, budget_emergency_first = :budget_emergency_first WHERE event_id = :event_id";
+        if( $stmt = $pdo->prepare($sql)  ){
+            // Bind variables to the prepared statement as parameters
+            $stmt->bindParam(":budget_value", $param_budget);
+            $stmt->bindParam(":budget_emergency", $param_emergency);
+            $stmt->bindParam(":budget_value_first", $param_budget_first);
+            $stmt->bindParam(":budget_emergency_first", $param_emergency_first);
+			$stmt->bindParam(":event_id", $param_event_id);
+            $event_id = $_GET[ 'event_id' ];
+            // Set parameters
+			$param_budget = $bud + $budget;
+            $param_emergency = $emer + $emergency;
+            $param_event_id = $event_id;
+            $param_budget_first = $budfi + $budget;
+            $param_emergency_first = $emerfi + $emergency;
             
             // Attempt to execute the prepared statement
             if($stmt->execute()){
@@ -222,11 +301,11 @@ box-shadow: 21px 23px 47px -22px rgba(143,143,143,0.83);">
             	<h2>REGISTER BUDGET</h2>
 				<div class="form-row">
 					<label for="budget">Budget</label> <label class="required"></label><label style="font-size:10px;margin-top:5px;margin-left:5px;">(RON)</label>
-					<input type="text" name="budget" id="budget1" class="input-text" required placeholder="00.00" value="<?php if( isset($_SESSION[ 'budget' ])) echo $_SESSION[ 'budget' ] ?>" pattern="[+-]?([0-9]*[.])?[0-9]+">
+					<input type="text" name="budget" id="budget1" class="input-text" required placeholder="00.00" pattern="[+-]?([0-9]*[.])?[0-9]+">
 				</div>
 				<div class="form-row">
                     <label for="emergency">Emergency value</label><label style="font-size:10px;margin-top:5px;margin-left:5px;">(RON)</label>
-                    <input type="text" name="emergency" id="emergency1" class="input-text" placeholder="00.00" value="<?php if(isset($_SESSION[ 'emergency' ])) echo $_SESSION[ 'emergency' ] ?>" pattern="[+-]?([0-9]*[.])?[0-9]+">
+                    <input type="text" name="emergency" id="emergency1" class="input-text" placeholder="00.00" pattern="[+-]?([0-9]*[.])?[0-9]+">
 				</div>
 				<div class="form-row-last">
 					<input type="submit" name="register" class="register" value="Save">

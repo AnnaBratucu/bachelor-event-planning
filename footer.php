@@ -1,7 +1,7 @@
 <head>
       
         <!-- CSS here -->
-        <?php if( basename($_SERVER['PHP_SELF']) == 'plan.php' ){ ?>
+        <?php if( basename($_SERVER['PHP_SELF']) == 'plan.php' || basename($_SERVER['PHP_SELF']) == 'home.php' ){ ?>
             <link rel="stylesheet" href="styles/bootstrap-4.1.2/bootstrap.min.css">
             <link rel="stylesheet" href="start/invits/assets/css/owl.carousel.min.css">
             <link rel="stylesheet" href="start/invits/assets/css/flaticon.css">
@@ -13,7 +13,7 @@
             <link rel="stylesheet" href="start/invits/assets/css/slick.css">
             <link rel="stylesheet" href="start/invits/assets/css/nice-select.css">
             <link rel="stylesheet" href="start/invits/assets/css/style.css">
-        <?php } else if( basename($_SERVER['PHP_SELF']) == 'wizard_admin.php' || basename($_SERVER['PHP_SELF']) == 'ceremony_admin.php' ) { ?>
+        <?php } else if( basename($_SERVER['PHP_SELF']) == 'wizard_admin.php' || basename($_SERVER['PHP_SELF']) == 'ceremony_admin.php' || basename($_SERVER['PHP_SELF']) == 'food_admin.php' ) { ?>
             <link rel="stylesheet" href="../styles/bootstrap-4.1.2/bootstrap.min.css">
             <link rel="stylesheet" href="../start/invits/assets/css/owl.carousel.min.css">
             <link rel="stylesheet" href="../start/invits/assets/css/flaticon.css">

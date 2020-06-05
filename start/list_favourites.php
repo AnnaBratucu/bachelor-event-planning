@@ -248,6 +248,11 @@ require_once '../menu.php';
 									<option value="ceremony" selected>Ceremony Venue</option>
 								<?php }else{ ?>
 									<option value="ceremony">Ceremony Venue</option>
+								<?php } 
+								if( $_SESSION[ 'category' ] == 'food' ){ ?>
+									<option value="food" selected>Course</option>
+								<?php }else{ ?>
+									<option value="food">Course</option>
 								<?php } ?>
 							</select>
 						</div>
@@ -281,9 +286,10 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 	$startFrom = ($currentPage * $showRecordPerPage) - $showRecordPerPage;
 
 			$user_id = $_SESSION[ 'id' ];
-					$sql = "SELECT f.*, v.*, c.* FROM favourites f
+					$sql = "SELECT f.*, v.*, c.*,fo.* FROM favourites f
 					LEFT JOIN venues v ON f.venue_id = v.venue_id
 					LEFT JOIN ceremonies c ON f.ceremony_id = c.ceremony_id
+					LEFT JOIN food fo ON f.food_id = fo.food_id
 					WHERE f.user_id = $user_id";
 			
 					if($stmt = $pdo->query($sql)){
@@ -295,9 +301,10 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 						$nextPage = $currentPage + 1;
 						$previousPage = $currentPage - 1;
 				
-					$sql2 = "SELECT f.*, v.*, c.* FROM favourites f
+					$sql2 = "SELECT f.*, v.*, c.*,fo.*, v.venue_id AS ven,c.ceremony_id AS cer,fo.food_id AS foo FROM favourites f
 					LEFT JOIN venues v ON f.venue_id = v.venue_id
 					LEFT JOIN ceremonies c ON f.ceremony_id = c.ceremony_id
+					LEFT JOIN food fo ON f.food_id = fo.food_id
 					 WHERE f.user_id = $user_id 
 					 " . ( isset($_SESSION[ 'category' ]) && $_SESSION[ 'category' ] != '' ? " AND f.category = '" . $_SESSION[ 'category' ] . "'"  : "" ) . "
 					LIMIT $startFrom, $showRecordPerPage";
@@ -310,7 +317,7 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
         
 							if($stmt1 = $pdo->prepare($sql1)){
 								// Bind variables to the prepared statement as parameters
-								$stmt1->execute(['venue_id' => $venue[ 'venue_id' ]]); 
+								$stmt1->execute(['venue_id' => $venue[ 'ven' ]]); 
 								$venue_file = $stmt1->fetch();
 								$file_name = $venue_file["file_name"];
 								
@@ -321,9 +328,21 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
         
 							if($stmt1 = $pdo->prepare($sql1)){
 								// Bind variables to the prepared statement as parameters
-								$stmt1->execute(['ceremony_id' => $venue[ 'ceremony_id' ]]); 
+								$stmt1->execute(['ceremony_id' => $venue[ 'cer' ]]); 
 								$ceremony_file = $stmt1->fetch();
 								$file_name_ceremony = $ceremony_file["file_name"];
+								
+							
+								}
+
+								
+							$sql1 = "SELECT * FROM food_files WHERE food_id = :food_id LIMIT 1";
+        
+							if($stmt1 = $pdo->prepare($sql1)){
+								// Bind variables to the prepared statement as parameters
+								$stmt1->execute(['food_id' => $venue[ 'foo' ]]); 
+								$food_file = $stmt1->fetch();
+								$file_name_food = $food_file["file_name"];
 								
 							
 								}
@@ -332,16 +351,15 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
                                 
                                 if($stmt5 = $pdo->prepare($sql5)){
                                     // Bind variables to the prepared statement as parameters
-                                    $stmt5->execute(['venue_id' => $venue[ 'venue_id' ]]); 
+                                    $stmt5->execute(['venue_id' => $venue[ 'ven' ]]); 
                                     
                                     $venue_rate = $stmt5->fetch();
                                 
 
                                 }
-							
 
 
-							if( $venue[ 'venue_id' ] != 0){
+							if( $venue[ 'ven' ] != 0 ){ 
 							?>
 						
 					
@@ -381,7 +399,7 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 
 
 						<?php
-						}else{ ?>
+						}else if( $venue[ 'cer' ] != 0 ){ ?>
 
 
 						<!-- Product -->
@@ -393,7 +411,7 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 									<div class="product_info d-flex flex-row align-items-start justify-content-start">
 										<div>
 											<div>
-												<div class="product_name"><a href="../start/see_ceremony.php?ceremony_id=<?php echo $venue[ 'ceremony_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><?= $venue[ 'ceremony_name' ] ?></a></div>
+												<div class="product_name"><a href="../start/see_ceremony.php?type=fav&ceremony_id=<?php echo $venue[ 'ceremony_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><?= $venue[ 'ceremony_name' ] ?></a></div>
 												<div class="product_category">Capacity: <?= $venue[ 'ceremony_capacity' ] ?></a></div>
 											</div>
 										</div>
@@ -402,6 +420,43 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 										<div class="text-right d-flex flex-row align-items-start justify-content-start">
 											<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
 													<a href="../start/see_ceremony.php?type=fav&ceremony_id=<?php echo $venue[ 'ceremony_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><div class="plus" data-toggle="tooltip" title="See details!" data-placement="top"><div class="plus"><img src="../start_admin/images/eye_2.png" class="svg" alt="" data-toggle="tooltip" title="See details!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
+											</div>
+											<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
+												<a class="disabled" href="#" onclick="return false;"><div class="plus" data-toggle="tooltip" title="Add to favorites!" data-placement="top"><div class="plus"><img src="../start_admin/images/heart_2.png" class="svg" alt="" data-toggle="tooltip" title="Add to favorites!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+
+						<?php		}else if( $venue[ 'foo' ] != 0 ){ ?>
+
+
+						<!-- Product -->
+						<div class="col-xl-4 col-md-6 grid-item new">
+							<div class="product">
+								<div style="height:25px;"></div>
+								<div class="product_image"><img src='http://localhost/git/bachelor/start_admin/images/<?php echo $file_name_food; ?>' height="350" width="442"> </div>
+								<div class="product_content">
+									<div class="product_info d-flex flex-row align-items-start justify-content-start">
+										<div>
+											<div>
+												<div class="product_name"><a href="../start/see_food.php?type=fav&food_id=<?php echo $venue[ 'food_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><?= $venue[ 'food_name' ] ?></a></div>
+												<div class="product_category">Category: <?= $venue[ 'food_category' ] ?></a></div>
+											</div>
+										</div>
+										<div class="ml-auto text-right">
+											
+											<div class="product_price text-right">$<?= $venue[ 'food_price' ] ?></span></div>
+										</div>
+									</div>
+									<div class="product_buttons">
+										<div class="text-right d-flex flex-row align-items-start justify-content-start">
+											<div class="product_button product_fav text-center d-flex flex-column align-items-center justify-content-center">
+													<a href="../start/see_food.php?type=fav&food_id=<?php echo $venue[ 'food_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><div class="plus" data-toggle="tooltip" title="See details!" data-placement="top"><div class="plus"><img src="../start_admin/images/eye_2.png" class="svg" alt="" data-toggle="tooltip" title="See details!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
 											</div>
 											<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
 												<a class="disabled" href="#" onclick="return false;"><div class="plus" data-toggle="tooltip" title="Add to favorites!" data-placement="top"><div class="plus"><img src="../start_admin/images/heart_2.png" class="svg" alt="" data-toggle="tooltip" title="Add to favorites!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>

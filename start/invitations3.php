@@ -67,6 +67,45 @@ $event_id = $_GET[ 'event_id' ];
       $venue = $stmt->fetch();
 
   }
+
+  $sql = "SELECT * FROM ceremonies WHERE ceremony_id = :ceremony_id";
+    
+		if($stmt = $pdo->prepare($sql)){
+			// Bind variables to the prepared statement as parameters
+      $stmt->bindParam(":ceremony_id", $param_id);
+			
+			// Set parameters
+      $param_id = $profile[ 'ceremony_id' ];
+			
+			// Attempt to execute the prepared statement
+      $stmt->execute();
+      $ceremony = $stmt->fetch();
+
+  }
+
+
+  $sql1 = "SELECT * FROM venue_files WHERE venue_id = :venue_id LIMIT 1";
+        
+        if($stmt1 = $pdo->prepare($sql1)){
+            // Bind variables to the prepared statement as parameters
+            $stmt1->execute(['venue_id' => $venue[ 'venue_id' ]]); 
+            $venue_file = $stmt1->fetch();
+            $file_name = $venue_file["file_name"];
+            
+        
+        }
+
+
+    $sql1 = "SELECT * FROM ceremony_files WHERE ceremony_id = :ceremony_id LIMIT 1";
+        
+        if($stmt1 = $pdo->prepare($sql1)){
+            // Bind variables to the prepared statement as parameters
+            $stmt1->execute(['ceremony_id' => $ceremony[ 'ceremony_id' ]]); 
+            $ceremony_file = $stmt1->fetch();
+            $file_name_ceremony = $ceremony_file["file_name"];
+            
+        
+        }
   
   $event_date = $event[ 'event_date' ];
   $day = substr( $event_date, 8, 2 );
@@ -98,6 +137,45 @@ $event_id = $_GET[ 'event_id' ];
   }
   $year = substr( $event_date, 0, 4 );
 
+  $hour = substr( $event_date, 11, 5 );
+
+
+
+
+  $ceremony_date = $event[ 'ceremony_date' ];
+  $dayc = substr( $ceremony_date, 8, 2 );
+  $mc = substr( $ceremony_date, 5, 2 );
+  if( $mc == '01' ){
+    $monthc = 'January';
+  } else if( $mc == '02' ){
+    $monthc = 'February';
+  } else if( $mc == '03' ){
+    $monthc = 'March';
+  } else if( $mc == '04' ){
+    $monthc = 'April';
+  } else if( $mc == '05' ){
+    $monthc = 'May';
+  } else if( $mc == '06' ){
+    $monthc = 'June';
+  } else if( $mc == '07' ){
+    $monthc = 'July';
+  } else if( $mc == '08' ){
+    $monthc = 'August';
+  } else if( $mc == '09' ){
+    $monthc = 'September';
+  } else if( $mc == '10' ){
+    $monthc = 'October';
+  } else if( $mc == '11' ){
+    $monthc = 'November';
+  } else if( $mc == '12' ){
+    $monthc = 'December';
+  } else{
+    $monthc = 'xx';
+  }
+  $yearc = substr( $ceremony_date, 0, 4 );
+
+  $hourc = substr( $ceremony_date, 11, 5 );
+
     
     $her_name = $_POST[ 'her_name' ];
     $his_name = $_POST[ 'his_name' ];
@@ -116,7 +194,7 @@ $event_id = $_GET[ 'event_id' ];
     <head>
         <meta charset="utf-8">
         <meta http-equiv="x-ua-compatible" content="ie=edge">
-        <title>Wedding HTML-5 Template </title>
+        <title>Wedding Invitation</title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -135,6 +213,20 @@ $event_id = $_GET[ 'event_id' ];
             <link rel="stylesheet" href="http://localhost/git/bachelor/start/invits/assets/css/slick.css">
             <link rel="stylesheet" href="http://localhost/git/bachelor/start/invits/assets/css/nice-select.css">
             <link rel="stylesheet" href="http://localhost/git/bachelor/start/invits/assets/css/style.css">
+            <style>
+                ::-webkit-input-placeholder { 
+                    text-transform: none;
+                }
+                :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+                    text-transform: none;
+                }
+                ::-moz-placeholder { /* Mozilla Firefox 19+ */
+                    text-transform: none;
+                }
+                :-ms-input-placeholder { /* Internet Explorer 10+ */
+                    text-transform: none;
+                }
+            </style>
    </head>
 
    <body>
@@ -215,17 +307,18 @@ $event_id = $_GET[ 'event_id' ];
                         <div class="singl-services text-center mb-60">
                             <div class="top-caption">
                                 <h4>The Ceremony</h4>
-                                <p>July 20, 2020</p>
+                                <p>' . $ceremony[ 'ceremony_name' ] . '</p>
+                                <p style="margin-top:-30px;">' . $dayc . 'th of ' . $monthc . ', ' . $yearc . '</p>
                             </div>
                             <div class="services-img">
-                                <img src="http://localhost/git/bachelor/start/invits/assets/img/service/service2.png" alt="">
+                                <img src="http://localhost/git/bachelor/start_admin/images/'.$file_name_ceremony.'" alt="" height="310" width="310">
                                 <div class="back-flower">
                                     <img src="http://localhost/git/bachelor/start/invits/assets/img/service/services_flower1.png" alt="">
                                 </div>
                             </div>
                             <div class="bottom-caption">
-                                <span>12:00PM-2:00PM</span>
-                                <p>The Sierra Resort 14<br> Pacific Grove Monterey, CA</p>
+                                <span>' . $hourc . '</span>
+                                <p>' . $ceremony[ 'ceremony_address' ] . '</p>
                             </div>
                         </div> 
                     </div><div class="col-lg-4">
@@ -233,15 +326,16 @@ $event_id = $_GET[ 'event_id' ];
                             <div class="top-caption">
                                 <h4>Afterparty</h4>
                                 <p>' . $venue[ 'venue_name' ] . '</p>
+                                <p style="margin-top:-30px;">' . $day . 'th of ' . $month . ', ' . $year . '</p>
                             </div>
-                            <div class="services-img">
-                                <img src="http://localhost/git/bachelor/start/invits/assets/img/service/service3.png" alt="">
+                            <div class="services-img" style="margin-top:110px;">
+                                <img src="http://localhost/git/bachelor/start_admin/images/'.$file_name.'" alt="" height="310" width="310">
                                 <div class="back-flower">
                                     <img src="http://localhost/git/bachelor/start/invits/assets/img/service/services_flower1.png" alt="">
                                 </div>
                             </div>
                             <div class="bottom-caption">
-                                <span>12:00PM-2:00PM</span>
+                                <span>' . $hour . '</span>
                                 <p>' . $venue[ 'venue_address' ] . '</p>
                             </div>
                         </div> 
@@ -275,7 +369,7 @@ $event_id = $_GET[ 'event_id' ];
                                 </div>
                                 <div class="col-lg-12">
                                     <div class="form-box subject-icon mb-30">
-                                        <input type="Email" name="subject" placeholder="Email">
+                                        <input type="Email" name="email" placeholder="Email" style="text-transform:lowercase">
                                     </div>
                                 </div>
                                 <div class="col-lg-12 mb-30">
@@ -371,33 +465,484 @@ $event_id = $_GET[ 'event_id' ];
 
       ';   
     } else if( $_SESSION[ 'inv' ] == 'img2' ){
-        $stringData = "
-
-        <html>
+        $link = "'http://localhost/git/bachelor/start/img/$name'";
+        $stringData = '
+        <!DOCTYPE html>
+        <html lang="zxx">
         <head>
-        <title>hi</title>
+        <title>Elite Match a Matrimonial Category Bootstrap Responsive Website Template  | Home :: W3layouts</title>
+        <!-- for-mobile-apps -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="keywords" content="Elite Match Responsive web template, Bootstrap Web Templates, Flat Web Templates, Android Compatible web template, 
+        Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony Ericsson, Motorola web design" />
+        <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+                function hideURLbar(){ window.scrollTo(0,1); } </script>
+        <!-- //for-mobile-apps -->
+        <link href="http://localhost/git/bachelor/start/web1/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" /><!-- Bootstrap -->
+        <link href="http://localhost/git/bachelor/start/web1/css/font-awesome.css" rel="stylesheet"> <!-- Font awesome -->
+        <link href="http://localhost/git/bachelor/start/web1/css/owl.carousel.css" rel="stylesheet"><!-- Clients -->
+        <link href="http://localhost/git/bachelor/start/web1/css/popuo-box.css" rel="stylesheet" type="text/css" media="all" /><!-- Pop-up -->
+        <link href="http://localhost/git/bachelor/start/web1/css/lsb.css" rel="stylesheet" type="text/css"><!-- gallery -->
+        <link href="http://localhost/git/bachelor/start/web1/css/style.css" rel="stylesheet" type="text/css" media="all" />
+        <!--fonts-->
+        <link href="//fonts.googleapis.com/css?family=Raleway:400,500,600,700,800,900" rel="stylesheet">
+        <link href="//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+        <link href="//fonts.googleapis.com/css?family=Dancing+Script:400,700" rel="stylesheet">
+        <!--//fonts-->
+        
         </head>
         <body>
-        <h1>test</h1>
-        <p>hope</p>
+        <!--banner start here-->
+        <div class="banner-w3ls" id="home" style="background-image:url('. $link .');">
+            <div class="container">
+                    <!-- banner-slider -->
+                    <div class="w3l_banner_info" >
+                        <div class="slider">
+                            <div class="callbacks_container">
+                                        <ul class="rslides" id="slider3">
+                                            
+                                            <li>
+                                                <div class="w3ls-info">
+                                                    <h4>' . $his_name . ' and ' . $her_name . '</h4>
+                                                    <p>' . $story . '</p>
+                                                </div>
+        
+                                            </li>
+        
+                                        </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="clearfix"></div>
+                <!-- //banner-slider -->
+                        
+                    
+                </div>
+        </div>
+        <!--//home-->
+        <!--banner end here-->
+        <!-- services -->
+            <div class="services" id="services">
+                <div class="container">
+                <div class="tittle-agileinfo">
+                        <h3>RSVP</h3>
+                    </div>
+                    <div class="col-md-6 w3_agileits_services_grids">
+                        
+                        <div class="w3_agileits_services_grid">
+                            <div class="w3_agileits_services_grid_agile">
+                                
+                                <img src="http://localhost/git/bachelor/start_admin/images/'.$file_name_ceremony.'" alt="" height="110" width="110">
+                                
+                                <h3>' . $ceremony[ 'ceremony_name' ] . '</h3>
+                                <p>' . $dayc . 'th of ' . $monthc . ', ' . $yearc . ' at ' . $hourc . '</p>
+                                <p>' . $ceremony[ 'ceremony_address' ] . '</p>
+                            </div>
+                        </div>
+                        <div class="w3_agileits_services_grid">
+                            <div class="w3_agileits_services_grid_agile">
+                                
+                                <img src="http://localhost/git/bachelor/start_admin/images/'.$file_name.'" alt="" height="110" width="110">
+                                
+                                <h3>' . $venue[ 'venue_name' ] . '</h3>
+                                <p>' . $day . 'th of ' . $month . ', ' . $year . ' at ' . $hour . '</p>
+                                <p>' . $venue[ 'venue_address' ] . '</p>
+                            </div>
+                        </div>
+                        
+                        <div class="clearfix"> </div>
+                    </div>
+                    <div class="col-md-6 regstr-r-w3-agileits">
+                    <div class="form-bg-w3ls">
+                        <h3 class="subhead-agileits white-w3ls">Will you be joining us?</h3>
+                        
+                        <form action="http://localhost/git/bachelor/start/accept.php?event_id=' . $event_id . '" method="post" >
+                                        <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="form-box mb-30">
+                                            <input type="text" name="name" placeholder="Name">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-box subject-icon mb-30">
+                                            <input type="Email" name="email" placeholder="Email">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 mb-30">
+                                        <div class="select-itms">
+                                            <p>Are you accepting?</p>
+                                            <input type="radio" id="yes" name="accept" value="yes" style="height:13px;width:13px;">
+                                            <label for="yes">Yes</label>
+                                            <input type="radio" id="no" name="accept" value="no" style="height:13px;width:13px;">
+                                            <label for="no">No</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 mb-30">
+                                        <div class="select-itms">
+                                            <p>Are you bringing a plus one?</p>
+                                            <input type="radio" id="yes" name="plus" value="yes" style="height:13px;width:13px;">
+                                            <label for="yes">Yes</label>
+                                            <input type="radio" id="no" name="plus" value="no" style="height:13px;width:13px;">
+                                            <label for="no">No</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        
+                                    <div class="submit-info">
+                                    <input type="submit" value="R.S.V.P." >
+                                    </div>
+                                    </div>
+                                  </div>
+                                    </form>
+                        
+                        
+                        
+                        
+                    </div>
+                    </div>
+                </div>
+            </div>
+        <!-- //services -->
+        
+        <!-- js -->
+        <script type="text/javascript" src="http://localhost/git/bachelor/start/web1/js/jquery-2.2.3.min.js"></script>
+        <!-- flexisel -->
+                <script type="text/javascript">
+                $(window).load(function() {
+                    $("#flexiselDemo1").flexisel({
+                        visibleItems: 4,
+                        animationSpeed: 1000,
+                        autoPlay: true,
+                        autoPlaySpeed: 3000,    		
+                        pauseOnHover: true,
+                        enableResponsiveBreakpoints: true,
+                        responsiveBreakpoints: { 
+                            portrait: { 
+                                changePoint:480,
+                                visibleItems: 1
+                            }, 
+                            landscape: { 
+                                changePoint:640,
+                                visibleItems:2
+                            },
+                            tablet: { 
+                                changePoint:768,
+                                visibleItems: 2
+                            }
+                        }
+                    });
+                    
+                });
+            </script>
+            <script type="text/javascript" src="http://localhost/git/bachelor/start/web1/js/jquery.flexisel.js"></script>
+        <!-- //flexisel -->
+        <!-- gallery-pop-up -->
+            <script src="http://localhost/git/bachelor/start/web1/js/lsb.min.js"></script>
+            <script>
+            $(window).load(function() {
+                  $.fn.lightspeedBox();
+                });
+            </script>
+        <!-- //gallery-pop-up -->
+        <script src="http://localhost/git/bachelor/start/web1/js/SmoothScroll.min.js"></script>
+        <!--responsive slider -->
+        <script src="http://localhost/git/bachelor/start/web1/js/responsiveslides.min.js"></script>
+                                    <script>
+                                        // You can also use "$(window).load(function() {"
+                                        $(function () {
+                                          // Slideshow 3
+                                          $("#slider3").responsiveSlides({
+                                            auto: true,
+                                            pager:true,
+                                            nav:true,
+                                            speed: 500,
+                                            namespace: "callbacks",
+                                            before: function () {
+                                              $(".events").append("<li>before event fired.</li>");
+                                            },
+                                            after: function () {
+                                              $(".events").append("<li>after event fired.</li>");
+                                            }
+                                          });
+                                    
+                                        });
+                                     </script>
+        <!--//responsive slider -->
+        <!--pop-up-box -->
+                            <script src="http://localhost/git/bachelor/start/web1/js/jquery.magnific-popup.js" type="text/javascript"></script>
+                            <script>
+                            $(document).ready(function() {
+                            $(".popup-with-zoom-anim").magnificPopup({
+                            type: "inline",
+                            fixedContentPos: false,
+                            fixedBgPos: true,
+                            overflowY: "auto",
+                            closeBtnInside: true,
+                            preloader: false,
+                            midClick: true,
+                            removalDelay: 300,
+                            mainClass: "my-mfp-zoom-in"
+                            });
+        
+                            });
+                            </script>
+        <!-- //pop-up-box -->
+        
+        <!-- smooth scrolling -->
+            <script type="text/javascript">
+                $(document).ready(function() {
+                /*
+                    var defaults = {
+                    containerID: "toTop", // fading element id
+                    containerHoverID: "toTopHover", // fading element hover id
+                    scrollSpeed: 1200,
+                    easingType: "linear" 
+                    };
+                */								
+                $().UItoTop({ easingType: "easeOutQuart" });
+                });
+            </script>
+            
+            
+            <a href="#home" class="scroll" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+        <!-- //smooth scrolling -->
+            <!-- for-Clients -->
+                <script src="http://localhost/git/bachelor/start/web1/js/owl.carousel.js"></script>
+                    <!-- requried-jsfiles-for owl -->
+                                            <script>
+                                                $(document).ready(function() {
+                                                  $("#owl-demo2").owlCarousel({
+                                                    items : 1,
+                                                    lazyLoad : false,
+                                                    autoPlay : true,
+                                                    navigation : false,
+                                                    navigationText :  false,
+                                                    pagination : true,
+                                                  });
+                                                });
+                                              </script>
+                    <!-- //requried-jsfiles-for owl -->
+            <!-- //for-Clients -->
+            <!-- start-smoth-scrolling -->
+        <script type="text/javascript" src="http://localhost/git/bachelor/start/web1/js/move-top.js"></script>
+        <script type="text/javascript" src="http://localhost/git/bachelor/start/web1/js/easing.js"></script>
+        <script type="text/javascript">
+            jQuery(document).ready(function($) {
+                $(".scroll").click(function(event){		
+                    event.preventDefault();
+                    $("html,body").animate({scrollTop:$(this.hash).offset().top},1000);
+                });
+            });
+        </script>
+        <!-- start-smoth-scrolling -->
+        <script type="text/javascript" src="http://localhost/git/bachelor/start/web1/js/bootstrap-3.1.1.min.js"></script>
+            
+        
         </body>
-        <html>
-
-        "; 
+        </html>
+        '; 
     } else if( $_SESSION[ 'inv' ] == 'img3' ){
-        $stringData = "
-
+        $link = "'http://localhost/git/bachelor/start/img/$name'";
+        $stringData = '
+        <!DOCTYPE html>
         <html>
         <head>
-        <title>hi</title>
+        <title>Invitation</title>
+        <!-- for-mobile-apps -->
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
+                function hideURLbar(){ window.scrollTo(0,1); } </script>
+        <!-- //for-mobile-apps -->
+        <link href="http://localhost/git/bachelor/start/web/css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="http://localhost/git/bachelor/start/web/css/style.css" rel="stylesheet" type="text/css" media="all" />
+        <link rel="stylesheet" href="http://localhost/git/bachelor/start/web/css/chocolat.css" type="text/css" media="screen" charset="utf-8">
+        <!-- js -->
+        <script type="text/javascript" src="http://localhost/git/bachelor/start/web/js/jquery-2.1.4.min.js"></script>
+        <!-- //js -->
+        <!-- script -->
+            <script src="http://localhost/git/bachelor/start/web/js/jquery.chocolat.js"></script>
+                <!--light-box-files-->
+            <script type="text/javascript" charset="utf-8">
+                $(function() {
+                    $(".portfolio-grids a").Chocolat();
+                });
+            </script>
+        <!-- script -->
+        <!-- animation-effect -->
+        <link href="http://localhost/git/bachelor/start/web/css/animate.min.css" rel="stylesheet"> 
+        <script src="http://localhost/git/bachelor/start/web/js/wow.min.js"></script>
+        <script>
+         new WOW().init();
+        </script>
+        <!-- //animation-effect -->
+        <!-- timer -->
+        <link rel="stylesheet" href="http://localhost/git/bachelor/start/web/css/jquery.countdown.css" />
+        <!-- //timer -->
+        <link href="//fonts.googleapis.com/css?family=Poiret+One" rel="stylesheet" type="text/css">
+        <link href="//fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600,600italic,700,700italic,800,800italic" rel="stylesheet" type="text/css">
+        <!-- start-smoth-scrolling -->
+        <script type="text/javascript">
+            jQuery(document).ready(function($) {
+                $(".scroll").click(function(event){		
+                    event.preventDefault();
+                    $("html,body").animate({scrollTop:$(this.hash).offset().top},1000);
+                });
+            });
+        </script>
+        <!-- start-smoth-scrolling -->
         </head>
+            
         <body>
-        <h1>test</h1>
-        <p>hope</p>
-        </body>
-        <html>
+        <!-- banner -->
+            <div class="banner" id="home1" style="background-image:url('. $link .');">
+                <div class="container">
+                    
+                    
+                    
+                    <div class="clearfix"> </div>
+                    <div class="banner-info animated wow zoomIn" data-wow-delay=".5s">
+                        <p>wedding invitation</p>
+                    </div>
+                    
+                    </div>
+                </div>
+            </div>
+        <!-- //banner -->
+        
+        
+        <!-- services -->
+            <div class="services" id="services">
+                <div class="container">
+                    <h3 class="animated wow zoomIn" data-wow-delay=".5s"><span>Ceremony and Afterparty</span></h3>
+                    <div class="services-grids">
+                        
+                        
+                        <div class="col-md-6 services-grid">
+                            
+                            <img src="http://localhost/git/bachelor/start_admin/images/'.$file_name_ceremony.'" alt="" height="210" width="210">
+                            
+                            <div class="bootstrap-pop-up">
+                                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                                    ' . $ceremony[ 'ceremony_name' ] . '
+                                </button>
+                            </div>
+                            <p>' . $dayc . 'th of ' . $monthc . ', ' . $yearc . ' at ' . $hourc . '</p>
+                            <p>' . $ceremony[ 'ceremony_address' ] . '</p>
+                        </div>
 
-        "; 
+                        <div class="col-md-6 services-grid">
+                            
+                            <img src="http://localhost/git/bachelor/start_admin/images/'.$file_name.'" alt="" height="210" width="210">
+                    
+                            <div class="bootstrap-pop-up">
+                                <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+                                    ' . $venue[ 'venue_name' ] . '
+                                </button>
+                            </div>
+                            <p>' . $day . 'th of ' . $month . ', ' . $year . ' at ' . $hour . '</p>
+                            <p>' . $venue[ 'venue_address' ] . '</p>
+                        </div>
+
+                        <div class="clearfix"> </div>
+                    </div>
+                    <div class="services-grids-wedding">
+                        <div class="services-grids-wedding1">
+                            <div class="services-grids-wedding-left animated wow slideInLeft" data-wow-delay=".5s">
+                                <h4>' . $his_name . '</h4>
+                            </div>
+                            <div class="services-grids-wedding-right animated wow slideInRight" data-wow-delay=".5s">
+                                
+                                <h4>' . $her_name . '</h4>
+                            </div>
+                            <div class="clearfix"> </div>
+                        </div>
+                        <h5 class="animated wow slideInUp" data-wow-delay=".5s">We are getting married!</h5>
+                        <p class="animated wow slideInUp" data-wow-delay=".5s">Please join us on our big day!</p>
+                        
+                    </div>
+                </div>
+            </div>
+        <!-- //services -->
+        <!-- services-bottom -->
+            <div class="services-bottom">
+                <div class="container">
+                    <h2 class="animated wow slideInLeft" data-wow-delay=".5s">' . $story . '</h2>
+                </div>
+            </div>
+        <!-- //services-bottom -->
+        
+        
+        <!-- contact -->
+            <div class="contact" id="mail">
+                <div class="container">
+                    <h3 class="animated wow zoomIn" data-wow-delay=".5s"><span>Will you be attending?</span></h3>
+                    <div class="mail-grids">
+                        <div class="col-md-6 mail-grid-left animated wow " data-wow-delay=".5s">
+                            <form action="http://localhost/git/bachelor/start/accept.php?event_id=' . $event_id . '" method="post" >
+                                <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-box mb-30">
+                                    <input type="text" name="name" placeholder="Name">
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-box subject-icon mb-30">
+                                    <input type="Email" name="email" placeholder="Email">
+                                </div>
+                            </div>
+                            <div class="col-lg-12 mb-30">
+                                <div class="select-itms">
+                                    <p>Are you accepting?</p>
+                                    <input type="radio" id="yes" name="accept" value="yes" style="height:13px;width:13px;">
+                                    <label for="yes">Yes</label>
+                                    <input type="radio" id="no" name="accept" value="no" style="height:13px;width:13px;">
+                                    <label for="no">No</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 mb-30">
+                                <div class="select-itms">
+                                    <p>Are you bringing a plus one?</p>
+                                    <input type="radio" id="yes" name="plus" value="yes" style="height:13px;width:13px;">
+                                    <label for="yes">Yes</label>
+                                    <input type="radio" id="no" name="plus" value="no" style="height:13px;width:13px;">
+                                    <label for="no">No</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                
+                            <div class="submit-info">
+                            <input type="submit" value="R.S.V.P." >
+                            </div>
+                            </div>
+                          </div>
+                            </form>
+
+
+
+                            
+
+
+
+
+
+
+
+
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        <!-- //contact -->
+        
+        <!-- for bootstrap working -->
+            <script src="http://localhost/git/bachelor/start/web/js/bootstrap.js"></script>
+        <!-- //for bootstrap working -->
+        </body>
+        </html>
+        '; 
     } 
 
     fwrite($fh, $stringData);

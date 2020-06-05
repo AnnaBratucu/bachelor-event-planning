@@ -66,20 +66,15 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 				<h3>RSVP</h3>
 			</div>
 			<div class="col-md-6 w3_agileits_services_grids">
-				<div class="w3_agileits_services_grid">
-					<div class="w3_agileits_services_grid_agile">
-						<div class="w3_agileits_services_grid_1">
-							<i class="fa fa-search" aria-hidden="true"></i>
-						</div>
-						<h3>Search within reach</h3>
-					</div>
-				</div>
+				
 				<div class="w3_agileits_services_grid">
 					<div class="w3_agileits_services_grid_agile">
 						<div class="w3_agileits_services_grid_1">
 							<i class="fa fa-list-alt" aria-hidden="true"></i>
 						</div>
 						<h3>Shortlisted matches</h3>
+						<p>Initiate communication</p>
+						<p>Initiate communication</p>
 					</div>
 				</div>
 				<div class="w3_agileits_services_grid">
@@ -88,38 +83,59 @@ Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, Sony
 							<i class="fa fa-phone" aria-hidden="true"></i>
 						</div>
 						<h3>Initiate communication</h3>
+						<p>Initiate communication</p>
+						<p>Initiate communication</p>
 					</div>
 				</div>
-				<div class="w3_agileits_services_grid">
-					<div class="w3_agileits_services_grid_agile">
-						<div class="w3_agileits_services_grid_1">
-							<i class="fa fa-users" aria-hidden="true"></i>
-						</div>
-						<h3>Meet the prospects</h3>
-					</div>
-				</div>
+				
 				<div class="clearfix"> </div>
 			</div>
 			<div class="col-md-6 regstr-r-w3-agileits">
 			<div class="form-bg-w3ls">
-				<h3 class="subhead-agileits white-w3ls">Interested in assisted services....?</h3>
-				<p class="para-agileits-w3layouts">Leave your details below, we'll call you back.</p>
-				<form action="#" method="post">
-					<input type="text" name="Name" placeholder="Full name" required="">
-					<input type="text" name="number" placeholder="Number" required="">
-					<input type="email" name="Email" placeholder="Email" required="">
-					<select class="form-control">
-						<option>Select Location</option>
-						<option>Bangalore</option>
-						<option>Chandigarh</option>
-						<option>Kolkata</option>
-						<option>Ludhiana</option>
-						<option>Mumbai</option>
-						<option>Mysore</option>
-						<option>Pune</option>
-					</select>
-					<input type="submit" value="Submit" class="button-w3layouts hvr-rectangle-out">
-				</form>	
+				<h3 class="subhead-agileits white-w3ls">Will you be joining us?</h3>
+				
+				<form action="http://localhost/git/bachelor/start/accept.php?event_id=' . $event_id . '" method="post" >
+                                <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-box mb-30">
+                                    <input type="text" name="name" placeholder="Name">
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-box subject-icon mb-30">
+                                    <input type="Email" name="subject" placeholder="Email">
+                                </div>
+                            </div>
+                            <div class="col-lg-12 mb-30">
+                                <div class="select-itms">
+                                    <p>Are you accepting?</p>
+                                    <input type="radio" id="yes" name="accept" value="yes" style="height:13px;width:13px;">
+                                    <label for="yes">Yes</label>
+                                    <input type="radio" id="no" name="accept" value="no" style="height:13px;width:13px;">
+                                    <label for="no">No</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-12 mb-30">
+                                <div class="select-itms">
+                                    <p>Are you bringing a plus one?</p>
+                                    <input type="radio" id="yes" name="plus" value="yes" style="height:13px;width:13px;">
+                                    <label for="yes">Yes</label>
+                                    <input type="radio" id="no" name="plus" value="no" style="height:13px;width:13px;">
+                                    <label for="no">No</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                
+                            <div class="submit-info">
+                            <input type="submit" value="R.S.V.P." >
+                            </div>
+                            </div>
+                          </div>
+                            </form>
+				
+				
+				
+				
 			</div>
 			</div>
 		</div>
