@@ -250,9 +250,9 @@ require_once '../menu.php';
 									<option value="ceremony">Ceremony Venue</option>
 								<?php } 
 								if( $_SESSION[ 'category' ] == 'food' ){ ?>
-									<option value="food" selected>Course</option>
+									<option value="food" selected>Dish</option>
 								<?php }else{ ?>
-									<option value="food">Course</option>
+									<option value="food">Dish</option>
 								<?php } ?>
 							</select>
 						</div>

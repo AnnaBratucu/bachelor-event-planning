@@ -61,7 +61,7 @@ if( !isset($_SESSION['username']) ){
               $message = "You exceeded your budget. Please go to the budget tab and add more.";
           } else {
               if( $emergency - $yes_count * $price < 0 ){
-                  $message = "You don't have enough money for this course.";
+                  $message = "You don't have enough money for this dish.";
               }else{
                 $sql7 = "UPDATE budget SET budget_emergency = :budget_emergency WHERE (user_id = :user_id AND event_id = :event_id)";
                 if( $stmt7 = $pdo->prepare($sql7)  ){
@@ -101,7 +101,7 @@ if( !isset($_SESSION['username']) ){
               $tot_p = $yes_count * $price;
               $b = $tot_p - $budget;
               if( $emergency - $b < 0 ){
-                  $message = "You don't have enough money for this course.";
+                  $message = "You don't have enough money for this dish.";
               }else{
                 $sql7 = "UPDATE budget SET budget_value = :budget_value, budget_emergency = :budget_emergency WHERE (user_id = :user_id AND event_id = :event_id)";
                 if( $stmt7 = $pdo->prepare($sql7)  ){

@@ -428,7 +428,7 @@ require_once '../menu.php';
         <div class="modal-body" style="width:900px;">
 			<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="form-container" enctype='multipart/form-data'>
 			<!-- <div class="fetched-data" style="color:black;"></div>  -->
-				<h1 style = "color:black;">Add course</h1>
+				<h1 style = "color:black;">Add dish</h1>
 				
 				<div class="container">
   <div class="row text-center">
@@ -459,7 +459,7 @@ require_once '../menu.php';
 				<div class='div'>
 					<span class='blocking-span'>
 						<input type="text" class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;height:55px;margin: 5px 0 18px 0;border: none;" class="inputText" name="name" id="name" required>
-						<span class="floating-label" style = "color:grey;padding-top: 12px;">Course Name <span style="color:red"> *</span></span>
+						<span class="floating-label" style = "color:grey;padding-top: 12px;">Dish Name <span style="color:red"> *</span></span>
 					</span>
 				</div>
 				<div class='div'>
@@ -477,7 +477,7 @@ require_once '../menu.php';
 				<div class='div'>
 					<span class='blocking-span'>
 						<input class="js-example-placeholder-single form-control js-example-responsive" style="background-color:#f1f1f1;padding: 12px;margin: 5px 0 18px 0;border: none;" type="number" name="price" step="0.1" id="price" required>
-						<span class="floating-label" style = "color:grey;padding-top: 12px;">Course Price per portion <span style="color:red"> *</span></span>
+						<span class="floating-label" style = "color:grey;padding-top: 12px;">Dish Price per portion <span style="color:red"> *</span></span>
 					</span>
 				</div>
 				<div class='div'>
@@ -548,9 +548,9 @@ require_once '../menu.php';
             <div style="background-image:url('../images/menu.jpg');background-size:cover;margin-top:-925px;margin-left:-40px;margin-right:-40px;height:300px;">
             <div style="height:70px;"></div>
 			<?php if( $_SESSION[ 'username' ] == 'admin@yahoo.com' ){ ?>
-				<h1 style="color:white">Add courses</h1><br><br>
+				<h1 style="color:white">Add dishes</h1><br><br>
 			<?php } else{ ?>
-				<h1 style="color:white">Available courses</h1><br><br>
+				<h1 style="color:white">Available dishes</h1><br><br>
 			<?php } ?>
 				</div>
 				<!-- <div class="row" style="margin-left:80px;">
@@ -706,8 +706,8 @@ if( $_SESSION['username'] != 'admin@yahoo.com' ){
 													<a href="choose_venue.php" class="disabled" onclick="return false;"><div class="plus" data-toggle="tooltip" title="Add to favorites!" data-placement="top"><div class="plus"><img src="images/heart_2.png" class="svg" alt="" data-toggle="tooltip" title="Add to favorites!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
 												<?php } else { ?>
 												<a href="../start/add_favourites.php?food_id=<?php echo $venue[ 'food_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>" onclick="if (!confirm('Are you sure you want to add to favourites?')) { return false;  }"><div class="plus" data-toggle="tooltip" title="Add to favorites!" data-placement="top"><div class="plus"><img src="../start_admin/images/heart_2.png" class="svg" alt="" data-toggle="tooltip" title="Add to favorites!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
-												<div id="snackbar">Course added to favourites!</div>
-												<div id="snackbar1">Course was already added to favourites!</div>
+												<div id="snackbar">Dish added to favourites!</div>
+												<div id="snackbar1">Dish was already added to favourites!</div>
 
 												<?php 
 												$recordAdded = false;

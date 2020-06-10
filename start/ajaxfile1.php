@@ -13,7 +13,7 @@ $post_ids = $_POST['post_id'];
 $event_id = $_POST['event_id'];
 
 foreach($post_ids as $id){ 
-    $sql = "SELECT * FROM guests WHERE guest_id = :guest_id";
+    $sql = "SELECT * FROM guests WHERE guest_id = :guest_id AND guest_send = 'no'";
         
     if($stmt = $pdo->prepare($sql)){
         // Bind variables to the prepared statement as parameters

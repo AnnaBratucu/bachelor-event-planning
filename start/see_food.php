@@ -89,7 +89,7 @@ require_once '../menu.php';
         
             <div style="background-image:url('../images/menu.jpg');background-size:cover;margin-top:-262px;margin-left:-40px;margin-right:-40px;height:300px;">
                 <div style="height:70px;"></div>
-                <h1 style="color:white;">See course menu details</h1><br><br>
+                <h1 style="color:white;">See dish details</h1><br><br>
             </div>
         <form id="regForm" autocomplete="off" action="<?php //if(isset($_GET[ 'event_id' ])){ echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?event_id=' . $_GET[ 'event_id' ]; } else{ echo htmlspecialchars($_SERVER["PHP_SELF"]); } ?>" method="POST">
 
@@ -172,7 +172,7 @@ require_once '../menu.php';
 						<div class="tab-content" id="pills-tabContent">
 							
 							<div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-								<h3 class="tab-title">Course Specifications</h3>
+								<h3 class="tab-title">Dish Specifications</h3>
 								<table class="table table-bordered product-table">
 									<tbody>
 										<tr>
@@ -212,7 +212,7 @@ require_once '../menu.php';
                            
                             <div class="col-12">
                                 <!-- <button type="submit" class="btn btn-main">Book ceremony venue</button><br> -->
-                                <button type="submit" form="myForm" value="Submit">Choose Course</button>
+                                <button type="submit" form="myForm" value="Submit">Choose Dish</button>
                             </div>
                         </form>
 							<!-- <li class="list-inline-item"><a href="choose_venue.php?venue_id=<?php echo $id ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>&venue_price=<?php echo $price ?>" onclick="if (!confirm('Are you sure you want to book this venue?')) { return false; }" class="btn btn-offer d-inline-block btn-primary ml-n1 my-1 px-lg-4 px-md-3">Book venue</a></li> -->

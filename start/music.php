@@ -147,8 +147,8 @@ $sql = "SELECT * FROM music WHERE event_id = :event_id ORDER BY music_id DESC";
 		
 		<td><div style="margin-right:-13px;margin-right:5px;"><input type='checkbox' id='del_<?php echo $row[ 'music_id' ]; ?>' ></div></td>
         <td><?php echo $count ?></td>
-        <td><?php echo $row[ 'music_artist' ]; ?></td>
         <td><?php echo $row[ 'music_title' ]; ?></td>
+        <td><?php echo $row[ 'music_artist' ]; ?></td>
         <td><a class="active" href="delete_music.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>&music_id=<?php echo $row[ 'music_id' ]; ?>" onclick="if (!confirm('Are you sure you want to delete the song?')) { return false; }"><i class="fa fa-times" style="color:black;" data-toggle="tooltip" title="Delete song!" data-placement="top"></i></a></td>
      </tr>
 	  <?php $count++; } } else{ ?> <tr>&nbsp</tr><tr><td>No songs added yet.</td></tr> <?php } }  ?>

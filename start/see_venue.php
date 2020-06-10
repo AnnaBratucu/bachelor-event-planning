@@ -385,7 +385,7 @@ require_once '../menu.php';
 													<textarea name="review" id="review" rows="10" class="form-control" placeholder="Message"></textarea>
 												</div>
 												<div class="col-12">
-													<button type="submit" class="btn btn-main">Submit</button>
+													<button type="submit">Submit</button>
 												</div>
                                             </div>
                                         </form>
@@ -403,10 +403,12 @@ require_once '../menu.php';
 						<p>$<?php echo $price; ?></p>
 					</div>
 					<!-- User Profile widget -->
-					<div class="widget user text-center">
+					<div class="widget user text-center" style="background-color:#ccffcc;">
                         <form autocomplete="off" action="choose_venue.php?venue_id=<?php echo $id ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>&venue_price=<?php echo $price ?>" method="post" class="row" enctype='multipart/form-data' >
+                            <div class="col-12">
+                                <h3>Book venue</h3>
+                            </div>
                             <div class="col-lg-6">
-
                             <?php 
                                 $event_start = [];
                                 $sql5 = "SELECT start FROM tbl_events WHERE venue_id = :venue_id";
@@ -426,7 +428,7 @@ require_once '../menu.php';
                             </div>
                            
                             <div class="col-12">
-                                <button type="submit" class="btn btn-main">Book venue</button><br>
+                                <button type="submit">Book venue</button><br>
                             </div>
                         </form>
 							<!-- <li class="list-inline-item"><a href="choose_venue.php?venue_id=<?php echo $id ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>&venue_price=<?php echo $price ?>" onclick="if (!confirm('Are you sure you want to book this venue?')) { return false; }" class="btn btn-offer d-inline-block btn-primary ml-n1 my-1 px-lg-4 px-md-3">Book venue</a></li> -->

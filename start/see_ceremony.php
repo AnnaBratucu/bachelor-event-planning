@@ -215,13 +215,13 @@ require_once '../menu.php';
                                 <td style="background-color:white;">Live Music</td>
                               <?php } ?>
                               <?php if( $bell == 'yes' ){ ?>
-                                <td>Church Bells</td>
+                                <td style="background-color:white;">Church Bells</td>
                               <?php } ?>
                               <?php if( $flower == 'yes' ){ ?>
-                                <td>Flowers Provided</td>
+                                <td style="background-color:white;">Flowers Provided</td>
                               <?php } ?>
                               <?php if( $heat == 'yes' ){ ?>
-                                <td>Heating</td>
+                                <td style="background-color:white;">Heating</td>
                               <?php } ?>
                             </tr>
                           </table>
@@ -239,13 +239,13 @@ require_once '../menu.php';
 				<div class="sidebar">
 					
 					<!-- User Profile widget -->
-					<div class="widget user text-center">
+					<div class="widget user text-center" style="background-color:#ccffcc;">
                         <form action="choose_ceremony.php?ceremony_id=<?php echo $id ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>" method="post">
                             
                         </form>
                         <form autocomplete="off" action="choose_ceremony.php?ceremony_id=<?php echo $id ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>" method="post" name="myForm" id="myForm">
+                            <h3>Book venue</h3>
                             <div class="col-lg-6">
-
                             <?php 
                                 $event_start = [];
                                 $sql5 = "SELECT start FROM tbl_events_ceremony WHERE ceremony_id = :ceremony_id";

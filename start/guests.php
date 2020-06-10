@@ -338,9 +338,10 @@ $('#delete').click(function(){
             type: 'POST',
             data: { post_id: post_arr},
             success: function(response){
-               $.each(post_arr, function( i,l ){
-                   $("#tr_"+l).remove();
-               });
+               //$.each(post_arr, function( i,l ){
+                  // $("#tr_"+l).remove();
+               //});
+               location.reload();
             }
          });
       } 

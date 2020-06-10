@@ -57,15 +57,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     } else{
 		$budget = $input_budget;
     }
-    echo isset($_POST[ 'emergency' ]);
-    if( $_POST[ 'emergency' ] != 0 ){
+    //echo isset($_POST[ 'emergency' ]);
+    if( $_POST[ 'emergency' ] != 0 || isset($input_emergency)){
         $input_emergency = $_POST["emergency"];
         if( !is_numeric( $input_emergency ) ){
             $emergency_err = "You must enter the numeric sum";
         } else{
             $emergency = $input_emergency;
         }
-    } 
+    } else{
+        $emergency = 0;
+    }
 
 
     $sql = "SELECT * FROM events WHERE event_id = :event_id";
@@ -85,8 +87,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 }
     
     if( $budget_err == '' && $emergency_err == '' ){
-        $_SESSION[ 'budget' ] = $budget;
-        $_SESSION[ 'emergency' ] = $emergency;
+        //$_SESSION[ 'budget' ] = $budget;
+        //$_SESSION[ 'emergency' ] = $emergency;
 
         
 		$sql = "SELECT * FROM budget WHERE event_id = :event_id";

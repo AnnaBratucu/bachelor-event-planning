@@ -150,7 +150,7 @@ require_once '../menu.php';
 
 <div style="background-image:url('../images/profile.jpg');background-size:cover;margin-top:-680px;margin-left:-40px;height:300px;">
             <div style="height:70px;"></div>
-        <h1 style="color:black;font-size:30px;">Arrange the tables and guests.</h1><br><br>
+        <h1 style="color:black;font-size:30px;">See event statistics.</h1><br><br>
 </div>
 <?php $event_id = $_GET[ 'event_id' ]; ?>
 <div class="container" style="margin-top:50px;">
@@ -615,7 +615,7 @@ $sql = "SELECT * FROM guests WHERE event_id = :event_id AND guest_send = :guest_
                     <h4>Time left</h4>
                     <h2><?= $final_date ?> days</h2>
                 </div>
-              </div>1
+              </div>
             </div>
         </div>
 
@@ -627,7 +627,7 @@ $sql = "SELECT * FROM guests WHERE event_id = :event_id AND guest_send = :guest_
 
 <div class="container my-5">
 <div class="card-body text-center">
-    <h4 class="card-title">Notification center</h4>
+    <h4 class="card-title">Notification centre</h4>
   </div>
     <div class="card">
         

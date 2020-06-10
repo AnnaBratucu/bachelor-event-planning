@@ -104,29 +104,6 @@ $sql = "SELECT * FROM notificatins WHERE event_id = :event_id AND notification_s
 
             <?php 
                 if( $_SESSION[ 'username' ] != 'admin@yahoo.com' ){
-                if( basename($_SERVER['PHP_SELF']) == 'invitations.php' || basename($_SERVER['PHP_SELF']) == 'invitations2.php' ){
-            ?>
-            <li class="darkerlishadow" style="background-color:	#606060">
-                <a href="../start/invitations.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
-                    <i class="fa fa-newspaper-o" style="font-size:20px;color:#F5F5F5;"></i>
-                    <span class="nav-text" style="color:white;">Invitations</span>
-                </a>
-            </li>
-            <?php 
-                }else{
-            ?>
-            <li class="darkerli">
-                <a href="../start/invitations.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
-                    <i class="fa fa-newspaper-o" style="font-size:20px"></i>
-                    <span class="nav-text">Invitations</span>
-                </a>
-            </li>
-            <?php }} ?>
-
-
-
-            <?php 
-                if( $_SESSION[ 'username' ] != 'admin@yahoo.com' ){
                 if( basename($_SERVER['PHP_SELF']) == 'guests.php' ){
             ?>
             <li class="darkerlishadow" style="background-color:	#606060">
@@ -145,6 +122,7 @@ $sql = "SELECT * FROM notificatins WHERE event_id = :event_id AND notification_s
                 </a>
             </li>
             <?php }} ?>
+
 
 
             <?php 
@@ -221,6 +199,28 @@ $sql = "SELECT * FROM notificatins WHERE event_id = :event_id AND notification_s
             </li>
             <?php } ?>
 
+
+
+            <?php 
+                if( $_SESSION[ 'username' ] != 'admin@yahoo.com' ){
+                if( basename($_SERVER['PHP_SELF']) == 'invitations.php' || basename($_SERVER['PHP_SELF']) == 'invitations2.php' ){
+            ?>
+            <li class="darkerlishadow" style="background-color:	#606060">
+                <a href="../start/invitations.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
+                    <i class="fa fa-newspaper-o" style="font-size:20px;color:#F5F5F5;"></i>
+                    <span class="nav-text" style="color:white;">Invitations</span>
+                </a>
+            </li>
+            <?php 
+                }else{
+            ?>
+            <li class="darkerli">
+                <a href="../start/invitations.php?event_id=<?php echo $_GET[ 'event_id' ] ?>">
+                    <i class="fa fa-newspaper-o" style="font-size:20px"></i>
+                    <span class="nav-text">Invitations</span>
+                </a>
+            </li>
+            <?php }} ?>
 
 
 
