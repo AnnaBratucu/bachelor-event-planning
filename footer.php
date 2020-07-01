@@ -54,11 +54,11 @@
                              </div>
                              <div class="footer-tittle" style="background-color:#f9f7f4;">
                                  <div class="footer-pera" style="background-color:#f9f7f4;">
-                                     <p class="info1">Seddo eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                     <p class="info1">Some events you attend, some you keep!</p>
 
-                                     <p class="info2">theaisle@elated-themes.com</p>
-                                     <p class="info2">+(123) 456 - 7890 - 456 - 7890</p>
-                                     <p class="info2"> 35 W 46nd Street New York</p>
+                                     <p class="info2">www.eventsaver.com</p>
+                                     <p class="info2">+(40) 072-2620-405</p>
+                                     <p class="info2"> 721 Broadway, New York</p>
                                 </div>
                              </div>
                          </div>
@@ -70,11 +70,8 @@
                                 <h4>WEDDING PLANNER FAQS</h4>
                                 <ul>
                                     <li><a href="#">Why Hire a Planner?</a></li>
-                                    <li><a href="#">How Can I Make An</a></li>
-                                    <li><a href="#">Appointment?</a></li>
                                     <li><a href="#">How to Choose a Venue</a></li>
                                     <li><a href="#">Event Catalogue</a></li>
-                                    <li><a href="#"> Accept</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -85,11 +82,8 @@
                                 <h4>ABOUT US</h4>
                                 <ul>
                                     <li><a href="#">Bridesmaids</a></li>
-                                    <li><a href="#">November 22, 2020</a></li>
                                     <li><a href="#">Groomsmen</a></li>
-                                    <li><a href="#">November 22, 2020</a></li>
                                     <li><a href="#">JEWELRY</a></li>
-                                    <li><a href="#">November 22, 2020</a></li>
                                 </ul>
                             </div>
                         </div>

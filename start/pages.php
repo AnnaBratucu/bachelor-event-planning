@@ -19,17 +19,29 @@ session_start();
 			} else if( $user[ 'event_stage' ] == 'guests' ){
 				header("location: guests.php?event_id=$event_id");
 				exit();
-			} else if( $user[ 'event_stage' ] == 'surveys' ){
-				header("location: surveys.php?event_id=$event_id");
+			} else if( $user[ 'event_stage' ] == 'ceremony' ){
+				header("location: ceremony.php?event_id=$event_id");
 				exit();
 			} else if( $user[ 'event_stage' ] == 'venue' ){
 				header("location: wizard.php?event_id=$event_id");
+				exit();
+			} else if( $user[ 'event_stage' ] == 'invitation' ){
+				header("location: invitations.php?event_id=$event_id");
+				exit();
+			} else if( $user[ 'event_stage' ] == 'send' ){
+				header("location: guests.php?event_id=$event_id");
 				exit();
 			} else if( $user[ 'event_stage' ] == 'table_arrangement' ){
 				header("location: table_arrangement.php?event_id=$event_id");
 				exit();
 			} else if( $user[ 'event_stage' ] == 'food' ){
-				header("location: food.php?event_id=$event_id");
+				header("location: ../start_admin/food_admin.php?event_id=$event_id");
+				exit();
+			} else if( $user[ 'event_stage' ] == 'music' ){
+				header("location: music.php?event_id=$event_id");
+				exit();
+			} else if( $user[ 'event_stage' ] == 'completed' ){
+				header("location: profile.php?event_id=$event_id");
 				exit();
 			}
 		}	

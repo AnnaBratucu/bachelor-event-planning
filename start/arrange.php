@@ -166,7 +166,7 @@ $sql = "SELECT * FROM guests WHERE guest_status = :guest_status AND event_id=:ev
 
         <?php $count++; } } }  ?>
 </div>
-
+<a href="table_stage.php?event_id=<?= $_GET[ 'event_id' ] ?>"><button class="btn btn-success btn-sm" id="myBtn" value="<?= $_GET[ 'event_id' ] ?>" style="height:70px;width:200px;margin-left:700px;margin-top:30px;margin-bottom:20px;">Finish arrangement</button></a>
 <script>
 var sPositions = localStorage.positions || "{}",
     positions = JSON.parse(sPositions);

@@ -11,7 +11,7 @@ $guest_id = $_GET[ 'guest_id' ];
 
 
         
-$sql = "DELETE FROM guests WHERE guest_id= :guest_id";
+$sql = "DELETE FROM guests WHERE guest_id= :guest_id AND guest_send = 'no'";
 
 if( $stmt = $pdo->prepare($sql)  ){
     $stmt->bindParam(":guest_id", $param_id);

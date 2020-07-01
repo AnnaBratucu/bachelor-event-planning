@@ -564,9 +564,9 @@ require_once '../menu.php';
 					</div>
 				</div> -->
 				<?php if( $_SESSION[ 'username' ] != 'admin@yahoo.com' ){ ?>
-					<form style="margin-bottom:-80px;margin-top:20px;" action="../start/food_search.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>" class="row" method="post"> 
+					<form autocomplete="off" style="margin-bottom:-80px;margin-top:20px;" action="../start/food_search.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>" class="row" method="post"> 
 				<?php } else{ ?>
-					<form style="margin-bottom:-80px;margin-top:20px;" action="../start/food_search.php" class="row" method="post"> 
+					<form autocomplete="off" style="margin-bottom:-80px;margin-top:20px;" action="../start/food_search.php" class="row" method="post"> 
 				<?php } ?>
 					<div class="row" style="margin-left:300px;">
 						<div class="column1bis">

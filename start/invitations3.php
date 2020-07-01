@@ -199,7 +199,7 @@ $event_id = $_GET[ 'event_id' ];
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="manifest" href="site.webmanifest">
-		<link rel="shortcut icon" type="image/x-icon" href="http://localhost/git/bachelor/start/invits/assets/img/favicon.ico">
+		<link rel="shortcut icon" type="image/x-icon" href="http://localhost/git/bachelor/log/images/try.png">
 
 		<!-- CSS here -->
             <link rel="stylesheet" href="http://localhost/git/bachelor/start/invits/assets/css/bootstrap.min.css">
@@ -950,9 +950,59 @@ $event_id = $_GET[ 'event_id' ];
 
 
      
+    $sql = "SELECT * FROM events WHERE event_id = :event_id";
+    
+if($stmt = $pdo->prepare($sql)){
+    // Bind variables to the prepared statement as parameters
+    $stmt->bindParam(":event_id", $param_id);
+    
+    // Set parameters
+    $param_id = $_GET[ 'event_id' ];
+    
+    // Attempt to execute the prepared statement
+      $stmt->execute();
+      $eventt = $stmt->fetch();
+      $stage = $eventt[ 'event_stage' ];
 
+}
 
-    header("location: guests.php?event_id=" . $event_id);
+        if( $stage == 'invitation' ){
+            $sql1 = "UPDATE events SET event_stage = :event_stage WHERE event_id = :event_id";
+            if( $stmt1 = $pdo->prepare($sql1)  ){
+                // Bind variables to the prepared statement as parameters
+                $stmt1->bindParam(":event_stage", $param_event_stage);
+                $stmt1->bindParam(":event_id", $param_event_id);
+                $event_id = $_GET[ 'event_id' ];
+                // Set parameters
+                $param_event_id = $event_id;
+                $param_event_stage = 'send';
+                
+                // Attempt to execute the prepared statement
+                if(!$stmt1->execute()){
+                    echo "Something went wrong. Please try again later.";
+                }
+            }
+          }
+
+          $sql = "INSERT INTO notifications (event_id, notification_name, notification_message, notification_status) VALUES (:event_id, :notification_name, :notification_message, :notification_status)";
+          if( $stmt = $pdo->prepare($sql)  ){
+              // Bind variables to the prepared statement as parameters
+              $stmt->bindParam(":event_id", $param_event);
+              $stmt->bindParam(":notification_name", $param_name);
+              $stmt->bindParam(":notification_message", $param_mess);
+              $stmt->bindParam(":notification_status", $param_stat);
+              
+              // Set parameters
+              $param_event = $event_id;
+              $param_name = 'Send invitation';
+              $param_mess = 'You now can send invitations to your guests.';
+              $param_stat = 'not_seen';
+              
+              // Attempt to execute the prepared statement
+              $stmt->execute();
+          }
+
+    header("location: pages.php?event_id=" . $event_id);
 
 
 ?>

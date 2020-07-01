@@ -165,7 +165,7 @@ require_once '../menu.php';
 						<ul class="nav nav-pills  justify-content-center" id="pills-tab" role="tablist">
 							<li class="nav-item">
 								<a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home"
-								 aria-selected="true" style="color:black">Speciications</a>
+								 aria-selected="true" style="color:black">Specifications</a>
 							</li>
 							
 						</ul>
@@ -202,7 +202,7 @@ require_once '../menu.php';
 					
 					<!-- User Profile widget -->
 					<div class="widget user text-center">
-                        <form action="choose_food.php?food_id=<?php echo $id ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>&food_price=<?= $price ?>" method="post">
+                        <form autocomplete="off" action="choose_food.php?food_id=<?php echo $id ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>&food_price=<?= $price ?>" method="post">
                             
                         </form>
                         <form autocomplete="off" action="choose_food.php?food_id=<?php echo $id ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>&food_price=<?= $price ?>" method="post" name="myForm" id="myForm">

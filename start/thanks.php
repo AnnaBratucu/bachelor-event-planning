@@ -13,7 +13,7 @@
     Want to know more about us? 
   </p>
   <p class="lead">
-    <a class="btn btn-primary btn-sm" href='../plan.php' role="button">Continue to homepage</a>
+    <a class="btn btn-primary btn-sm" href='../home.php' role="button">Continue to homepage</a>
   </p>
 </div>
 <?php include '../footer.php';  ?>

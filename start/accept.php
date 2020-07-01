@@ -38,6 +38,29 @@ require_once "../config.php";
         $stmt->execute();
         
     }
+
+
+    $sql = "INSERT INTO notifications (event_id, notification_name, notification_message, notification_status) VALUES (:event_id, :notification_name, :notification_message, :notification_status)";
+    if( $stmt = $pdo->prepare($sql)  ){
+        // Bind variables to the prepared statement as parameters
+        $stmt->bindParam(":event_id", $param_event);
+        $stmt->bindParam(":notification_name", $param_name);
+        $stmt->bindParam(":notification_message", $param_mess);
+        $stmt->bindParam(":notification_status", $param_stat);
+        
+        // Set parameters
+        $param_event = $event_id;
+        $param_name = 'Guest answer';
+        if( $accept == 'yes' ){
+            $param_mess = $name . ', with email ' . $email . ', has accepted your invitation.';
+        }else{
+            $param_mess = $name . ', with email ' . $email . ', has denied your invitation.';
+        }
+        $param_stat = 'not_seen';
+        
+        // Attempt to execute the prepared statement
+        $stmt->execute();
+    }
     
 
 

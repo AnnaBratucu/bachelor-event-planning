@@ -42,7 +42,11 @@ body::before {
 
 <?php include '../head.php'; 
 
-require_once "../config.php";
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    require_once '../config.php';
+    }else{
+        require_once "../config.php";
+    }
 
 session_start();
 
@@ -142,27 +146,28 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             if($stmt->execute()){
 				// Records created successfully. Redirect to landing page
                 
-                $sql = "UPDATE events SET event_stage = :event_stage WHERE event_id = :event_id";
-                if( $stmt = $pdo->prepare($sql)  ){
-                    // Bind variables to the prepared statement as parameters
-                    $stmt->bindParam(":event_stage", $param_event_stage);
-                    $stmt->bindParam(":event_id", $param_event_id);
-                    
-                    // Set parameters
-                    $param_event_id = $event_id;
-                    $param_event_stage = 'guests';
-                    
-                    // Attempt to execute the prepared statement
-                    if($stmt->execute()){
-                        // Records created successfully. Redirect to landing page
+                if( $stage == 'budget' ){
+                    $sql = "UPDATE events SET event_stage = :event_stage WHERE event_id = :event_id";
+                    if( $stmt = $pdo->prepare($sql)  ){
+                        // Bind variables to the prepared statement as parameters
+                        $stmt->bindParam(":event_stage", $param_event_stage);
+                        $stmt->bindParam(":event_id", $param_event_id);
                         
-                        header("location: pages.php?event_id=$event_id");
-                        exit();
-                    } else{
-                        echo "Something went wrong. Please try again later.";
+                        // Set parameters
+                        $param_event_id = $event_id;
+                        $param_event_stage = 'guests';
+                        
+                        // Attempt to execute the prepared statement
+                        if($stmt->execute()){
+                            // Records created successfully. Redirect to landing page
+                            
+                            header("location: pages.php?event_id=$event_id");
+                            exit();
+                        } else{
+                            echo "Something went wrong. Please try again later.";
+                        }
                     }
                 }
-
             } else{
                 echo "Something went wrong. Please try again later.";
             }
@@ -187,25 +192,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             // Attempt to execute the prepared statement
             if($stmt->execute()){
 				// Records created successfully. Redirect to landing page
-				
-                $sql = "UPDATE events SET event_stage = :event_stage WHERE event_id = :event_id";
-                if( $stmt = $pdo->prepare($sql)  ){
-                    // Bind variables to the prepared statement as parameters
-                    $stmt->bindParam(":event_stage", $param_event_stage);
-                    $stmt->bindParam(":event_id", $param_event_id);
-                    
-                    // Set parameters
-                    $param_event_id = $event_id;
-                    $param_event_stage = 'guests';
-                    
-                    // Attempt to execute the prepared statement
-                    if($stmt->execute()){
-                        // Records created successfully. Redirect to landing page
+				if( $stage == 'budget' ){
+                    $sql = "UPDATE events SET event_stage = :event_stage WHERE event_id = :event_id";
+                    if( $stmt = $pdo->prepare($sql)  ){
+                        // Bind variables to the prepared statement as parameters
+                        $stmt->bindParam(":event_stage", $param_event_stage);
+                        $stmt->bindParam(":event_id", $param_event_id);
                         
-                        header("location: pages.php?event_id=$event_id");
-                        exit();
-                    } else{
-                        echo "Something went wrong. Please try again later.";
+                        // Set parameters
+                        $param_event_id = $event_id;
+                        $param_event_stage = 'guests';
+                        
+                        // Attempt to execute the prepared statement
+                        if($stmt->execute()){
+                            // Records created successfully. Redirect to landing page
+                            
+                            header("location: pages.php?event_id=$event_id");
+                            exit();
+                        } else{
+                            echo "Something went wrong. Please try again later.";
+                        }
                     }
                 }
             } else{
@@ -232,25 +238,26 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             // Attempt to execute the prepared statement
             if($stmt->execute()){
 				// Records created successfully. Redirect to landing page
-				
-                $sql = "UPDATE events SET event_stage = :event_stage WHERE event_id = :event_id";
-                if( $stmt = $pdo->prepare($sql)  ){
-                    // Bind variables to the prepared statement as parameters
-                    $stmt->bindParam(":event_stage", $param_event_stage);
-                    $stmt->bindParam(":event_id", $param_event_id);
-                    
-                    // Set parameters
-                    $param_event_id = $event_id;
-                    $param_event_stage = 'guests';
-                    
-                    // Attempt to execute the prepared statement
-                    if($stmt->execute()){
-                        // Records created successfully. Redirect to landing page
+				if( $stage == 'budget' ){
+                    $sql = "UPDATE events SET event_stage = :event_stage WHERE event_id = :event_id";
+                    if( $stmt = $pdo->prepare($sql)  ){
+                        // Bind variables to the prepared statement as parameters
+                        $stmt->bindParam(":event_stage", $param_event_stage);
+                        $stmt->bindParam(":event_id", $param_event_id);
                         
-                        header("location: pages.php?event_id=$event_id");
-                        exit();
-                    } else{
-                        echo "Something went wrong. Please try again later.";
+                        // Set parameters
+                        $param_event_id = $event_id;
+                        $param_event_stage = 'guests';
+                        
+                        // Attempt to execute the prepared statement
+                        if($stmt->execute()){
+                            // Records created successfully. Redirect to landing page
+                            
+                            header("location: pages.php?event_id=$event_id");
+                            exit();
+                        } else{
+                            echo "Something went wrong. Please try again later.";
+                        }
                     }
                 }
             } else{
@@ -264,6 +271,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     }
     // Close connection
     unset($pdo);
+    header("location: pages.php?event_id=$event_id");
 }
 
 

@@ -155,7 +155,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 	<div class="limiter">
 		<div class="container-login100" style="background-image: url('../images/good.jpg');">
 			<div class="wrap-login100">
-				<form class="login100-form validate-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+				<form autocomplete="off" class="login100-form validate-form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
 					<span class="login100-form-logo">
 						<img src="images/logo2.png">
 					</span>

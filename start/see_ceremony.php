@@ -240,7 +240,7 @@ require_once '../menu.php';
 					
 					<!-- User Profile widget -->
 					<div class="widget user text-center" style="background-color:#ccffcc;">
-                        <form action="choose_ceremony.php?ceremony_id=<?php echo $id ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>" method="post">
+                        <form autocomplete="off" action="choose_ceremony.php?ceremony_id=<?php echo $id ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>" method="post">
                             
                         </form>
                         <form autocomplete="off" action="choose_ceremony.php?ceremony_id=<?php echo $id ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>" method="post" name="myForm" id="myForm">
@@ -350,7 +350,7 @@ var fruitCount = plant.getAttribute('data-id');
 //         alert(rowid);
 //     });
 $('.datepicker').datepicker({
-    
+   minDate: 0,
     
     beforeShowDay: function(date){
 

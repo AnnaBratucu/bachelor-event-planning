@@ -35,6 +35,18 @@ if( !isset($_SESSION['username']) ){
     $budget_emer = 0.00;
 
 
+    $sql = "SELECT * FROM events WHERE event_id = :event_id";
+        
+    if($stmt = $pdo->prepare($sql)){
+    // Bind variables to the prepared statement as parameters
+        $stmt->execute(['event_id' => $event_id]); 
+        $ev = $stmt->fetch();
+
+        $ev_date = $ev[ 'event_date' ];
+
+    }
+
+
     $sql = "SELECT * FROM users_profile WHERE user_id = :user_id AND event_id = :event_id";
         
     if($stmt = $pdo->prepare($sql)){
@@ -42,9 +54,46 @@ if( !isset($_SESSION['username']) ){
         $stmt->execute(['user_id' => $_SESSION[ 'id' ], 'event_id' => $event_id]); 
         $profile = $stmt->fetch();
 
-        if($stmt->rowCount() != 0 && $profile[ 'venue_id' ] != 0){
+        if($stmt->rowCount() != 0 && $profile[ 'venue_id' ] != 0 && $ev_date != '0000-00-00 00:00:00'){
             $message = "You already booked a venue.";
-        } 
+        } else if( $stmt->rowCount() != 0 && $profile[ 'venue_id' ] != 0 && $ev_date == '0000-00-00 00:00:00' ){
+            $sql = "UPDATE events SET event_date = :event_date WHERE event_id = :event_id";
+    
+                if( $stmt = $pdo->prepare($sql)  ){
+                    // Bind variables to the prepared statement as parameters
+                    $stmt->bindParam(":event_date", $param_date);
+                    $stmt->bindParam(":event_id", $param_id);
+                    
+                    // Set parameters
+                    $param_date = $date1 . ' ' . $hour . ':00';
+                    $param_id = $event_id;
+                    
+                    // Attempt to execute the prepared statement
+                    $stmt->execute();
+                   
+                }
+
+
+                $sql = "INSERT INTO tbl_events (title, start, end, venue_id) VALUES (:title, :start, :end, :venue_id)";
+        if( $stmt = $pdo->prepare($sql)  ){
+            // Bind variables to the prepared statement as parameters
+			$stmt->bindParam(":title", $param_title);
+            $stmt->bindParam(":start", $param_start);
+            $stmt->bindParam(":end", $param_end);
+            $stmt->bindParam(":venue_id", $param_venue_id);
+            
+            // Set parameters
+			$param_title = $event_id;
+            $param_start = $date1 . ' 00:00:00';
+            $param_end = $date1 . ' 00:00:00';
+            $param_venue_id = $venue_id;
+            
+            // Attempt to execute the prepared statement
+            $stmt->execute();
+        }
+
+        $message="Date postponed";
+        }
 
     }
 
@@ -142,6 +191,25 @@ if( !isset($_SESSION['username']) ){
                     $stmt->execute();
                    
                 }
+
+
+                $sql = "INSERT INTO notifications (event_id, notification_name, notification_message, notification_status) VALUES (:event_id, :notification_name, :notification_message, :notification_status)";
+              if( $stmt = $pdo->prepare($sql)  ){
+                  // Bind variables to the prepared statement as parameters
+                  $stmt->bindParam(":event_id", $param_event);
+                  $stmt->bindParam(":notification_name", $param_name);
+                  $stmt->bindParam(":notification_message", $param_mess);
+                  $stmt->bindParam(":notification_status", $param_stat);
+                  
+                  // Set parameters
+                  $param_event = $event_id;
+                  $param_name = 'Budget exceeded';
+                  $param_mess = 'You have exceeded your budget. Please update it or every further purchase will be substracted from the emergency budget (if it exists).';
+                  $param_stat = 'not_seen';
+                  
+                  // Attempt to execute the prepared statement
+                  $stmt->execute();
+              }
         }
     }
     unset($stmt);
@@ -197,7 +265,7 @@ if( !isset($_SESSION['username']) ){
             $stmt->bindParam(":venue_id", $param_venue_id);
             
             // Set parameters
-			$param_title = 'event';
+			$param_title = $event_id;
             $param_start = $date1 . ' 00:00:00';
             $param_end = $date1 . ' 00:00:00';
             $param_venue_id = $venue_id;
@@ -221,10 +289,47 @@ if( !isset($_SESSION['username']) ){
         }
 
 
-        header("location: ../start_admin/wizard_admin.php?event_id=" . $event_id);
+
+
+        $sql = "SELECT * FROM events WHERE event_id = :event_id";
+    
+if($stmt = $pdo->prepare($sql)){
+    // Bind variables to the prepared statement as parameters
+    $stmt->bindParam(":event_id", $param_id);
+    
+    // Set parameters
+    $param_id = $_GET[ 'event_id' ];
+    
+    // Attempt to execute the prepared statement
+      $stmt->execute();
+      $eventt = $stmt->fetch();
+      $stage = $eventt[ 'event_stage' ];
+
+}
+
+        if( $stage == 'venue' ){
+            $sql1 = "UPDATE events SET event_stage = :event_stage WHERE event_id = :event_id";
+            if( $stmt1 = $pdo->prepare($sql1)  ){
+                // Bind variables to the prepared statement as parameters
+                $stmt1->bindParam(":event_stage", $param_event_stage);
+                $stmt1->bindParam(":event_id", $param_event_id);
+                $event_id = $_GET[ 'event_id' ];
+                // Set parameters
+                $param_event_id = $event_id;
+                $param_event_stage = 'invitation';
+                
+                // Attempt to execute the prepared statement
+                if(!$stmt1->execute()){
+                    echo "Something went wrong. Please try again later.";
+                }
+            }
+          }
+
+
+        header("location: pages.php?event_id=" . $event_id);
         exit();
     }else{
-        header("location: ../start_admin/wizard_admin.php?event_id=" . $event_id . "&message=" . $message);
+        header("location: pages.php?event_id=" . $event_id . "&message=" . $message);
         exit();
     }
 

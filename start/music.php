@@ -99,7 +99,7 @@ require_once '../menu.php';
 -moz-box-shadow: 21px 23px 47px -22px rgba(143,143,143,0.83);
 box-shadow: 21px 23px 47px -22px rgba(143,143,143,0.83);">
 			<div class="form-left">
-				<h2>ADD GUEST</h2>
+				<h2>ADD SONG</h2>
         <form class="form-detail" autocomplete="off" action="<?php if(isset($_GET[ 'event_id' ])){ echo htmlspecialchars($_SERVER["PHP_SELF"]) . '?event_id=' . $_GET[ 'event_id' ]; } else{ echo htmlspecialchars($_SERVER["PHP_SELF"]); } ?>" method="post" id="myform">
             	
 				<div class="form-row">
@@ -118,7 +118,7 @@ box-shadow: 21px 23px 47px -22px rgba(143,143,143,0.83);">
 			</div>
 
 		<div id="wrapper" style="width:900px;">
-<h2>GUEST LIST</h2>
+<h2>SONGS LIST</h2>
   
   <table id="keywords" cellspacing="0" cellpadding="0" style="overflow-y:scroll;height:380px;display:block;">
     <thead>
@@ -133,12 +133,70 @@ box-shadow: 21px 23px 47px -22px rgba(143,143,143,0.83);">
     <tbody>
 	<?php
 
+
+$sql = "SELECT * FROM events WHERE event_id = :event_id";
+    
+if($stmt = $pdo->prepare($sql)){
+    // Bind variables to the prepared statement as parameters
+    $stmt->bindParam(":event_id", $param_id);
+    
+    // Set parameters
+    $param_id = $_GET[ 'event_id' ];
+    
+    // Attempt to execute the prepared statement
+      $stmt->execute();
+      $eventt = $stmt->fetch();
+      $stage = $eventt[ 'event_stage' ];
+
+}
+
 $sql = "SELECT * FROM music WHERE event_id = :event_id ORDER BY music_id DESC";
 
     if($stmt = $pdo->prepare($sql)){
         // Bind variables to the prepared statement as parameters
         $stmt->execute(['event_id' => $_GET[ 'event_id' ]]); 
        if( $stmt->rowCount() > 0 ){
+
+
+        if( $stage == 'music' ){
+          $sql1 = "UPDATE events SET event_stage = :event_stage WHERE event_id = :event_id";
+          if( $stmt1 = $pdo->prepare($sql1)  ){
+              // Bind variables to the prepared statement as parameters
+              $stmt1->bindParam(":event_stage", $param_event_stage);
+              $stmt1->bindParam(":event_id", $param_event_id);
+              $event_id = $_GET[ 'event_id' ];
+              // Set parameters
+              $param_event_id = $_GET[ 'event_id' ];
+              $param_event_stage = 'completed';
+              
+              // Attempt to execute the prepared statement
+              if(!$stmt1->execute()){
+                  echo "Something went wrong. Please try again later.";
+              }
+          }
+        
+
+
+        
+        $sql2 = "INSERT INTO notifications (event_id, notification_name, notification_message, notification_status) VALUES (:event_id, :notification_name, :notification_message, :notification_status)";
+              if( $stmt2 = $pdo->prepare($sql2)  ){
+                  // Bind variables to the prepared statement as parameters
+                  $stmt2->bindParam(":event_id", $param_event);
+                  $stmt2->bindParam(":notification_name", $param_name);
+                  $stmt2->bindParam(":notification_message", $param_mess);
+                  $stmt2->bindParam(":notification_status", $param_stat);
+                  
+                  // Set parameters
+                  $param_event = $_GET[ 'event_id' ];
+                  $param_name = 'Event planning completed';
+                  $param_mess = 'Congratulations! You have completed the whole planning process flow on our application. Have fun at your event!';
+                  $param_stat = 'not_seen';
+                  
+                  // Attempt to execute the prepared statement
+                  $stmt2->execute();
+              }
+            }
+
           $count = 1;
         while ($row = $stmt->fetch()) { 
           

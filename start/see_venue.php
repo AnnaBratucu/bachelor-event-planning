@@ -355,7 +355,7 @@ require_once '../menu.php';
 									<div class="review-submission">
 										<h3 class="tab-title">Submit your review</h3>
                                         <!-- Rate -->
-                                        <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>&event_id=<?php echo $_GET[ 'event_id' ]; ?>&venue_id=<?php echo $_GET[ 'venue_id' ]; ?>" class="row" method="post">
+                                        <form autocomplete="off" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>&event_id=<?php echo $_GET[ 'event_id' ]; ?>&venue_id=<?php echo $_GET[ 'venue_id' ]; ?>" class="row" method="post">
                                             <div class="rate">
                                                 <div class="ratings">
                                                     <ul class="list-inline">
@@ -535,7 +535,7 @@ var fruitCount = plant.getAttribute('data-id');
 //         alert(rowid);
 //     });
 $('.datepicker').datepicker({
-    
+    minDate: 0,
     
     beforeShowDay: function(date){
 

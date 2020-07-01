@@ -121,6 +121,26 @@ if( !isset($_SESSION['username']) ){
                     $stmt7->execute();
                 }
               }
+
+
+              $sql = "INSERT INTO notifications (event_id, notification_name, notification_message, notification_status) VALUES (:event_id, :notification_name, :notification_message, :notification_status)";
+              if( $stmt = $pdo->prepare($sql)  ){
+                  // Bind variables to the prepared statement as parameters
+                  $stmt->bindParam(":event_id", $param_event);
+                  $stmt->bindParam(":notification_name", $param_name);
+                  $stmt->bindParam(":notification_message", $param_mess);
+                  $stmt->bindParam(":notification_status", $param_stat);
+                  
+                  // Set parameters
+                  $param_event = $event_id;
+                  $param_name = 'Budget exceeded';
+                  $param_mess = 'You have exceeded your budget. Please update it or every further purchase will be substracted from the emergency budget (if it exists).';
+                  $param_stat = 'not_seen';
+                  
+                  // Attempt to execute the prepared statement
+                  $stmt->execute();
+              }
+
           }
       }
 
@@ -158,6 +178,41 @@ if( !isset($_SESSION['username']) ){
 
 
       }
+
+
+      $sql = "SELECT * FROM events WHERE event_id = :event_id";
+    
+if($stmt = $pdo->prepare($sql)){
+    // Bind variables to the prepared statement as parameters
+    $stmt->bindParam(":event_id", $param_id);
+    
+    // Set parameters
+    $param_id = $_GET[ 'event_id' ];
+    
+    // Attempt to execute the prepared statement
+      $stmt->execute();
+      $eventt = $stmt->fetch();
+      $stage = $eventt[ 'event_stage' ];
+
+}
+
+        if( $stage == 'food' ){
+            $sql1 = "UPDATE events SET event_stage = :event_stage WHERE event_id = :event_id";
+            if( $stmt1 = $pdo->prepare($sql1)  ){
+                // Bind variables to the prepared statement as parameters
+                $stmt1->bindParam(":event_stage", $param_event_stage);
+                $stmt1->bindParam(":event_id", $param_event_id);
+                $event_id = $_GET[ 'event_id' ];
+                // Set parameters
+                $param_event_id = $event_id;
+                $param_event_stage = 'music';
+                
+                // Attempt to execute the prepared statement
+                if(!$stmt1->execute()){
+                    echo "Something went wrong. Please try again later.";
+                }
+            }
+          }
 
 
         header("location: ../start_admin/food_admin.php?event_id=" . $event_id . "&message=" . $message);

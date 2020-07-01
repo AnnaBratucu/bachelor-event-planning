@@ -60,6 +60,38 @@ if( !isset($_SESSION['username']) ){
 	unset($stmt);
 
 
+	$ven=false;
+	$sql = "SELECT * FROM favourites WHERE venue_id = :venue_id";
+			
+		if($stmt = $pdo->prepare($sql)){
+		// Bind variables to the prepared statement as parameters
+		$stmt->execute(['venue_id' => $input_id]); 
+		$profile = $stmt->fetch();
+
+		if($stmt->rowCount() != 0 ){
+			$ven = true;
+		} 
+
+		}
+		
+		if( $ven == true ){
+			$sql = "DELETE FROM favourites WHERE venue_id= :venue_id";
+
+			if( $stmt = $pdo->prepare($sql)  ){
+				$stmt->bindParam(":venue_id", $param_id);
+					
+					// Set parameters
+					$param_id = $input_id;
+
+					$stmt->execute();
+			} else {
+				echo "Error deleting record";
+			}
+
+			unset($stmt);
+		}
+
+
 	header("location: wizard_admin.php");
 	exit();
 

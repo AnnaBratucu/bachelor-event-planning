@@ -426,7 +426,7 @@ require_once '../menu.php';
         
         </div>
         <div class="modal-body" style="width:900px;">
-			<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="form-container" enctype='multipart/form-data'>
+			<form autocomplete="off" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="form-container" enctype='multipart/form-data'>
 			<!-- <div class="fetched-data" style="color:black;"></div>  -->
 				<h1 style = "color:black;">Add dish</h1>
 				

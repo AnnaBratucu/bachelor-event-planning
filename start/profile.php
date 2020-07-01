@@ -171,11 +171,53 @@ require_once '../menu.php';
           <a href="#">
             <div class="panel-footer announcement-bottom">
               <div class="row">
+              <?php
+
+
+              $cerem=false;
+              $ven=false;
+              $sql = "SELECT * FROM users_profile WHERE event_id = :event_id";
+                      
+                  if($stmt = $pdo->prepare($sql)){
+                  // Bind variables to the prepared statement as parameters
+                  $stmt->execute(['event_id' => $_GET[ 'event_id' ]]); 
+                  $profile = $stmt->fetch();
+
+                  if($stmt->rowCount() != 0 && $profile[ 'ceremony_id' ] != 0 ){
+                      $cerem = true;
+                  } 
+
+                  if($stmt->rowCount() != 0 && $profile[ 'venue_id' ] != 0){
+                    $ven = true;
+                } 
+
+                  }
+
+
+              
+              $file = 'http://localhost/git/bachelor/start/invitations/index_'. $event_id .'.html';
+              $file_headers = @get_headers($file);
+              if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') {
+                  $exists = false;
+              }
+              else {
+                  $exists = true;
+              }
+              
+              ?>
                 <div class="col-xs-6">
-                    <a target="_blank" href="invitations/index_<?= $event_id ?>.html"><p class="announcement-text">See</p></a>
+                  <?php if( $exists == true ){ ?>
+                      <a target="_blank" href="invitations/index_<?= $event_id ?>.html"><p class="announcement-text">See</p></a>
+                  <?php } else{ ?>
+                      <a target="_blank" href="invitations/index_<?= $event_id ?>.html"><p class="announcement-text" onclick="alert( 'You do not have a generated invitation.' ); return false;">See</p></a>
+                  <?php } ?>
                 </div>
                 <div class="col-xs-6 text-right">
-                    <a target="_blank" href="invitations/index_<?= $event_id ?>.html"><i class="fa fa-arrow-circle-right" style="font-size:20px;color:#4682B4;"></i></a>
+                    <?php if( $exists == true ){ ?>
+                        <a target="_blank" href="invitations/index_<?= $event_id ?>.html"><i class="fa fa-arrow-circle-right" style="font-size:20px;color:#4682B4;"></i></a>
+                    <?php } else{ ?>
+                      <a target="_blank" href="invitations/index_<?= $event_id ?>.html"><i class="fa fa-arrow-circle-right" style="font-size:20px;color:#4682B4;" onclick="alert( 'You do not have a generated invitation.' ); return false;"></i></a>
+                    <?php } ?>
                 </div>
               </div>
             </div>
@@ -199,10 +241,18 @@ require_once '../menu.php';
             <div class="panel-footer announcement-bottom">
               <div class="row">
                 <div class="col-xs-6">
-                    <a href="see_venue.php?venue_id=<?= $venue ?>&event_id=<?= $event_id ?>"><p class="announcement-text">See</p></a>
+                    <?php if( $ven == true ){ ?>
+                      <a href="see_venue.php?venue_id=<?= $venue ?>&event_id=<?= $event_id ?>"><p class="announcement-text">See</p></a>
+                    <?php } else{ ?>
+                      <a href="see_venue.php?venue_id=<?= $venue ?>&event_id=<?= $event_id ?>"><p class="announcement-text" onclick="alert( 'You have not booked an afterparty venue.' ); return false;">See</p></a>
+                    <?php } ?>
                 </div>
                 <div class="col-xs-6 text-right">
-                    <a href="see_venue.php?venue_id=<?= $venue ?>&event_id=<?= $event_id ?>"><i class="fa fa-arrow-circle-right" style="font-size:20px;color:#4682B4;"></i></a>
+                    <?php if( $ven == true ){ ?>
+                      <a href="see_venue.php?venue_id=<?= $venue ?>&event_id=<?= $event_id ?>"><i class="fa fa-arrow-circle-right" style="font-size:20px;color:#4682B4;"></i></a>
+                    <?php } else{ ?>
+                      <a href="see_venue.php?venue_id=<?= $venue ?>&event_id=<?= $event_id ?>"><i class="fa fa-arrow-circle-right" style="font-size:20px;color:#4682B4;" onclick="alert( 'You have not booked an afterparty venue.' ); return false;"></i></a>
+                    <?php } ?>
                 </div>
               </div>
             </div>
@@ -226,10 +276,18 @@ require_once '../menu.php';
             <div class="panel-footer announcement-bottom">
               <div class="row">
                 <div class="col-xs-6">
-                    <a href="see_ceremony.php?ceremony_id=<?= $venue ?>&event_id=<?= $event_id ?>"><p class="announcement-text">See</p></a>
+                    <?php if( $ven == true ){ ?>
+                      <a href="see_ceremony.php?ceremony_id=<?= $venue ?>&event_id=<?= $event_id ?>"><p class="announcement-text">See</p></a>
+                    <?php } else{ ?>
+                      <a href="see_ceremony.php?ceremony_id=<?= $venue ?>&event_id=<?= $event_id ?>"><p class="announcement-text" onclick="alert( 'You have not booked a ceremony venue.' ); return false;">See</p></a>
+                    <?php } ?>
                 </div>
                 <div class="col-xs-6 text-right">
-                    <a href="see_ceremony.php?ceremony_id=<?= $venue ?>&event_id=<?= $event_id ?>"><i class="fa fa-arrow-circle-right" style="font-size:20px;color:#4682B4;"></i></a>
+                    <?php if( $ven == true ){ ?>
+                      <a href="see_ceremony.php?ceremony_id=<?= $venue ?>&event_id=<?= $event_id ?>"><i class="fa fa-arrow-circle-right" style="font-size:20px;color:#4682B4;"></i></a>
+                    <?php } else{ ?>
+                      <a href="see_ceremony.php?ceremony_id=<?= $venue ?>&event_id=<?= $event_id ?>"><i class="fa fa-arrow-circle-right" style="font-size:20px;color:#4682B4;" onclick="alert( 'You have not booked a ceremony venue.' ); return false;"></i></a>
+                    <?php } ?>
                 </div>
               </div>
             </div>
@@ -482,22 +540,31 @@ $sql = "SELECT * FROM guests WHERE event_id = :event_id AND guest_send = :guest_
 
  if( $event_stage == 'budget' ){
      $s = 0;
-     $to = 6;
+     $to = 9;
  }else if( $event_stage == 'guests' ){
-     $s = 16;
-     $to = 5;
+     $s = 12;
+     $to = 8;
  }else if( $event_stage == 'ceremony' ){
-    $s = 30;
-    $to = 4;
+    $s = 23;
+    $to = 7;
 }else if( $event_stage == 'venue' ){
-    $s = 45;
-    $to = 3;
+    $s = 35;
+    $to = 6;
+}else if( $event_stage == 'invitation' ){
+  $s = 48;
+  $to = 5;
+}else if( $event_stage == 'send' ){
+  $s = 58;
+  $to = 4;
 }else if( $event_stage == 'table_arrangement' ){
-    $s = 60;
-    $to = 2;
+    $s = 70;
+    $to = 3;
 }else if( $event_stage == 'food' ){
     $s = 80;
-    $to = 1;
+    $to = 2;
+}else if( $event_stage == 'music' ){
+  $s = 90;
+  $to = 1;
 }else if( $event_stage == 'completed' ){
     $s = 100;
     $to = 0;
@@ -567,9 +634,9 @@ $sql = "SELECT * FROM guests WHERE event_id = :event_id AND guest_send = :guest_
 
 
                 <div class="container" style="background-color:#D1D1E2;height:100px;text-align:center;">
-<a style="height:50px;font-size:14px;margin-bottom:-90px;" class="btn icon-btn btn-info" href="#"><span class="glyphicon btn-glyphicon glyphicon-save img-circle text-muted"></span>See guest arrangements</a>
-<a style="height:50px;font-size:14px;margin-bottom:-90px;" class="btn icon-btn btn-warning" href="#"><span class="glyphicon btn-glyphicon glyphicon-minus img-circle text-warning"></span>Postpone Event</a>
-<a style="height:50px;font-size:14px;margin-bottom:-90px;" class="btn icon-btn btn-danger" href="#"><span class="glyphicon btn-glyphicon glyphicon-trash img-circle text-danger"></span>Delete Event</a>
+<a style="height:50px;font-size:14px;margin-bottom:-90px;" class="btn icon-btn btn-info" href="arrange.php?event_id=<?= $event_id ?>"><span class="glyphicon btn-glyphicon glyphicon-save img-circle text-muted"></span>See guest arrangements</a>
+<a style="height:50px;font-size:14px;margin-bottom:-90px;" class="btn icon-btn btn-warning" href="postpone.php?event_id=<?= $event_id ?>" onclick="if (!confirm('Are you sure you want to postpone the event?')) { return false; }"><span class="glyphicon btn-glyphicon glyphicon-minus img-circle text-warning"></span>Postpone Event</a>
+<a style="height:50px;font-size:14px;margin-bottom:-90px;" class="btn icon-btn btn-danger" href="deleteEv.php?event_id=<?= $event_id ?>" onclick="if (!confirm('Are you sure you want to delete the event? \n\nKeep in mind that this action will not guarantee money refund of paid goods!')) { return false; }"><span class="glyphicon btn-glyphicon glyphicon-trash img-circle text-danger"></span>Delete Event</a>
 </div>
 
 <div class="content-wrapper">
@@ -637,7 +704,8 @@ $sql = "SELECT * FROM guests WHERE event_id = :event_id AND guest_send = :guest_
                 
                 <th scope="col" style="width:200px;">From</th>
                 <th scope="col" style="width:700px;">Message</th>
-                <th scope="col">Operations </th>
+                <th scope="col" style="width:200px;">Date</th>
+                <th scope="col" style="width:200px;">Operations </th>
                 
               </tr>
             </thead>
@@ -662,13 +730,14 @@ $sql = "SELECT * FROM guests WHERE event_id = :event_id AND guest_send = :guest_
 ?>
 
 
-              <tr>
+            <tr <?php if( $notif[ 'notification_status' ] == 'not_seen' ){ ?> style="background-color:#6495ED;" <?php } ?>>
                 
                 <td><?= $notif[ 'notification_name' ] ?></td>
                 <td><?= $notif[ 'notification_message' ] ?></td>
+                <td><?= $notif[ 'notification_stamp' ] ?></td>
                 <td>
-                    <a class="btn btn-sm btn-primary" style="width:60px;height:30px;" href="read_notif.php?event_id=<?= $event_id ?>"><i class="far fa-eye"></i> Mark as <br> read</a>
-                    <a class="btn btn-sm btn-danger" style="width:60px;height:30px;" href="delete_notif?event_id=<?= $event_id ?>"><i class="fas fa-trash-alt" style="font-size:20px;margin-left:-20px;margin-right:-20px;margin-top:-45px;"></i> </a>    
+                    <a class="btn btn-sm btn-primary" style="width:60px;height:30px;" href="read_notif.php?event_id=<?= $event_id ?>&notif_id=<?= $notif[ 'notification_id' ] ?>"><i class="far fa-eye"></i> Mark as <br> read</a>
+                    <a class="btn btn-sm btn-danger" style="width:60px;height:30px;" href="delete_notif.php?event_id=<?= $event_id ?>&notif_id=<?= $notif[ 'notification_id' ] ?>"><i class="fas fa-trash-alt" style="font-size:20px;margin-left:-20px;margin-right:-20px;margin-top:-45px;"></i> </a>    
                 </td>
                 
               </tr>

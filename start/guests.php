@@ -56,10 +56,37 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
 	
 	if(!filter_var($input_guest_email, FILTER_VALIDATE_EMAIL) && $input_guest_email != ''){
-		$guest_email_err = "Please enter a valid Email.";
+		//$guest_email_err = "Please enter a valid Email.";
 	} else{
 		$email = $input_guest_email;
-	}
+  }
+  
+
+  $sql = "SELECT * FROM guests WHERE guest_email = :email AND event_id = :event_id";
+    
+  if($stmt = $pdo->prepare($sql)){
+    // Bind variables to the prepared statement as parameters
+    $stmt->bindParam(":email", $param_email);
+    $stmt->bindParam(":event_id", $param_event);
+    
+    // Set parameters
+    $param_email = $email;
+    $param_event = $_GET[ 'event_id' ];
+    
+    // Attempt to execute the prepared statement
+    if($stmt->execute()){
+      if($stmt->rowCount() > 0){
+        $guest_email_err = "Guest already exists.";
+      } 
+      
+    } else{
+      echo "Oops! Something went wrong. Please try again later.";
+    }
+
+
+}
+
+
     if(empty($guest_email_err) ){
 		$sql = "INSERT INTO guests (event_id, guest_name, guest_email, guest_plus, guest_send, guest_status) VALUES (:event_id, :guest_name, :guest_email, :guest_plus, :guest_send, :guest_status)";
         if( $stmt = $pdo->prepare($sql)  ){
@@ -109,7 +136,7 @@ require_once '../menu.php';
         <h4 class="modal-title" id="myModalLabel"></h4>
       </div>
       <div class="modal-body">
-      <form action="edit_guest.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>" method="post" class="form-container" enctype='multipart/form-data'>
+      <form autocomplete="off" action="edit_guest.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>" method="post" class="form-container" enctype='multipart/form-data'>
 			<!-- <div class="fetched-data" style="color:black;"></div>  -->
 				<h1 style = "color:black;">Edit guest</h1><br>
 				
@@ -173,6 +200,7 @@ box-shadow: 21px 23px 47px -22px rgba(143,143,143,0.83);">
 				<div class="form-row">
           <label for="guest_email" style="color:white;">Guest Email</label> <label class="required"></label>
           <input type="text" name="guest_email" id="guest_email" class="input-text" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+          <?php if( isset( $guest_email_err ) ) echo $guest_email_err; ?> 
         </div>
 				<div class="form-row-last">
           <input type="submit" name="account" class="account" value="Add">
@@ -202,6 +230,22 @@ box-shadow: 21px 23px 47px -22px rgba(143,143,143,0.83);">
     <tbody>
 	<?php
 
+$sql = "SELECT * FROM events WHERE event_id = :event_id";
+    
+if($stmt = $pdo->prepare($sql)){
+    // Bind variables to the prepared statement as parameters
+    $stmt->bindParam(":event_id", $param_id);
+    
+    // Set parameters
+    $param_id = $_GET[ 'event_id' ];
+    
+    // Attempt to execute the prepared statement
+      $stmt->execute();
+      $eventt = $stmt->fetch();
+      $stage = $eventt[ 'event_stage' ];
+
+}
+
 $sql = "SELECT * FROM guests WHERE event_id = :event_id ORDER BY guest_id DESC";
 
     if($stmt = $pdo->prepare($sql)){
@@ -209,22 +253,24 @@ $sql = "SELECT * FROM guests WHERE event_id = :event_id ORDER BY guest_id DESC";
         $stmt->execute(['event_id' => $_GET[ 'event_id' ]]); 
         if($stmt->rowCount() > 0){
 
-          $sql1 = "UPDATE events SET event_stage = :event_stage WHERE event_id = :event_id";
-          if( $stmt1 = $pdo->prepare($sql1)  ){
-              // Bind variables to the prepared statement as parameters
-              $stmt1->bindParam(":event_stage", $param_event_stage);
-              $stmt1->bindParam(":event_id", $param_event_id);
-              $event_id = $_GET[ 'event_id' ];
-              // Set parameters
-              $param_event_id = $event_id;
-              $param_event_stage = 'surveys';
-              
-              // Attempt to execute the prepared statement
-              if(!$stmt1->execute()){
-                  echo "Something went wrong. Please try again later.";
-              }
+          if( $stage == 'guests' ){
+            $sql1 = "UPDATE events SET event_stage = :event_stage WHERE event_id = :event_id";
+            if( $stmt1 = $pdo->prepare($sql1)  ){
+                // Bind variables to the prepared statement as parameters
+                $stmt1->bindParam(":event_stage", $param_event_stage);
+                $stmt1->bindParam(":event_id", $param_event_id);
+                $event_id = $_GET[ 'event_id' ];
+                // Set parameters
+                $param_event_id = $event_id;
+                $param_event_stage = 'ceremony';
+                
+                // Attempt to execute the prepared statement
+                if(!$stmt1->execute()){
+                    echo "Something went wrong. Please try again later.";
+                }
+            }
           }
-      
+
           $count = 1;
         while ($row = $stmt->fetch()) { 
           
@@ -243,25 +289,46 @@ $sql = "SELECT * FROM guests WHERE event_id = :event_id ORDER BY guest_id DESC";
                                                       else if ( $row[ 'guest_plus' ] == '' ) echo "N/A"; ?></td>
 		<td><?php if( $row[ 'guest_send' ] == 'no' ) echo "No";
                                                       else if ( $row[ 'guest_send' ] == 'yes' ) echo "Yes"; ?></td>
-		<td><a class="active" href="send_mail.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>&guest_id=<?php echo $row[ 'guest_id' ]; ?>&guest_email=<?php echo $row[ 'guest_email' ]; ?>" onclick="if (!confirm('Are you sure you want to send invitation?')) { return false; }"><i class="fa fa-envelope" style="color:black;" data-toggle="tooltip" title="Send invitation!" data-placement="top"></i></a></td>
+
+
+
+      <?php 
+      
+      $file = 'http://localhost/git/bachelor/start/invitations/index_'. $_GET[ 'event_id' ] .'.html';
+      $file_headers = @get_headers($file);
+      if(!$file_headers || $file_headers[0] == 'HTTP/1.1 404 Not Found') {
+          $exists = false;
+      }
+      else {
+          $exists = true;
+      }
+      if( $exists == true ){
+      ?>                                                  
+		    <td><a class="active" href="send_mail.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>&guest_id=<?php echo $row[ 'guest_id' ]; ?>&guest_email=<?php echo $row[ 'guest_email' ]; ?>" onclick="if (!confirm('Are you sure you want to send invitation?')) { return false; }"><i class="fa fa-envelope" style="color:black;" data-toggle="tooltip" title="Send invitation!" data-placement="top"></i></a></td>
+      <?php } ?>
 		<td><a class="active" href="#" data-toggle="modal" data-target="#modal1" data-id="<?php echo $row[ 'guest_id' ] ?>"><i class="fa fa-edit" style="color:black;" data-toggle="tooltip" title="Edit guest!" data-placement="top"></i></a></td>
 		<td><a class="active" href="delete_guest.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>&guest_id=<?php echo $row[ 'guest_id' ]; ?>" onclick="if (!confirm('Are you sure you want to delete guest?')) { return false; }"><i class="fa fa-times" style="color:black;" data-toggle="tooltip" title="Delete guest!" data-placement="top"></i></a></td>
       </tr>
-	  <?php $count++; } } else{ ?> <tr>&nbsp</tr><tr><td>No guests added yet.</td></tr> <?php } }  ?>
+	  <?php $count++; } } else{ ?> <tr>&nbsp</tr><tr><td>No guests added yet.</td></tr> <?php }  ?>
     </tbody>
   </table>
   
  </div> 
 		</div>
-		<div>
-			<!-- <input type='button' value='Send All' id='send' style="width:200px;margin-left:-600px;margin-top:600px;"> -->
-			<button class="btn btn-success btn-sm" id="myBtn" value="<?= $_GET[ 'event_id' ] ?>" onclick="myFunction()" style="width:200px;margin-left:-600px;margin-top:600px;">Send All</button>
+		<div> 
+   <?php if($stmt->rowCount() > 0){ ?>
+      <?php if( $exists == true ){ ?>
+        <!-- <input type='button' value='Send All' id='send' style="width:200px;margin-left:-600px;margin-top:600px;"> -->
+          <button class="btn btn-success btn-sm" id="myBtn" value="<?= $_GET[ 'event_id' ] ?>" onclick="myFunction()" style="width:200px;margin-left:-600px;margin-top:600px;">Send All</button>
+        
+      <?php } ?>
 		</div>
-		<div>
-			<input class="btn btn-success btn-sm" type='button' value='Delete All' id='delete' style="width:200px;margin-left:-300px;margin-top:600px;">
-		</div>
+
+    <div>
+      <input class="btn btn-success btn-sm" type='button' value='Delete All' id='delete' style="width:200px;margin-left:-300px;margin-top:600px;">
+    </div>
 	</div>
-	
+        <?php } } ?>
 </div>
 </div>
 

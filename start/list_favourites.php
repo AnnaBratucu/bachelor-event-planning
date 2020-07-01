@@ -230,7 +230,7 @@ require_once '../menu.php';
 			
 				</div>
 				
-				<form style="margin-bottom:-50px;margin-top:20px;" action="../start/favs_search.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>" class="row" method="post"> 
+				<form autocomplete="off" style="margin-bottom:-50px;margin-top:20px;" action="../start/favs_search.php?event_id=<?php echo $_GET[ 'event_id' ]; ?>" class="row" method="post"> 
 					<div class="row" style="margin-left:300px;">
 						<div class="column1bis">
 							<select id="category" name="category" class="form-control">
@@ -389,7 +389,7 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 													<a href="../start/see_venue.php?type=fav&venue_id=<?php echo $venue[ 'venue_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><div class="plus" data-toggle="tooltip" title="See details!" data-placement="top"><div class="plus"><img src="../start_admin/images/eye_2.png" class="svg" alt="" data-toggle="tooltip" title="See details!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
 											</div>
 											<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-												<a class="disabled" href="#" onclick="return false;"><div class="plus" data-toggle="tooltip" title="Add to favorites!" data-placement="top"><div class="plus"><img src="../start_admin/images/heart_2.png" class="svg" alt="" data-toggle="tooltip" title="Add to favorites!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
+												<a href="delete_fav.php?event_id=<?php echo $_GET[ 'event_id' ] ?>&fav_id=<?php echo $venue[ 'fav_id' ] ?>"><div class="plus" data-toggle="tooltip" title="Delete from favorites!" data-placement="top"><div class="plus"><img src="../start_admin/images/trash.png" class="svg" alt="" data-toggle="tooltip" title="Delete from favorites!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
 											</div>
 										</div>
 									</div>
@@ -422,7 +422,7 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 													<a href="../start/see_ceremony.php?type=fav&ceremony_id=<?php echo $venue[ 'ceremony_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><div class="plus" data-toggle="tooltip" title="See details!" data-placement="top"><div class="plus"><img src="../start_admin/images/eye_2.png" class="svg" alt="" data-toggle="tooltip" title="See details!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
 											</div>
 											<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-												<a class="disabled" href="#" onclick="return false;"><div class="plus" data-toggle="tooltip" title="Add to favorites!" data-placement="top"><div class="plus"><img src="../start_admin/images/heart_2.png" class="svg" alt="" data-toggle="tooltip" title="Add to favorites!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
+											<a href="delete_fav.php?event_id=<?php echo $_GET[ 'event_id' ] ?>&fav_id=<?php echo $venue[ 'fav_id' ] ?>"><div class="plus" data-toggle="tooltip" title="Delete from favorites!" data-placement="top"><div class="plus"><img src="../start_admin/images/trash.png" class="svg" alt="" data-toggle="tooltip" title="Delete from favorites!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
 											</div>
 										</div>
 									</div>
@@ -459,7 +459,7 @@ if(isset($_GET['page']) && !empty($_GET['page'])){
 													<a href="../start/see_food.php?type=fav&food_id=<?php echo $venue[ 'food_id' ] ?>&event_id=<?php echo $_GET[ 'event_id' ] ?>"><div class="plus" data-toggle="tooltip" title="See details!" data-placement="top"><div class="plus"><img src="../start_admin/images/eye_2.png" class="svg" alt="" data-toggle="tooltip" title="See details!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
 											</div>
 											<div class="product_button product_cart text-center d-flex flex-column align-items-center justify-content-center">
-												<a class="disabled" href="#" onclick="return false;"><div class="plus" data-toggle="tooltip" title="Add to favorites!" data-placement="top"><div class="plus"><img src="../start_admin/images/heart_2.png" class="svg" alt="" data-toggle="tooltip" title="Add to favorites!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
+												<a href="delete_fav.php?event_id=<?php echo $_GET[ 'event_id' ] ?>&fav_id=<?php echo $venue[ 'fav_id' ] ?>"><div class="plus" data-toggle="tooltip" title="Delete from favorites!" data-placement="top"><div class="plus"><img src="../start_admin/images/trash.png" class="svg" alt="" data-toggle="tooltip" title="Delete from favorites!" data-placement="top" height="40"><div class="plus">+</a></div></div></div>
 											</div>
 										</div>
 									</div>

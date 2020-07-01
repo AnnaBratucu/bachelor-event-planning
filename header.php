@@ -6,15 +6,11 @@
 					$page_name = basename($_SERVER['PHP_SELF']);
 					if( $page_name == 'plan.php' )
 					echo '<a class="active" href="plan.php"><i class="fa fa-home"></i> Home</a>
-					<a href="contact.php"><i class="fa fa-address-book"></i> Contact</a>
-					<a href="about.php"><i class="fa fa-users"></i> About us</a>
 					<a href="log/logout.php"><i class="fa fa-sign-out"></i> Logout</a>
 				</div>
 			</div>'; 
 					if( $page_name == 'home.php' )
 					echo '<a class="active" href="home.php"><i class="fa fa-home"></i> Home</a>
-					<a href="contact.php"><i class="fa fa-address-book"></i> Contact</a>
-					<a href="about.php"><i class="fa fa-users"></i> About us</a>
 					<a href="log/login.php"><i class="fa fa-sign-in"></i> Login</a>
 				</div>
 			</div>';

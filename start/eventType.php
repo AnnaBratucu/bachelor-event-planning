@@ -86,7 +86,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 <body>
 	<div class="container-login100" style="background-image: url('https://static.tumblr.com/94eb957a00fd03c0c2f7d26decd71578/u1rhacw/osAmyyh1q/tumblr_static_tumblr_static_gaussian_blur_gradient_desktop_1680x943_wallpaper-393751.jpg');">
 		<div class="wrap-login100 p-l-55 p-r-55 p-t-80 p-b-30">
-			<form class="login100-form validate-form" action="<?php if( !isset($_GET['status']) ) echo htmlspecialchars($_SERVER["PHP_SELF"]); else echo htmlspecialchars($_SERVER["PHP_SELF"] . '?status=new'); ?>" method="post">
+			<form autocomplete="off" class="login100-form validate-form" action="<?php if( !isset($_GET['status']) ) echo htmlspecialchars($_SERVER["PHP_SELF"]); else echo htmlspecialchars($_SERVER["PHP_SELF"] . '?status=new'); ?>" method="post">
 				<span class="login100-form-title p-b-37">
 					What event are you planning?
 				</span>

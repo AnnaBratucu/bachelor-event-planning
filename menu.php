@@ -1,7 +1,18 @@
-<?php if(!isset($_SESSION)) 
+<?php 
+//if( !isset( DB_NAME ) && !isset( DB_SERVER ) && !isset( DB_USERNAME ) && !isset( DB_PASSWORD ) ){
+ 
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        require_once '../config.php';
+        }else{
+            require_once "../config.php";
+        }
+//}
+if(!isset($_SESSION)) 
     { 
         session_start(); 
-    }  ?>
+    }  
+   
+    ?>
 
 <nav class="main-menu">
     <div class="settings"></div>
@@ -16,9 +27,9 @@
             
             
             <?php 
-require_once "../config.php";
+
 if( $_SESSION[ 'username' ] != 'admin@yahoo.com' ){
-$sql = "SELECT * FROM notificatins WHERE event_id = :event_id AND notification_status='not_seen'";
+$sql = "SELECT * FROM notifications WHERE event_id = :event_id AND notification_status='not_seen'";
     
 		if($stmt = $pdo->prepare($sql)){
 			// Bind variables to the prepared statement as parameters
@@ -28,10 +39,31 @@ $sql = "SELECT * FROM notificatins WHERE event_id = :event_id AND notification_s
 			$param_id = $_GET[ 'event_id' ];
 			
 			// Attempt to execute the prepared statement
-      //$stmt->execute();
+      $stmt->execute();
       $notif = $stmt->rowCount();
         
   }
+}else{
+    $notif = 0;
+}
+if( $_SESSION[ 'username' ] != 'admin@yahoo.com' ){
+    $sql = "SELECT * FROM events WHERE event_id = :event_id";
+    
+		if($stmt = $pdo->prepare($sql)){
+			// Bind variables to the prepared statement as parameters
+			$stmt->bindParam(":event_id", $param_id);
+			
+			// Set parameters
+			$param_id = $_GET[ 'event_id' ];
+			
+			// Attempt to execute the prepared statement
+      $stmt->execute();
+      $type = $stmt->fetch();
+      $evType = $type[ 'event_type' ];
+        
+  }
+}else{
+    $evType = '';
 }
 
 
@@ -80,6 +112,7 @@ $sql = "SELECT * FROM notificatins WHERE event_id = :event_id AND notification_s
             <?php }} ?>
 
             <?php 
+            if( $evType != 'Ball' ){
                 if( $_SESSION[ 'username' ] != 'admin@yahoo.com' ){
                 if( basename($_SERVER['PHP_SELF']) == 'budget.php' ){
             ?>
@@ -98,7 +131,7 @@ $sql = "SELECT * FROM notificatins WHERE event_id = :event_id AND notification_s
                     <span class="nav-text">Budget</span>
                 </a>
             </li>
-            <?php }} ?>
+            <?php }} } ?>
 
 
 
@@ -126,6 +159,7 @@ $sql = "SELECT * FROM notificatins WHERE event_id = :event_id AND notification_s
 
 
             <?php 
+            if( $evType != 'Birthday party' && $evType != 'Office party' && $evType != 'Ball' ){
                 if( $_SESSION[ 'username' ] == 'admin@yahoo.com' && basename($_SERVER['PHP_SELF']) != 'ceremony_admin.php' ){
             ?>
                     <li class="darkerli">
@@ -159,11 +193,12 @@ $sql = "SELECT * FROM notificatins WHERE event_id = :event_id AND notification_s
                     <span class="nav-text">Ceremony Venue</span>
                 </a>
             </li>
-            <?php } ?>
+            <?php } } ?>
 
 
 
             <?php 
+            if( $evType != 'Office party' ){
                 if( $_SESSION[ 'username' ] == 'admin@yahoo.com' && basename($_SERVER['PHP_SELF']) != 'wizard_admin.php' ){
             ?>
                     <li class="darkerli">
@@ -197,7 +232,7 @@ $sql = "SELECT * FROM notificatins WHERE event_id = :event_id AND notification_s
                     <span class="nav-text">Venue</span>
                 </a>
             </li>
-            <?php } ?>
+            <?php } } ?>
 
 
 
@@ -225,6 +260,7 @@ $sql = "SELECT * FROM notificatins WHERE event_id = :event_id AND notification_s
 
 
             <?php 
+            if( $evType != 'Office party' ){
                 if( $_SESSION[ 'username' ] != 'admin@yahoo.com' ){
                 if( basename($_SERVER['PHP_SELF']) == 'arrange.php' ){
             ?>
@@ -243,7 +279,7 @@ $sql = "SELECT * FROM notificatins WHERE event_id = :event_id AND notification_s
                     <span class="nav-text">Guest Arrangement</span>
                 </a>
             </li>
-            <?php }} ?>
+            <?php }} } ?>
 
 
 

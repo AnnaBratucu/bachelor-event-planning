@@ -151,6 +151,25 @@ $_SESSION[ 'inv' ] = $_POST[ 'img' ];
 <?php 
 require_once '../menu.php'; 
 ?>
+
+
+
+<?php 
+$ok=0;
+$sql = "SELECT * FROM users_profile WHERE event_id = :event_id";
+        
+    if($stmt = $pdo->prepare($sql)){
+    // Bind variables to the prepared statement as parameters
+    $stmt->execute(['event_id' => $_GET[ 'event_id' ]]); 
+    $profile = $stmt->fetch();
+
+    if($stmt->rowCount() != 0 && $profile[ 'ceremony_id' ] != 0 && $profile[ 'venue_id' ] != 0){
+        $ok = 1;
+    } 
+
+    }
+
+?>
        
 
         <div class="wiz">
@@ -187,7 +206,11 @@ box-shadow: 21px 23px 47px -22px rgba(143,143,143,0.83);">
           <input id="upload" type="file" name="file" onchange="readURL(this);" class="input-text" required style="width:355px;margin-left:32px;">
 				</div>
 				<div class="form-row-last">
-					<input type="submit" name="register" class="register" value="Save">
+          <?php if( $ok == 1 ){ ?>
+            <input type="submit" name="register" class="register" value="Generate Invitation" style="width:200px;">
+          <?php } else{ ?>
+            <input type="submit" name="register" class="register" value="Generate Invitation" style="width:200px;" onclick="alert( 'You must book ceremony and afterparty venues to generate the invitation!' ); return false;">
+          <?php } ?>
 				</div>
 			</form>
 		</div>
